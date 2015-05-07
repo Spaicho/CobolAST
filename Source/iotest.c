@@ -1,8 +1,8 @@
-£include <stdio.h>
-£include <stdlib.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 int main(void)
-È
+{
 
   FILE   *stream;
 //char   *file_path = "'TEST.SEDIQ.PGM(MTDTMS01)'";
@@ -17,22 +17,22 @@ int main(void)
   char*  text;
   char*  h_text;
   int ret=0;
-  char buff›81~;
+  char buff[81];
 
-  if(stream=fopen(file_path,"r"))È
+  if(stream=fopen(file_path,"r")){
 
-     printf("Successful opening of file (%s)Án",file_path);
+     printf("Successful opening of file (%s)\n",file_path);
 
-  Ë else È
+  } else {
 
      perror("Error opening file ");
 
-  Ë
+  }
 
   ret = fread(buff,1,80,stream);
   perror("Error opening file ");
-  printf("ret  for fread (%d)Án",ret);
-  printf("buff for fread (%s)Án",buff);
+  printf("ret  for fread (%d)\n",ret);
+  printf("buff for fread (%s)\n",buff);
 
 
 
@@ -40,21 +40,21 @@ int main(void)
   h_line = line;
   h_text = text;
 
-  for(nChar=0;inCharß=EOF;nChar++)È
+  for(nChar=0;inChar!=EOF;nChar++){
 
      inChar = getc(stream);
      *(line++)=inChar;
      *(text++)=inChar;
 
-     if (inChar=='Án') È
+     if (inChar=='\n') {
         nLine++;
-        *(line++)='Á0';
+        *(line++)='\0';
         printf("%s",h_line);
         h_line=line;
-     Ë
-  Ë
-  *(text++)='Á0';
+     }
+  }
+  *(text++)='\0';
   printf("%s",h_text);
   */
   return 0;
-Ë
+}

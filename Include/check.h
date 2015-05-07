@@ -1,7 +1,7 @@
-£ifndef CHECKH_H_INCLUDED
-£define CHECKH_H_INCLUDED
+#ifndef CHECK_H_INCLUDED
+#define CHECK_H_INCLUDED
 
-£include "asth"
+#include "ast.h"
 
 int chk_ast              (ast* tree);
 int chk_field            (ast* tree);
@@ -12,5 +12,5 @@ int chk_initialize       (ast* tree);
 
 int chk_initialize_ran   (ast* tree);
 
-£endif
-/* CHECKH_H_INCLUDED */
+#endif
+/* CHECK_H_INCLUDED */

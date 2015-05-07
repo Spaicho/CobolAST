@@ -1,63 +1,63 @@
-£ifndef GRAMMAR_H_INCLUDED
-£define GRAMMAR_H_INCLUDED
+#ifndef GRAMMAR_H_INCLUDED
+#define GRAMMAR_H_INCLUDED
 
-£pragma map(dsply_upon_oprnds,    "dsupops")
-£pragma map(dsply_upon_oprnd,     "dsupop")
-£pragma map(intlz_rplc_oprnds,    "inrpops")
-£pragma map(intlz_rplc_oprnd ,    "inrpop")
-£pragma map(refmodif_length,      "rfmol")
-£pragma map(subscripts,           "subscs")
-£pragma map(id_qualif_oprnd,      "idquop")
-£pragma map(arith_expr2,          "arex2")
-£pragma map(arith_expr_oprnd,     "arexopd")
-£pragma map(arith_expr_oprtn,     "arexopt")
-£pragma map(id_subs_refm,         "idsbrf")
-£pragma map(id_subs_refm_rest,    "idsbrfr")
-£pragma map(id_subs_rest,         "idsbrst")
+#pragma map(dsply_upon_oprnds,    "dsupops")
+#pragma map(dsply_upon_oprnd,     "dsupop")
+#pragma map(intlz_rplc_oprnds,    "inrpops")
+#pragma map(intlz_rplc_oprnd ,    "inrpop")
+#pragma map(refmodif_length,      "rfmol")
+#pragma map(subscripts,           "subscs")
+#pragma map(id_qualif_oprnd,      "idquop")
+#pragma map(arith_expr2,          "arex2")
+#pragma map(arith_expr_oprnd,     "arexopd")
+#pragma map(arith_expr_oprtn,     "arexopt")
+#pragma map(id_subs_refm,         "idsbrf")
+#pragma map(id_subs_refm_rest,    "idsbrfr")
+#pragma map(id_subs_rest,         "idsbrst")
 
-£pragma map(data_field,           "dtfield")
-£pragma map(data_fields,          "dtfilds")
-£pragma map(data_index_key_cls,   "dtinkcs")
-£pragma map(data_index_by_cl,     "dtinbc")
-£pragma map(data_index_key_cl,    "dtinkc")
-£pragma map(data_pic_cl,          "dtpcc")
-£pragma map(data_pic_str,         "dtpcs")
-£pragma map(data_pic_size_local,  "dtpcsl")
-£pragma map(data_pic_chars,       "dtpcchs")
+#pragma map(data_field,           "dtfield")
+#pragma map(data_fields,          "dtfilds")
+#pragma map(data_index_key_cls,   "dtinkcs")
+#pragma map(data_index_by_cl,     "dtinbc")
+#pragma map(data_index_key_cl,    "dtinkc")
+#pragma map(data_pic_cl,          "dtpcc")
+#pragma map(data_pic_str,         "dtpcs")
+#pragma map(data_pic_size_local,  "dtpcsl")
+#pragma map(data_pic_chars,       "dtpcchs")
 
 
-£pragma map(get_token_type,       "gttktp")
-£pragma map(get_token_val,        "gttkval")
-£pragma map(get_token_len,        "gttklen")
+#pragma map(get_token_type,       "gttktp")
+#pragma map(get_token_val,        "gttkval")
+#pragma map(get_token_len,        "gttklen")
 
-£include "asth"
-£include "Lexerh"
+#include "ast.h"
+#include "Lexer.h"
 
-£define MAX_STR_ARR  20
+#define MAX_STR_ARR  20
 /* Declaration pour les fonctions et varaibles de permutations */
 
 /* Typedef pour function to Pointer */
 typedef ast* (*AstFunc)(void);
 
 /* Typedef pour array of string with length */
-typedef struct str_arré
+typedef struct str_arr{
    int    len;
-   char*  arr ÝMAX_STR_ARR~;
-è str_arr;
+   char*  arr [MAX_STR_ARR];
+} str_arr;
 
-typedef struct fp_té
+typedef struct fp_t{
    AstFunc fp;
    str_arr cond_1;
    str_arr cond_2;
    int    id;
    tag_t  tag;
-è fp_t;
+} fp_t;
 
 /* Typedef pour array of fp_t with length */
-typedef struct fp_t_nodé
+typedef struct fp_t_nod{
    fp_t              val;
    struct fp_t_nod* next;
-è fp_t_nod;
+} fp_t_nod;
 
 fp_t_nod* alim_clauses();
 int tkn_in_array (str_arr);
@@ -65,24 +65,24 @@ fp_t_nod* delete_clauses(fp_t_nod*,fp_t_nod*);
 
 /*  End declaration pour permutation */
 
-token lookahead =é0,0,0,"",""è;
+token lookahead ={0,0,0,"",""};
 
 /* Grammar functions return */
-typedef struct ast_ret é
+typedef struct ast_ret {
           struct ast*  _ast;             /* AST     */
           int          _ret;             /* return  */
-è ast_ret;
+} ast_ret;
 
 
 /* _context Context   */
-typedef struct contexté
+typedef struct context{
           char*  division;             /* Division                   */
           char*  section;              /* Section                    */
           char*  sentence;             /* Sentence                   */
           char*  clause;               /* Clause                     */
           char*  keyword;              /* Keyword                    */
           char*  other;                /* Other                      */
-è context;
+} context;
 
 extern context _context;
 
@@ -367,5 +367,5 @@ context  set_context(char* );
 int      restore_context(context);
 char*    get_token_val();
 char*    get_token_type();
-£endif
+#endif
 /* GRAMMAR_H_INCLUDED */

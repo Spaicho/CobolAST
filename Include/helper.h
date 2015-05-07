@@ -1,28 +1,28 @@
-£ifndef HELPER_H_INCLUDED
-£define HELPER_H_INCLUDED
+#ifndef HELPER_H_INCLUDED
+#define HELPER_H_INCLUDED
 
-£define SHIFT_LEN 3
+#define SHIFT_LEN 3
 
 /*
 
    - Si level =0  le screen est vide
    - Le premier level est 1
-   - chaque level décale par 5x
+   - chaque level d{cale par 5x
    - entre deux box 2y
 
 */
 
-char* dummy_border ="***********************************************" ç
+char* dummy_border ="***********************************************" \
                     "***********************************************";
 
-typedef struct scr_line é
+typedef struct scr_line {
 
-  char   valueÝ1024~;
+  char   value[1024];
   int    lvl;
   int    border;
   struct scr_line* next;
 
-è scr_line;
+} scr_line;
 
 
 scr_line*
@@ -63,5 +63,5 @@ print_boxes(scr_line* scr);
 char*
 h_realloc(char* temp,int size);
 
-£endif
+#endif
 /* HELPER_H_INCLUDED */

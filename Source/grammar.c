@@ -1,19 +1,19 @@
-£include <stdio.h>
-£define __XPG4 // itoa, strccase
-£define __UU
-£define __OE_8
-£include <stdlib.h>
-£include <stddef.h>
-£include <assert.h>
-£include "debugh"
-£include "Grammarh"
-£include "Lexerh"
-£include "asth"
+#include <stdio.h>
+#define __XPG4 // itoa, strccase
+#define __UU
+#define __OE_8
+#include <stdlib.h>
+#include <stddef.h>
+#include <assert.h>
+#include "debug.h"
+#include "Grammar.h"
+#include "Lexer.h"
+#include "ast.h"
 
-£define MAX_FP_ARR   12
-£define COUNT_OF( arr) (sizeof(arr)/sizeof(0›arr~))
+#define MAX_FP_ARR   12
+#define COUNT_OF( arr) (sizeof(arr)/sizeof(0[arr]))
 
-context _context=È"","","","","",""Ë;
+context _context={"","","","","",""};
 context save;
 ast* build_literal(int);
 
@@ -21,71 +21,71 @@ ast* build_literal(int);
 
 ast*
 get_sentence()
-È
+{
     ast* ret=NULL;
 
-    if (ret=sntce())È
+    if (ret=sntce()){
       ;
-    Ë
+    }
     else return NULL;
 
- /* if(ßequal_type("PROGRAM$"))È
-       printf("unexpected token (%s)Án",get_token_val());
+ /* if(!equal_type("PROGRAM$")){
+       printf("unexpected token (%s)\n",get_token_val());
        return NULL;
-    Ë */
+    } */
 
     return ret;
-Ë
+}
 
 ast*
 get_data()
-È
+{
     ast* ret=NULL;
     ast* sub_ret=NULL;
 
-    if(ret=data_fields())È
+    if(ret=data_fields()){
       ;
-    Ë
+    }
     else return NULL;
 
- /* if(ßequal_type("PROGRAM$"))È
-       printf("unexpected token (%s)Án",get_token_val());
+ /* if(!equal_type("PROGRAM$")){
+       printf("unexpected token (%s)\n",get_token_val());
        return NULL;
-    Ë */
+    } */
 
     return ret;
-Ë
+}
 
 /*---------------------------------  Balayeur for DATA      ---------*/
 
 int
-balayeur_pgm()È
+balayeur_pgm(){
 
-    // commencer le parcours de pgm ‡ partir du dÈbut
+    // commencer le parcours de pgm ‡ partir du d{but
     setCurrLnStrart();
     // get first token
     consume();
 
-    debug_3("token value (%s) token type (%s) Án",get_token_val()
+    debug_3("token value (%s) token type (%s) \n",get_token_val()
              ,get_token_type());
 
     // lire jusqua trouver DATA
-    while((ßequal_val("DATA")) && (ßequal_type("PROGRAM$"))
-                               && (ßequal_type("ERROR")))È
+    while((!equal_val("DATA")) && (!equal_type("PROGRAM$"))
+                               && (!equal_type("ERROR"))){
        consume();
-    Ë
+    }
 
-    if(equal_val("DATA"))È
+    if(equal_val("DATA")){
        return 1;
-    Ë else È
+    } else {
        return 0;
-    Ë
+    }
 
-Ë
+}
 
 /*---------------------------------  file storage        ---------*/
 ast*
-data_division()È
+data_division(){
 
     ast* ret=NULL;
     ast* file_ret=NULL;
@@ -93,84 +93,84 @@ data_division()È
     ast* link_ret=NULL;
 
 
-    debug_2("Trying to match rule : %s Án",__func__);
+    debug_2("Trying to match rule : %s \n",__func__);
 
-    if (match_val("DATA"))È
+    if (match_val("DATA")){
        ;
-    Ë
+    }
     else return 0;
 
-    if (match_val("DIVISION"))È
+    if (match_val("DIVISION")){
        ;
-    Ë
+    }
     else return 0;
 
-    if (match_val("."))È
+    if (match_val(".")){
        ;
-    Ë
+    }
     else return 0;
 
-    if (file_ret=file_section())È
+    if (file_ret=file_section()){
        ;
-    Ë
+    }
 
-    if (ws_ret=working_storage_section())È
+    if (ws_ret=working_storage_section()){
        ;
-    Ë
+    }
 
-    if (link_ret=linkage_section())È
+    if (link_ret=linkage_section()){
        ;
-    Ë
+    }
 
-    if (ßequal_val("PROCEDURE"))È
-       printf("expected procedure but found (%s)type(%s)l(%d)c(%d)Án",
+    if (!equal_val("PROCEDURE")){
+       printf("expected procedure but found (%s)type(%s)l(%d)c(%d)\n",
               get_token_val(),get_token_type(),get_token_line(),
               get_token_col());
        exit(EXIT_FAILURE);
-    Ë
+    }
 
     ret=make_data_div(file_ret,ws_ret,link_ret);
 
     return ret;
 
-Ë
+}
 /*---------------------------------  file storage        ---------*/
 ast*
-file_section()È
+file_section(){
 
 
     ast* ret=NULL;
 
-    debug_2("Trying to match rule : %s Án",__func__);
+    debug_2("Trying to match rule : %s \n",__func__);
 
-    if(match_val("FILE"))È
+    if(match_val("FILE")){
        ;
-    Ë
+    }
     else return 0;
 
-    if(match_val("SECTION"))È
+    if(match_val("SECTION")){
        ;
-    Ë
+    }
     else return 0;
 
-    if(match_val("."))È
+    if(match_val(".")){
        ;
-    Ë
+    }
     else return 0;
 
     // lire jusqua sortir de la file section
-    while( ßequal_val("WORKING-STORAGE")
-       &&  ßequal_val("LINKAGE")
-       &&  ßequal_val("PROCEDURE")
-       &&  ßequal_type("PROGRAM$")
-       &&  ßequal_type("ERROR"))È
+    while( !equal_val("WORKING-STORAGE")
+       &&  !equal_val("LINKAGE")
+       &&  !equal_val("PROCEDURE")
+       &&  !equal_type("PROGRAM$")
+       &&  !equal_type("ERROR")){
        consume();
-    Ë
+    }
 
-    if (equal_type("PROGRAM$") !! equal_type("ERROR"))È
-       printf("expected working-storage, linkage or procedure Án");
+    if (equal_type("PROGRAM$") !! equal_type("ERROR")){
+       printf("expected working-storage, linkage or procedure \n");
        exit(EXIT_FAILURE);
-    Ë
+    }
 
     ret = make_field(NULL, NULL, UNKNOWN_FIELD_NAME, UNKNOWN_FIELD_LVL,
                      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -178,114 +178,114 @@ file_section()È
                      NULL, NULL, NULL, NULL, NULL, NULL,
                      UNKNOWN_SECTION);
 
-    debug_2("Rule recognized: %s Án",__func__);
+    debug_2("Rule recognized: %s \n",__func__);
 
     return ret;
-Ë
+}
 
 /*---------------------------------  working storage        ---------*/
 ast*
-working_storage_section()È
+working_storage_section(){
 
     ast* ret= NULL;
 
-    debug_2("Trying to match rule : %s Án",__func__);
+    debug_2("Trying to match rule : %s \n",__func__);
 
-    if(match_val("WORKING-STORAGE"))È
+    if(match_val("WORKING-STORAGE")){
        ;
-    Ë
+    }
     else return ret;
 
-    if(match_val("SECTION"))È
+    if(match_val("SECTION")){
        ;
-    Ë
+    }
     else return ret;
 
-    if(match_val("."))È
+    if(match_val(".")){
        ;
-    Ë
+    }
     else return ret;
 
     /* 1-49, 66, 77 et 88 */
-    while  (equal_attr("LEVEL NUMBER"))È
+    while  (equal_attr("LEVEL NUMBER")){
 
-           if(ret=data_fields())È
+           if(ret=data_fields()){
               ;
-           Ë
+           }
            else return ret;
-    Ë
+    }
 
-    if (equal_type("PROGRAM$") !! equal_type("ERROR"))È
-       printf("expected linkage or procedure Án");
+    if (equal_type("PROGRAM$") !! equal_type("ERROR")){
+       printf("expected linkage or procedure \n");
        exit(EXIT_FAILURE);
-    Ë
+    }
 
-    debug_2("Rule recognized: %s Án",__func__);
+    debug_2("Rule recognized: %s \n",__func__);
 
     return ret;
-Ë
+}
 
 /*---------------------------------  linkage                ---------*/
 ast*
-linkage_section()È
+linkage_section(){
 
 
     ast* ret=NULL;
-    debug_2("Trying to match rule : %s Án",__func__);
+    debug_2("Trying to match rule : %s \n",__func__);
 
-    if(match_val("LINKAGE"))È
+    if(match_val("LINKAGE")){
        ;
-    Ë
+    }
     else return ret;
 
-    if(match_val("SECTION"))È
+    if(match_val("SECTION")){
        ;
-    Ë
+    }
     else return ret;
 
-    if(match_val("."))È
+    if(match_val(".")){
        ;
-    Ë
+    }
     else return ret;
 
     /* 1-49, 66, 77 et 88 */
-    while  (equal_attr("LEVEL NUMBER"))È
+    while  (equal_attr("LEVEL NUMBER")){
 
-           if(ret=data_fields())È
+           if(ret=data_fields()){
               ;
-           Ë
+           }
            else return ret;
-    Ë
+    }
 
-    if (equal_type("PROGRAM$") !! equal_type("ERROR"))È
-       printf("expected  procedure Án");
+    if (equal_type("PROGRAM$") !! equal_type("ERROR")){
+       printf("expected  procedure \n");
        exit(EXIT_FAILURE);
-    Ë
+    }
 
 
-    debug_2("Rule recognized: %s Án",__func__);
+    debug_2("Rule recognized: %s \n",__func__);
 
     return ret;
-Ë
+}
 
 /*---------------------------------  Sentence and Statement ---------*/
 
 ast*
 sntce()
-È
+{
     ast* ret=NULL;
     ast* stmnt_ret=NULL;
 
     int nb_statement =  0;
     ast* list_statement = NULL;
 
-    debug_2("Trying to match rule : sntce Án");
+    debug_2("Trying to match rule : sntce \n");
 
     while((equal_val("MOVE"))         !!
           (equal_val("DISPLAY"))      !!
-          (equal_val("INITIALIZE")))È
+          (equal_val("INITIALIZE"))){
 
-      if(stmnt_ret=stmnt())È
+      if(stmnt_ret=stmnt()){
 
          nb_statement++;
          list_statement = append_list(list_statement,stmnt_ret);
@@ -297,10 +297,10 @@ sntce()
     /*  ret->node.sentence.list_statement=append_list
                         (ret->node.sentence.list_statement,stmnt_ret);
     */
-      Ë
+      }
       else return NULL;
 
-    Ë
+    }
 
 
 
@@ -308,87 +308,87 @@ sntce()
     if (equal_val("."))
         consume();
 
-    if (list_statement) È
+    if (list_statement) {
        ret = make_sentence(nb_statement,list_statement);
-       debug_2("Rule recognized: sntce Án");
+       debug_2("Rule recognized: sntce \n");
        return ret;
-    Ë
+    }
     else return NULL;
 
-Ë
+}
 
 ast*
-stmnt()È
-    debug_2("Trying to match rule : stmnt Án");
+stmnt(){
+    debug_2("Trying to match rule : stmnt \n");
 
     ast* ret=NULL;
 
-    if (equal_val("MOVE"))È
+    if (equal_val("MOVE")){
 
-       if (ret=move())È
+       if (ret=move()){
            ;
-       Ë
+       }
        else return NULL;
 
-    Ë
-    else if (equal_val("INITIALIZE"))È
+    }
+    else if (equal_val("INITIALIZE")){
 
-       if (ret=intlz())È
+       if (ret=intlz()){
            ;
-       Ë
+       }
        else return NULL;
-    Ë
-    else if(equal_val("DISPLAY"))È
+    }
+    else if(equal_val("DISPLAY")){
 
-       if (ret=dsply())È
+       if (ret=dsply()){
            ;
-       Ë
+       }
        else return NULL;
-    Ë
+    }
     else return NULL;
 
 
-    debug_2("Rule recognized: stmnt Án.");
+    debug_2("Rule recognized: stmnt \n.");
 
     return ret;
-Ë
+}
 
 /*--------------------  move, display and initialize Statement ------*/
 
 ast*
 move()
-È
-    debug_2("Trying to match rule : move Án");
+{
+    debug_2("Trying to match rule : move \n");
 /*
-    if (move_2()) È
+    if (move_2()) {
         ;
-    Ë
-    else if (move_1())È
+    }
+    else if (move_1()){
         ;
-    Ë
+    }
     else return 0;
 */
     ast* ret=NULL;
 
 
-    if(match_val("MOVE"))È
+    if(match_val("MOVE")){
         ;
-    Ë
+    }
     else return 0;
 
-    if (ret=move_oprnd())È
+    if (ret=move_oprnd()){
         ;
-    Ë
+    }
     else return 0;
 
-    debug_2("Rule recognized: move Án");
+    debug_2("Rule recognized: move \n");
     return ret;
-Ë
+}
 
 ast*
 dsply()
-È
-    debug_2("Trying to match rule : dsply Án");
+{
+    debug_2("Trying to match rule : dsply \n");
 
     ast* ret=NULL;
     ast* sub_ret=NULL;
@@ -397,222 +397,222 @@ dsply()
     ret = make_display(0,0,"",0,NULL);
 
 
-    if(match_val("DISPLAY"))È
+    if(match_val("DISPLAY")){
         ;
-    Ë
+    }
     else return NULL;
 
-    if(sub_ret=ids_litrs())È
+    if(sub_ret=ids_litrs()){
 
         ret->node.display_stm.list_operand=
         append_list(ret->node.display_stm.list_operand,sub_ret);
         /* attention un append peut ajouter plus qu'un seul operand */
         (ret->node.display_stm.nb_operand)++;
-    Ë
+    }
     else return NULL;
 
     /* optional */
-    if (equal_val("UPON"))È
-       if(dsply_upon())È
+    if (equal_val("UPON")){
+       if(dsply_upon()){
            ret->node.display_stm.bool_upon =1;
-       Ë
+       }
        else return NULL;
-    Ë
+    }
 
     /* optional */
-    if ((equal_val("WITH"))!!(equal_val("NO")))È
-       if(dsply_noadv())È
+    if ((equal_val("WITH"))!!(equal_val("NO"))){
+       if(dsply_noadv()){
            ret->node.display_stm.bool_no_adv =1;
-       Ë
+       }
        else return NULL;
-    Ë
+    }
 
-    debug_2("Rule recognized: dsply Án");
+    debug_2("Rule recognized: dsply \n");
 
     return ret;
-Ë
+}
 
 ast*
 intlz()
-È
-    debug_2("Trying to match rule : intlz Án");
+{
+    debug_2("Trying to match rule : intlz \n");
 
     ast* ret=NULL;
     ast* sub_ret=NULL;
     int  bool_rplc=0;
 
 
-    if(match_val("INITIALIZE"))È
+    if(match_val("INITIALIZE")){
         ;
-    Ë
+    }
     else return NULL;
 
-    if(sub_ret=ids())È
+    if(sub_ret=ids()){
         ;
-    Ë
+    }
     else return NULL;
 
     /* optional */
-    if (equal_val("REPLACING"))È
+    if (equal_val("REPLACING")){
 
-       if(intlz_rplc())È
+       if(intlz_rplc()){
            bool_rplc =1;
-       Ë
+       }
        else return NULL;
 
-    Ë
+    }
 
     ret = make_initialize(bool_rplc,0,sub_ret);
 
-    debug_2("Rule recognized: intlz Án");
+    debug_2("Rule recognized: intlz \n");
 
     return ret;
-Ë
+}
 
 /*------------------ initialize body --------------------------------*/
 
 int
 intlz_rplc ()
-È
-    debug_2("Trying to match rule : intlz_rplc Án");
+{
+    debug_2("Trying to match rule : intlz_rplc \n");
 
-    if(match_val("REPLACING"))È
+    if(match_val("REPLACING")){
         ;
-    Ë
+    }
     else return 0;
 
-    if(intlz_rplc_oprnds())È
+    if(intlz_rplc_oprnds()){
         ;
-    Ë
+    }
     else return 0;
 
-    debug_2("Rule recognized: intlz_rplc Án");
+    debug_2("Rule recognized: intlz_rplc \n");
 
     return 1;
-Ë
+}
 
 int
 intlz_rplc_oprnds()
-È
-    debug_2("Trying to match rule : intlz_rplc_oprnds Án");
+{
+    debug_2("Trying to match rule : intlz_rplc_oprnds \n");
 
     int ret = 0;
 
     while((equal_val("ALPHABETIC"))   !!
           (equal_val("ALPHANUMERIC")) !!
-          (equal_val("NUMERIC")))    È
+          (equal_val("NUMERIC")))    {
 
-       if(intlz_rplc_oprnd())È
+       if(intlz_rplc_oprnd()){
            ;
-       Ë
+       }
        else return 0;
        ret = 1;
-    Ë
+    }
 
-    if (ret == 1)   debug_2("Rule recognized: intlz_rplc_oprnds Án");
+    if (ret == 1)   debug_2("Rule recognized: intlz_rplc_oprnds \n");
     return ret;
-Ë
+}
 
 int
-intlz_rplc_oprnd()È
+intlz_rplc_oprnd(){
 
-    debug_2("Trying to match rule : intlz_rplc_oprnd Án");
+    debug_2("Trying to match rule : intlz_rplc_oprnd \n");
 
-    if(chartype())È
+    if(chartype()){
         ;
-    Ë
+    }
     else return 0;
 
-    if(match_val("BY"))È
+    if(match_val("BY")){
         ;
-    Ë
+    }
     else return 0;
 
-    if (id_litr())È
+    if (id_litr()){
         ;
-    Ë
+    }
     else return 0;
 
-    debug_2("Rule recognized: intlz_rplc_oprnd Án");
+    debug_2("Rule recognized: intlz_rplc_oprnd \n");
     return 1;
-Ë
+}
 
 int
 chartype()
-È
-    debug_2("Trying to match rule : chartype Án");
+{
+    debug_2("Trying to match rule : chartype \n");
 
-    if(match_val("ALPHABETIC"))È
+    if(match_val("ALPHABETIC")){
         ;
-    Ë
-    else if (match_val("ALPHANUMERIC"))È
+    }
+    else if (match_val("ALPHANUMERIC")){
         ;
-    Ë
-    else if (match_val("NUMERIC"))È
+    }
+    else if (match_val("NUMERIC")){
         ;
-    Ë
+    }
     else return 0;
 
-    debug_2("Rule recognized: chartype Án");
+    debug_2("Rule recognized: chartype \n");
     return 1;
-Ë
+}
 
 /*-------------------------- move body ------------------------------*/
 /*
-int move_1()È
+int move_1(){
 
-    debug_2("Trying to match rule : move_1 Án");
+    debug_2("Trying to match rule : move_1 \n");
 
-    if(match("MOVE"))È
+    if(match("MOVE")){
         ;
-    Ë
+    }
     else return  0;
 
-    if(id_litr())È
+    if(id_litr()){
         ;
-    Ë
+    }
     else return  0;
 
-    if(match("TO"))È
+    if(match("TO")){
         ;
-    Ë
+    }
     else return  0;
 
-    if(ids())È
+    if(ids()){
         ;
-    Ë
+    }
     else return  0;
 
-    debug_2("Rule recognized: move_1 Án");
+    debug_2("Rule recognized: move_1 \n");
     return 1;
 
-Ë
+}
 */
 /* backtracking ? */
 /*
 int move_2()
-È
-    debug_2("Trying to match rule : move_2 Án");
+{
+    debug_2("Trying to match rule : move_2 \n");
 
-    if(match("MOVE"))È
+    if(match("MOVE")){
         ;
-    Ë
+    }
     else return  0;
 
-    if(corspnd())È
+    if(corspnd()){
         ;
-    Ë
+    }
     else return  0;
 
-    debug_2("Rule recognized: move_2 Án");
+    debug_2("Rule recognized: move_2 \n");
 
     return 1;
-Ë
+}
 */
 ast*
-move_oprnd()È
+move_oprnd(){
 
-    debug_2("Trying to match rule : move_oprnd Án");
+    debug_2("Trying to match rule : move_oprnd \n");
 
     ast* ret=NULL;
     ast* sub_ret=NULL;
@@ -622,299 +622,299 @@ move_oprnd()È
 
 
     if((equal_val("CORR")) !!
-       (equal_val("CORRESPONDING"))) È
-       if(sub_ret=corspnd())È
+       (equal_val("CORRESPONDING"))) {
+       if(sub_ret=corspnd()){
           bool_corresp = 1;
-       Ë
+       }
        else return NULL;
 
-       if(g_oprnd=id())È
+       if(g_oprnd=id()){
           ;
-       Ë
+       }
        else return NULL;
 
-       if(match_val("TO"))È
+       if(match_val("TO")){
           ;
-       Ë
+       }
        else return NULL;
 
-       if(r_oprnd=id())È
+       if(r_oprnd=id()){
           ;
-       Ë
+       }
        else return NULL;
 
-    Ë
-    else È
+    }
+    else {
 
-       if(g_oprnd=id_litr())È
+       if(g_oprnd=id_litr()){
           ;
-       Ë
+       }
        else return NULL;
 
-       if(match_val("TO"))È
+       if(match_val("TO")){
           ;
-       Ë
+       }
        else return NULL;
 
-       if(r_oprnd=ids())È
+       if(r_oprnd=ids()){
           ;
-       Ë
+       }
        else return NULL;
-    Ë
+    }
 
-    debug_3("g_oprnd (%s) r_oprnd (%s) Án",tagValues›g_oprnd->tag~,
-                                          tagValues›r_oprnd->tag~);
+    debug_3("g_oprnd (%s) r_oprnd (%s) \n",tagValues[g_oprnd->tag],
+                                          tagValues[r_oprnd->tag]);
     ret=make_move(bool_corresp,0,g_oprnd,r_oprnd);
 
 
     /*
-    if(id_litr())È
-        if(match("TO"))È
-            if(ids())È
+    if(id_litr()){
+        if(match("TO")){
+            if(ids()){
                 ;
-            Ë
+            }
             else return  0;
-        Ë
+        }
         else return  0;
-    Ë
-    else È
-        if(corspnd())È
-            if(id())È
-                if(match("TO"))È
-                    if(id())È
+    }
+    else {
+        if(corspnd()){
+            if(id()){
+                if(match("TO")){
+                    if(id()){
                         ;
-                    Ë
+                    }
                     else return  0;
-                Ë
+                }
                 else return  0;
-            Ë
+            }
             else return  0;
-        Ë
+        }
         else return  0;
-    Ë
+    }
     */
-    debug_2("Rule recognized: move_oprnd Án");
+    debug_2("Rule recognized: move_oprnd \n");
     return ret;
 
-Ë
+}
 
 ast*
 corspnd()
-È
-    debug_2("Trying to match rule : corspnd Án");
+{
+    debug_2("Trying to match rule : corspnd \n");
 
-    if(match_val("CORRESPONDING"))È
+    if(match_val("CORRESPONDING")){
         ;
-    Ë
-    else if (match_val("CORR"))È
+    }
+    else if (match_val("CORR")){
         ;
-    Ë
+    }
     else return  NULL;
 
     ast* ret = make_ast();
 
-    debug_2("Rule recognized : corspnd Án");
+    debug_2("Rule recognized : corspnd \n");
     return ret;
-Ë
+}
 
 /*--------------------------- display body --------------------------*/
 
 int
 dsply_upon()
-È
-    debug_2("Trying to match rule : dsply_upon Án");
+{
+    debug_2("Trying to match rule : dsply_upon \n");
 
-    if(match_val("UPON"))È
+    if(match_val("UPON")){
         ;
-    Ë
+    }
     else return  0;
 
-    if(dsply_upon_oprnd())È
+    if(dsply_upon_oprnd()){
         ;
-    Ë
+    }
     else return  0;
 
-    debug_2("Rule recognized : dsply_upon Án");
+    debug_2("Rule recognized : dsply_upon \n");
 
     return 1;
-Ë
+}
 
 int
 dsply_noadv()
-È
-    debug_2("Trying to match rule : dsply_noadv Án");
+{
+    debug_2("Trying to match rule : dsply_noadv \n");
 
     /* optional */
-    if (match_val("WITH"))È
+    if (match_val("WITH")){
         ;
-    Ë
+    }
 
-    if (match_val("NO"))È
+    if (match_val("NO")){
         ;
-    Ë
+    }
     else return  0;
 
-    if (match_val("ADVANCING"))È
+    if (match_val("ADVANCING")){
         ;
-    Ë
+    }
     else return  0;
 
-    debug_2("Rule recognized : dsply_noadv Án");
+    debug_2("Rule recognized : dsply_noadv \n");
 
     return 1;
-Ë
+}
 
 int
 dsply_upon_oprnd()
-È
-    debug_2("Trying to match rule : dsply_upon_oprnd Án");
+{
+    debug_2("Trying to match rule : dsply_upon_oprnd \n");
 
-    if(mnemo_or_envir())È
+    if(mnemo_or_envir()){
         ;
-    Ë
+    }
     else return  0;
 
-    debug_2("Rule recognized : dsply_upon_oprnd Án");
+    debug_2("Rule recognized : dsply_upon_oprnd \n");
     return 1;
-Ë
+}
 
 int
 mnemo_or_envir()
-È
-    debug_2("Trying to match rule : mnemo_or_envir Án");
+{
+    debug_2("Trying to match rule : mnemo_or_envir \n");
 
-    if(id_name())È
+    if(id_name()){
         ;
-    Ë
+    }
     else return  0;
 
-    debug_2("Rule recognized : mnemo_or_envir Án");
+    debug_2("Rule recognized : mnemo_or_envir \n");
     return 1;
-Ë
+}
 
 
 /*----------------------  Identifiers and Literals ------------------*/
 
 ast*
 ids_litrs()
-È
-    debug_2("Trying to match rule : ids_litrs Án");
+{
+    debug_2("Trying to match rule : ids_litrs \n");
 
     ast* ret    =NULL;
     ast* sub_ret=NULL;
 
-    while(sub_ret=id_litr())È
+    while(sub_ret=id_litr()){
 
         ret=append_list(ret,sub_ret);
         ;
-    Ë
+    }
 
-    if (ret)     debug_2("Rule recognized: ids_litrs (%d) Án",ret);
+    if (ret)     debug_2("Rule recognized: ids_litrs (%d) \n",ret);
 
     return ret;
-Ë
+}
 
 ast*
-id_litr() È
+id_litr() {
 
-    debug_2("Trying to match rule : id_litr Án");
+    debug_2("Trying to match rule : id_litr \n");
 
     ast* ret=NULL;
 
-    if(equal_type("IDENTIFIER") !! equal_attr("SPECIAL REGISTER"))È
+    if(equal_type("IDENTIFIER") !! equal_attr("SPECIAL REGISTER")){
 
-       if (ret=id())È
+       if (ret=id()){
            ;
-       Ë
+       }
        else return NULL;
 
-    Ë
+    }
 
-    else È
+    else {
 
-       if (ret=litr())È
+       if (ret=litr()){
            ;
-       Ë
+       }
        else return NULL;
 
-    Ë
+    }
 
-    debug_2("Rule recognized: id_litr Án");
+    debug_2("Rule recognized: id_litr \n");
     return ret;
-Ë
+}
 
 ast*
-ids() È
+ids() {
 
-    debug_2("Trying to match rule : ids Án");
+    debug_2("Trying to match rule : ids \n");
 
     ast* ret     =NULL;
     ast* sub_ret =NULL;
 
-    while(equal_type("IDENTIFIER") !! equal_attr("SPECIAL REGISTER"))È
-       if(sub_ret=id())È
+    while(equal_type("IDENTIFIER") !! equal_attr("SPECIAL REGISTER")){
+       if(sub_ret=id()){
 
           ret = append_list(ret,sub_ret);
 
-       Ë
+       }
        else return NULL;
-    Ë
+    }
 
-    if (ret)     debug_2("Rule recognized: ids Án");
+    if (ret)     debug_2("Rule recognized: ids \n");
     return ret;
-Ë
+}
 
 /*-----------------------  Identifier and Literal -------------------*/
 
 ast*
-litr() È
+litr() {
 
-    debug_2("Trying to match rule : litr Án");
+    debug_2("Trying to match rule : litr \n");
 
     ast* ret=NULL;
 
 
     /* figurative constants */
-    if (equal_attr("FIGURATIVE CONST"))È
+    if (equal_attr("FIGURATIVE CONST")){
 
-        if (ret=figurative_constants())È
+        if (ret=figurative_constants()){
            ;
-        Ë
+        }
         else return NULL;
-    Ë
+    }
     else
 
     /* nonnumeric and numeric literals  */
-    if (equal_type("LITERAL"))È
+    if (equal_type("LITERAL")){
 
     /*  BUILD AST : LITERAL */
         ret=build_literal(0);
         consume();
-    Ë
+    }
     else return  NULL;
 
-    debug_2("Rule recognized: litr Án");
-/*  printf("ret tag (%s)(%d) Án",tagValues›ret->tag~,ret->tag);
+    debug_2("Rule recognized: litr \n");
+/*  printf("ret tag (%s)(%d) \n",tagValues[ret->tag],ret->tag);
 */  return ret;
-Ë
+}
 
 ast*
-figurative_constants() È
+figurative_constants() {
 
     ast* ret=NULL;
     ast* figurative_ret=NULL;
 
     int bool_all=0;
 
-    debug_2("Trying to match rule : figurative_constants Án");
+    debug_2("Trying to match rule : figurative_constants \n");
 
-    if(equal_val("ALL"))È
+    if(equal_val("ALL")){
 
        bool_all = 1;
        consume();
 
-    Ë
-       /* QUOTED  est prÈsent ici dans le cas ou ALL est consommÈ */
+    }
+       /* QUOTED  est pr{sent ici dans le cas ou ALL est consomm{ */
     if (equal_attr("QUOTED")       !!
         equal_val ("ZERO")         !!
         equal_val ("ZEROS")        !!
@@ -926,7 +926,7 @@ figurative_constants() È
         equal_val ("LOW-VALUE")    !!
         equal_val ("LOW-VALUES")   !!
         equal_val ("QUOTE")        !!
-        equal_val ("QUOTES"))È
+        equal_val ("QUOTES")){
 
        /*  BUILD AST : LITERAL */
        figurative_ret = build_literal(bool_all);
@@ -934,17 +934,17 @@ figurative_constants() È
 
        consume();
 
-    Ë
+    }
     else return NULL;
 
-    debug_2("Rule recognized: figurative_constants Án");
+    debug_2("Rule recognized: figurative_constants \n");
     return ret;
-Ë
+}
 
 ast*
-id() È
+id() {
 
-    debug_2("Trying to match rule : id Án");
+    debug_2("Trying to match rule : id \n");
 
     ast* ret=NULL;
     ast* sub_ret=NULL;
@@ -954,72 +954,72 @@ id() È
     ast* subscr_ret=NULL;
     ast* refmod_ret=NULL;
 
-    if (equal_attr("SPECIAL REGISTER"))È
-       if (sub_ret=special_register())È
+    if (equal_attr("SPECIAL REGISTER")){
+       if (sub_ret=special_register()){
           ret=append_list(ret,sub_ret);
-       Ë
-    Ë
-    else È
+       }
+    }
+    else {
 
-       if (sub_ret=id_name())È
+       if (sub_ret=id_name()){
            name_ret=append_list(name_ret,sub_ret);
            ;
-       Ë
+       }
        else return NULL;
 
        /* optional */
-       if (equal_val("OF"))È
-          if (sub_ret=id_qualif())È
+       if (equal_val("OF")){
+          if (sub_ret=id_qualif()){
               qualif_ret=append_list(qualif_ret,sub_ret);
               ;
-          Ë
+          }
           else return  NULL;
-       Ë
+       }
 
        /* optional subscript and refmodifier */
-       if (equal_val("("))È
+       if (equal_val("(")){
 
-           /* une fois rentrÈ, ca devient obligatoire */
-           if (sub_ret=id_subs_refm())È
-            debug_3("id_subs_refm ret->tag (%s) ret->next (%d) Án",
-            tagValues›sub_ret->tag~,sub_ret->next);
+           /* une fois rentr{, ca devient obligatoire */
+           if (sub_ret=id_subs_refm()){
+            debug_3("id_subs_refm ret->tag (%s) ret->next (%d) \n",
+            tagValues[sub_ret->tag],sub_ret->next);
 
            /* separer les noeuds subs de refm */
-              if(sub_ret->tag==IDENT_SUBSCRIPT)È
+              if(sub_ret->tag==IDENT_SUBSCRIPT){
                  subscr_ret = sub_ret;
-                 if (sub_ret->next->tag==IDENT_REFMOD)È
+                 if (sub_ret->next->tag==IDENT_REFMOD){
                     refmod_ret = sub_ret->next;
                     subscr_ret->next = NULL;
-                 Ë
-              Ë
-              else È
-                 if(sub_ret->tag==IDENT_REFMOD)È
+                 }
+              }
+              else {
+                 if(sub_ret->tag==IDENT_REFMOD){
                     refmod_ret = sub_ret;
-                    if(sub_ret->next) È
-                       debug_3("refmod has a next !Án");
+                    if(sub_ret->next) {
+                       debug_3("refmod has a next !\n");
                        exit(EXIT_FAILURE);
-                    Ë
-                 Ë
-              Ë
-           Ë
+                    }
+                 }
+              }
+           }
            else return  NULL;
-       Ë
+       }
 
 
 
        ret=make_identifier(0,0,0,name_ret,qualif_ret,subscr_ret,
                                                      refmod_ret);
-    Ë
+    }
 
-    debug_2("Rule recognized: id Án");
+    debug_2("Rule recognized: id \n");
     return ret;
-Ë
+}
 
 
 ast*
-special_register() È
+special_register() {
 
-    debug_2("Trying to match rule : special_register Án");
+    debug_2("Trying to match rule : special_register \n");
 
     ast* ret    =NULL;
     ast* sub_ret=NULL;
@@ -1028,46 +1028,46 @@ special_register() È
     int bool_address=0;
 
     /* gestion de special register avec OF */
-    if ((equal_val("LENGTH")) !! (equal_val("ADDRESS")))È
+    if ((equal_val("LENGTH")) !! (equal_val("ADDRESS"))){
 
        if(equal_val("LENGTH"))  bool_length  =1;
        if(equal_val("ADDRESS")) bool_address =1;
 
        consume();
 
-       if(match_val("OF"))È
+       if(match_val("OF")){
           ;
-       Ë
+       }
        else return NULL;
 
-       if (sub_ret=id())È
+       if (sub_ret=id()){
 
            ret=append_list(ret,sub_ret);
            ret->node.identifier.bool_length =bool_length;
            ret->node.identifier.bool_address=bool_address;
 
-       Ë
+       }
        else return NULL;
 
-    Ë
+    }
     else
 
-       if(equal_attr("SPECIAL REGISTER"))È
+       if(equal_attr("SPECIAL REGISTER")){
           ret=make_identifier(bool_length,bool_address,1,
               make_ident_name(get_token_len(),get_token_val()),
                                               NULL,NULL,NULL);
           consume();
-       Ë
+       }
        else return NULL;
 
 
-    debug_2("Rule recognized: special_register Án");
+    debug_2("Rule recognized: special_register \n");
     return ret;
-Ë
+}
 
 ast*
 id_name_qualif()
-È
+{
     ast* ret    =NULL;
     ast* sub_ret=NULL;
     ast* name_ret=NULL;
@@ -1076,196 +1076,196 @@ id_name_qualif()
 /*  ret = make_ident_name_qualif(NULL,NULL); */
 
 
-    if (name_ret=id_name())È
+    if (name_ret=id_name()){
 /*      ret->node.ident_name_qualif.name=sub_ret; */
-    Ë
+    }
     else return NULL;
 
     /* optional */
-    if (equal_val("OF"))È
-       if (qualif_ret=id_qualif())È
+    if (equal_val("OF")){
+       if (qualif_ret=id_qualif()){
 /*        ret->node.ident_name_qualif.qualif=sub_ret; */
           ;
-       Ë
+       }
        else return NULL;
-    Ë
+    }
 
     ret=make_identifier(0,0,0,name_ret,qualif_ret,NULL,NULL);
 
     return ret;
 
-Ë
+}
 
 ast*
 id_names()
-È
+{
     ast* ret    =NULL;
     ast* sub_ret=NULL;
 
-    debug_2("Trying to match rule : id_names Án");
+    debug_2("Trying to match rule : id_names \n");
 
-    while(equal_type("IDENTIFIER"))È
+    while(equal_type("IDENTIFIER")){
 
-        if (sub_ret=id_name())È
+        if (sub_ret=id_name()){
 
            ret=append_list(ret,sub_ret);
-        Ë
+        }
         else return NULL;
 
-    Ë
+    }
 
-    if(ret) debug_2("Rule recognized: id_names Án");
+    if(ret) debug_2("Rule recognized: id_names \n");
 
     return ret;
-Ë
+}
 
 ast*
 id_name()
-È
-    debug_2("Trying to match rule : id_name Án");
+{
+    debug_2("Trying to match rule : id_name \n");
 
     ast* ret    =NULL;
     ast* sub_ret=NULL;
 
-    if (equal_type("IDENTIFIER"))È
+    if (equal_type("IDENTIFIER")){
         ret=make_ident_name(get_token_len(),get_token_val());
         consume();
-    Ë
+    }
     else return NULL;
 
-    debug_2("Rule recognized: id_name Án");
+    debug_2("Rule recognized: id_name \n");
     return ret;
-Ë
+}
 
 ast*
 id_qualif()
-È
-    debug_2("Trying to match rule : id_qualif Án");
+{
+    debug_2("Trying to match rule : id_qualif \n");
 
     ast* ret    =NULL;
     ast* sub_ret=NULL;
     ret=make_ident_qualif(NULL);
 
-    while (equal_val("OF"))È
-       if(sub_ret=id_qualif_oprnd())È
+    while (equal_val("OF")){
+       if(sub_ret=id_qualif_oprnd()){
            ret->node.ident_qualif.list_qualif=
                append_list(ret->node.ident_qualif.list_qualif,sub_ret);
-       Ë
+       }
        else return NULL;
 
-    Ë
+    }
 
-    if (ret)     debug_2("Rule recognized: id_qualif Án");
+    if (ret)     debug_2("Rule recognized: id_qualif \n");
     return ret;
 
-Ë
+}
 
 ast*
-id_qualif_oprnd ()È
+id_qualif_oprnd (){
 
     ast* ret    =NULL;
     ast* sub_ret=NULL;
 
-    debug_2("Trying to match rule : id_qualif_oprnd Án");
+    debug_2("Trying to match rule : id_qualif_oprnd \n");
 
-    if (match_val("OF"))È
+    if (match_val("OF")){
         ;
-    Ë
+    }
     else return NULL;
 
-    if(sub_ret=id_name())È
+    if(sub_ret=id_name()){
         ret=append_list(ret,sub_ret);
-    Ë
+    }
     else return NULL;
 
-    debug_2("Rule recognized: id_qualif_oprnd Án");
+    debug_2("Rule recognized: id_qualif_oprnd \n");
     return ret;
-Ë
+}
 /* continue implementing ast here ... */
 ast*
-id_subs_refm()È
+id_subs_refm(){
 
     ast* ret    =NULL;
     ast* sub_ret=NULL;
     ast* oprnd1 =NULL;
 
-    debug_2("Trying to match rule : id_subs_refm Án");
+    debug_2("Trying to match rule : id_subs_refm \n");
 
-    if (match_val("("))È
+    if (match_val("(")){
         ;
-    Ë
+    }
     else return NULL;
     /* concatener oprnd 1 avec le reste de subs et refm */
-    if(oprnd1=id_oprnd_1_subs_refm())È
+    if(oprnd1=id_oprnd_1_subs_refm()){
         ;
-    Ë
+    }
     else return NULL;
 
-    if(sub_ret=id_subs_refm_rest())È
+    if(sub_ret=id_subs_refm_rest()){
         ;
-    Ë
+    }
     else return NULL;
 
-    debug_3("expecting IDENT_SUBSCRIPT OR REFMOD (%s)Án",
-               tagValues›sub_ret->tag~);
-    if(sub_ret->tag==IDENT_SUBSCRIPT)È
+    debug_3("expecting IDENT_SUBSCRIPT OR REFMOD (%s)\n",
+               tagValues[sub_ret->tag]);
+    if(sub_ret->tag==IDENT_SUBSCRIPT){
 
        ast* head = sub_ret->node.ident_subscript.list_subscript;
        oprnd1->next = head;
        sub_ret->node.ident_subscript.list_subscript = oprnd1;
-    Ë
-    else if (sub_ret->tag==IDENT_REFMOD)È
+    }
+    else if (sub_ret->tag==IDENT_REFMOD){
 
        sub_ret->node.ident_refmod.charleft = oprnd1;
 
-    Ë
-    else È
+    }
+    else {
 
-       printf("expected IDENT_SUBSCRIPT OR REFMOD but found (%s)Án",
-               tagValues›sub_ret->tag~);
+       printf("expected IDENT_SUBSCRIPT OR REFMOD but found (%s)\n",
+               tagValues[sub_ret->tag]);
        exit(EXIT_FAILURE);
-    Ë
+    }
 
     ret=sub_ret;
 
     /* patch pour enlever length vide */
 
-    if (ret->tag==IDENT_REFMOD)È
+    if (ret->tag==IDENT_REFMOD){
        if(ret->node.ident_refmod.length->node.arith_exp.left == NULL)
          ret->node.ident_refmod.length=NULL;
-    Ë
+    }
 
-    debug_3("id_subs_refm ret->tag (%s) ret->next (%d) Án",
-            tagValues›ret->tag~,ret->next);
+    debug_3("id_subs_refm ret->tag (%s) ret->next (%d) \n",
+            tagValues[ret->tag],ret->next);
 
-    debug_2("Rule recognized : id_subs_refm Án");
+    debug_2("Rule recognized : id_subs_refm \n");
     return ret;
 
-Ë
+}
 
 ast*
-id_oprnd_1_subs_refm()È
+id_oprnd_1_subs_refm(){
 
 
     ast* ret    =NULL;
     ast* sub_ret=NULL;
 
-    debug_2("Trying to match rule : id_oprnd_1_subs_refm Án");
+    debug_2("Trying to match rule : id_oprnd_1_subs_refm \n");
 
-    if (sub_ret=arith_expr())È
+    if (sub_ret=arith_expr()){
         ret=append_list(ret,sub_ret);
-    Ë
+    }
     else return NULL;
 
-    debug_2("Rule recognized : id_oprnd_1_subs_refm Án");
+    debug_2("Rule recognized : id_oprnd_1_subs_refm \n");
     return ret;
 
-Ë
+}
 
 ast*
-id_subs_refm_rest()È
+id_subs_refm_rest(){
 
-    debug_2("Trying to match rule : id_subs_refm_rest Án");
+    debug_2("Trying to match rule : id_subs_refm_rest \n");
 
     ast* ret    =NULL;
     ast* sub_ret=NULL;
@@ -1273,30 +1273,30 @@ id_subs_refm_rest()È
     ast* refmod_ret=NULL;
     ast* subscript_ret=NULL;
 
-    if (equal_val(":"))È
-        if (sub_ret=id_refm_rest())È
+    if (equal_val(":")){
+        if (sub_ret=id_refm_rest()){
            /* null pour charleft a remplacer par oprnd 1 */
            refmod_ret=make_ident_refmod(NULL,sub_ret);
            ret=append_list(ret,refmod_ret);
            ;
-        Ë
+        }
         else return NULL;
-    Ë
-    else if (sub_ret=id_subs_rest())È
+    }
+    else if (sub_ret=id_subs_rest()){
              /* 1er subscript absent/coquille: remplacer par oprnd 1 */
              subscript_ret=make_ident_subscript(sub_ret);
              ret=append_list(ret,subscript_ret);
 
-             if (equal_val("("))È
-                if (sub_ret=id_refmodif())È
+             if (equal_val("(")){
+                if (sub_ret=id_refmodif()){
                     /* refmod ast est cree par id_refmodif */
                     ret=append_list(ret,sub_ret);
                     ;
-                Ë
+                }
                 else return  NULL;
-             Ë
+             }
 
-    Ë
+    }
 
     else return  NULL;
 
@@ -1304,374 +1304,374 @@ id_subs_refm_rest()È
              subscript coquille si seul ou absent si plusieurs
              puis refmod ou non mais complet (car subscript avant) */
 
-    debug_2("Rule recognized : id_subs_refm_rest Án");
+    debug_2("Rule recognized : id_subs_refm_rest \n");
     return  ret;
 
-Ë
+}
 
 ast*
 id_refm_rest()
-È
-    debug_2("Trying to match rule : id_refm_rest Án");
+{
+    debug_2("Trying to match rule : id_refm_rest \n");
 
     ast* ret    =NULL;
     ast* sub_ret=NULL;
 
 
-    if (match_val(":"))È
+    if (match_val(":")){
         ;
-    Ë
+    }
     else return  NULL;
     /* length peut etre une arith_exp vide */
-    if(sub_ret=refmodif_length())È
+    if(sub_ret=refmodif_length()){
         /* arith_exp */
         ret=append_list(ret,sub_ret);
-    Ë
+    }
     else return  NULL;
 
-    if (match_val(")"))È
+    if (match_val(")")){
         ;
-    Ë
+    }
     else return  NULL;
 
-    debug_2("Rule recognized : id_refm_rest Án");
+    debug_2("Rule recognized : id_refm_rest \n");
     return  ret;
 
-Ë
+}
 
 ast*
 id_subs_rest()
-È
-    debug_2("Trying to match rule : id_subs_rest Án");
+{
+    debug_2("Trying to match rule : id_subs_rest \n");
 
     ast* ret    =NULL;
     ast* sub_ret=NULL;
 
-    if (match_val(")"))È
+    if (match_val(")")){
         /* creation d'une coquille AST pour le premier subscript */
         ret=make_arith_exp("","","",NULL,NULL);
         ;
-    Ë
+    }
     else
-    È
-        if(sub_ret=subscripts())È
+    {
+        if(sub_ret=subscripts()){
 
             ret=append_list(ret,sub_ret);
 
-            if (match_val(")"))È
+            if (match_val(")")){
                 ;
-            Ë
+            }
             else return  NULL;
-        Ë
+        }
         else return  NULL;
-    Ë
+    }
 
-    debug_2("Rule recognized : id_subs_rest Án");
+    debug_2("Rule recognized : id_subs_rest \n");
     return  ret;
 
-Ë
+}
 
 ast*
 id_subscript()
-È
-    debug_2("Trying to match rule : id_subscript Án");
+{
+    debug_2("Trying to match rule : id_subscript \n");
 
     ast* ret    =NULL;
     ast* sub_ret=NULL;
 
 
-    if (match_val("("))È
+    if (match_val("(")){
         ;
-    Ë
+    }
     else return  NULL;
 
-    if(sub_ret=subscripts())È
+    if(sub_ret=subscripts()){
         ret=append_list(ret,sub_ret);
-    Ë
+    }
     else return  NULL;
 
-    if (match_val(")"))È
+    if (match_val(")")){
         ;
-    Ë
+    }
     else return  NULL;
 
-    debug_2("Rule recognized: id_subscript Án");
+    debug_2("Rule recognized: id_subscript \n");
     return ret;
-Ë
+}
 
 ast*
 id_refmodif()
-È
-    debug_2("Trying to match rule : id_refmodif Án");
+{
+    debug_2("Trying to match rule : id_refmodif \n");
 
     ast* ret    =NULL;
     ast* sub_ret=NULL;
 
 
-    if (match_val("("))È
+    if (match_val("(")){
         ;
-    Ë
+    }
     else return  NULL;
 
-    if(sub_ret=refmodif())È
+    if(sub_ret=refmodif()){
         ret=append_list(ret,sub_ret);
-    Ë
+    }
     else return  NULL;
 
-    if (match_val(")"))È
+    if (match_val(")")){
         ;
-    Ë
+    }
     else return  NULL;
 
-    debug_2("Rule recognized: id_refmodif Án");
+    debug_2("Rule recognized: id_refmodif \n");
     return ret;
-Ë
+}
 
 
 /*---------------------------  Identifier body ----------------------*/
 
 ast*
 subscripts()
-È
-    debug_2("Trying to match rule : subscripts Án");
+{
+    debug_2("Trying to match rule : subscripts \n");
 
 
     ast* ret    =NULL;
     ast* sub_ret=NULL;
 
-    while(sub_ret=subscript())È
+    while(sub_ret=subscript()){
         ret=append_list(ret,sub_ret);
-    Ë
+    }
 
-    if (ret)     debug_2("Rule recognized: subscripts Án");
+    if (ret)     debug_2("Rule recognized: subscripts \n");
     return ret;
-Ë
+}
 
 ast*
 subscript()
-È
-    debug_2("Trying to match rule : subscript Án");
+{
+    debug_2("Trying to match rule : subscript \n");
 
     ast* ret    =NULL;
     ast* sub_ret=NULL;
 
-    if (sub_ret=arith_expr2())È
+    if (sub_ret=arith_expr2()){
         ret=append_list(ret,sub_ret);
-    Ë
+    }
     else return  NULL;
 
-    debug_2("Rule recognized: subscript Án");
+    debug_2("Rule recognized: subscript \n");
     return ret;
-Ë
+}
 
 ast*
 refmodif()
-È
+{
 
     ast* ret    =NULL;
     ast* charleftpos_ret=NULL;
     ast* refmodif_length_ret=NULL;
 
-    debug_2("Trying to match rule : refmodif Án");
+    debug_2("Trying to match rule : refmodif \n");
 
-    if(charleftpos_ret=charleftpos())È
+    if(charleftpos_ret=charleftpos()){
         ;
-    Ë
+    }
     else return  NULL;
 
-    if(match_val(":"))È
+    if(match_val(":")){
         ;
-    Ë
+    }
     else return  NULL;
 
     /* it's optional !! */
-    if(refmodif_length_ret=refmodif_length())È
+    if(refmodif_length_ret=refmodif_length()){
         ;
-    Ë
+    }
     else return  NULL;
 
     ret=make_ident_refmod(charleftpos_ret,refmodif_length_ret);
 
-    debug_2("Rule recognized: refmodif Án");
+    debug_2("Rule recognized: refmodif \n");
     return ret;
-Ë
+}
 
 ast*
 charleftpos()
-È
+{
 
     ast* ret    =NULL;
     ast* sub_ret=NULL;
 
-    debug_2("Trying to match rule : charleftpos Án");
+    debug_2("Trying to match rule : charleftpos \n");
 
-    if (sub_ret=arith_expr())È
+    if (sub_ret=arith_expr()){
         ret=append_list(ret,sub_ret);
-    Ë
+    }
     else return  NULL;
 
-    debug_2("Rule recognized: charleftpos Án");
+    debug_2("Rule recognized: charleftpos \n");
     return ret;
-Ë
+}
 
 ast*
 refmodif_length()
-È
-    debug_2("Trying to match rule : refmodif_length Án");
+{
+    debug_2("Trying to match rule : refmodif_length \n");
 
     /*optional */
 
     ast* ret    =NULL;
 
 
-    if(ßequal_val(")"))È
-       if (ret=arith_expr())È
+    if(!equal_val(")")){
+       if (ret=arith_expr()){
            ;
-       Ë
+       }
        else return NULL;
-    Ë
-    else È
+    }
+    else {
        ret=make_arith_exp("","","",NULL,NULL);
 
-    Ë
-    debug_2("Rule recognized: refmodif_length Án");
+    }
+    debug_2("Rule recognized: refmodif_length \n");
     return ret;
-Ë
+}
 
 
 /*-------------------------  Arithmetic expression ------------------*/
 /*
 int arith_expr_old()
-È
-    debug_2("Trying to match rule : arith_expr_old Án");
+{
+    debug_2("Trying to match rule : arith_expr_old \n");
 
-    if(arith_expr_oprnd())È
+    if(arith_expr_oprnd()){
         ;
-    Ë
+    }
     else return  0;
 
        optional
-    if(arith_expr_oprtn())È
-        if(arith_expr())È
+    if(arith_expr_oprtn()){
+        if(arith_expr()){
             ;
-        Ë
+        }
         else return  0;
-    Ë
+    }
 
-    debug_2("Rule recognized: arith_expr_old Án");
+    debug_2("Rule recognized: arith_expr_old \n");
     return 1;
-Ë
+}
 */
 ast*
 arith_expr()
-È
-    debug_2("Trying to match rule : arith_expr Án");
+{
+    debug_2("Trying to match rule : arith_expr \n");
 
     ast* ret    =NULL;
     ast* sub_ret=NULL;
 
     ast* left   =NULL;
     ast* right  =NULL;
-    char oper›3~="";
+    char oper[3]="";
 
-    if(left=times_div())È
+    if(left=times_div()){
         /* attention aux variables string */
         ret=make_arith_exp("","","",left,NULL);
         ;
-    Ë
+    }
     else return  NULL;
 
-    while((equal_val("+")) !! (equal_val("-")))È
+    while((equal_val("+")) !! (equal_val("-"))){
 
        strcpy(oper,get_token_val());
        strcpy(ret->node.arith_exp.oper,oper);
        strcpy(oper,"");
        consume();
 
-       if(right=times_div())È
+       if(right=times_div()){
           ret->node.arith_exp.right = right;
-       Ë
+       }
        else return NULL;
 
        ret=make_arith_exp("","","",ret,NULL);
-    Ë
+    }
 
-    debug_2("Rule recognized: arith_expr Án");
+    debug_2("Rule recognized: arith_expr \n");
     return ret;
-Ë
+}
 
 ast*
 times_div()
-È
-    debug_2("Trying to match rule : times_div Án");
+{
+    debug_2("Trying to match rule : times_div \n");
 
     ast* ret    =NULL;
     ast* sub_ret=NULL;
 
     ast* left   =NULL;
     ast* right  =NULL;
-    char oper›3~="";
+    char oper[3]="";
 
 
-    if(left=power())È
+    if(left=power()){
         /* attention aux variables string */
         ret=make_arith_exp("","","",left,NULL);
         ;
-    Ë
+    }
     else return  NULL;
 
-    while((equal_val("*")) !! (equal_val("/")))È
+    while((equal_val("*")) !! (equal_val("/"))){
 
        strcpy(oper,get_token_val());
        strcpy(ret->node.arith_exp.oper,oper);
        strcpy(oper,"");
        consume();
 
-       if(right=power())È
+       if(right=power()){
           ret->node.arith_exp.right = right;
-       Ë
+       }
        else return NULL;
 
        ret=make_arith_exp("","","",ret,NULL);
 
-    Ë
+    }
 
-    debug_2("Rule recognized: times_div Án");
+    debug_2("Rule recognized: times_div \n");
     return ret;
-Ë
+}
 
 ast*
 power()
-È
-    debug_2("Trying to match rule : power Án");
+{
+    debug_2("Trying to match rule : power \n");
 
     ast* ret    =NULL;
     ast* sub_ret=NULL;
 
     ast* left   =NULL;
     ast* right  =NULL;
-    char oper›3~="";
-    char sign›3~="";
+    char oper[3]="";
+    char sign[3]="";
 
-    if ((equal_val("+")))È
-
-       strcpy(sign,get_token_val());
-       consume();
-    Ë
-    else if((equal_val("-")))È
+    if ((equal_val("+"))){
 
        strcpy(sign,get_token_val());
        consume();
-    Ë
+    }
+    else if((equal_val("-"))){
 
-    if(left=basis())È
+       strcpy(sign,get_token_val());
+       consume();
+    }
+
+    if(left=basis()){
         /* attention aux variables string */
         ret=make_arith_exp("","",sign,left,NULL);
         strcpy(sign,"");
-    Ë
+    }
     else return  NULL;
 
-    while((equal_val("**")))È
+    while((equal_val("**"))){
 
        strcpy(oper,get_token_val());
        strcpy(ret->node.arith_exp.oper,oper);
@@ -1679,80 +1679,80 @@ power()
 
        consume();
 
-       if(right=basis())È
+       if(right=basis()){
           ret->node.arith_exp.right = right;
-       Ë
+       }
        else return NULL;
 
        ret=make_arith_exp("","","",ret,NULL);
 
-    Ë
+    }
 
     /* ret est unaire (left seulement) */
 
-    debug_2("Rule recognized: power Án");
+    debug_2("Rule recognized: power \n");
     return ret;
-Ë
+}
 
 ast*
 basis()
-È
-    debug_2("Trying to match rule : basis Án");
+{
+    debug_2("Trying to match rule : basis \n");
 
 
     ast* ret    =NULL;
     ast* sub_ret=NULL;
 
-    if ((equal_type("IDENTIFIER"))!!(equal_attr("SPECIAL REGISTER")))È
+    if ((equal_type("IDENTIFIER"))!!(equal_attr("SPECIAL REGISTER"))){
 
-       if (sub_ret=id())È
+       if (sub_ret=id()){
           ret=append_list(ret,sub_ret);
-       Ë
+       }
        else return NULL;
-    Ë
-    else if((equal_val("(")))È
+    }
+    else if((equal_val("("))){
 
             /* bug de caca ! ne pas oublier de consommer le ( */
             consume();
 
-            if (sub_ret=arith_expr())È
+            if (sub_ret=arith_expr()){
                ret=append_list(ret,sub_ret);
-            Ë
+            }
             else return NULL;
 
-            if (match_val(")"))È
+            if (match_val(")")){
                ;
-            Ë
+            }
             else return NULL;
-         Ë
+         }
             /* ZERO/ZEROS/ZEROS inclut */
-    else if (equal_attr("NUMERIC"))È
+    else if (equal_attr("NUMERIC")){
 
-            if(equal_type("LITERAL"))È
+            if(equal_type("LITERAL")){
 
-               if (sub_ret=litr())È
+               if (sub_ret=litr()){
                   ret=append_list(ret,sub_ret);
-               Ë
+               }
                else return NULL;
-            Ë
+            }
             else /* KEYWORD (ZERO/ZEROS/ZEROS) */
-            È
+            {
                sub_ret=build_literal(0);
                consume();
-            Ë
+            }
 
-         Ë
+         }
 
     else return NULL;
 
-    debug_2("Rule recognized: basis Án");
+    debug_2("Rule recognized: basis \n");
     return ret;
-Ë
+}
 
 ast*
 arith_expr2()
-È
-    debug_2("Trying to match rule : arith_expr2 Án");
+{
+    debug_2("Trying to match rule : arith_expr2 \n");
 
     ast*  ret    =NULL;
     ast*  sub_ret=NULL;
@@ -1761,220 +1761,220 @@ arith_expr2()
     ast*  right  =NULL;
     char* oper   =NULL;
 
-    if((equal_attr("INTEGER"))&&(equal_attr("UNSIGNED")))È
+    if((equal_attr("INTEGER"))&&(equal_attr("UNSIGNED"))){
 
         left=build_literal(0);
         consume();
 
-    Ë
-    else if(sub_ret=id_name_qualif())È
-            /* id_name_qualif retourn dÈsormais un identifier */
+    }
+    else if(sub_ret=id_name_qualif()){
+            /* id_name_qualif retourn d{sormais un identifier */
             left=make_identifier(0,0,0,
                  sub_ret->node.ident_name_qualif.name,
                  sub_ret->node.ident_name_qualif.qualif,NULL,NULL);
 
 
             /* optional */
-            if((equal_val("+"))!!(equal_val("-"))) È
+            if((equal_val("+"))!!(equal_val("-"))) {
 
                strcpy(oper,get_token_val());
                strcpy(ret->node.arith_exp.oper,oper);
                strcpy(oper,"");
                consume();
 
-               if((equal_attr("INTEGER"))&&(equal_attr("UNSIGNED")))È
+               if((equal_attr("INTEGER"))&&(equal_attr("UNSIGNED"))){
 
                   right=build_literal(0);
                   consume();
 
-               Ë
+               }
                else return  NULL;
-            Ë
+            }
 
-         Ë
+         }
     else return NULL;
 
     ret = make_arith_exp("",oper,"",left,right);
 
-    debug_2("Rule recognized: arith_expr2 Án");
+    debug_2("Rule recognized: arith_expr2 \n");
     return ret;
-Ë
+}
 /*
 int arith_expr2_old()
-È
-    debug_2("Trying to match rule : arith_expr2_old Án");
+{
+    debug_2("Trying to match rule : arith_expr2_old \n");
 
-    if(arith_expr_oprnd())È
+    if(arith_expr_oprnd()){
         ;
-    Ë
+    }
     else return  0;
 
        optional
-    if(arith_expr_oprtn())È
-        if(arith_expr_oprnd())È
+    if(arith_expr_oprtn()){
+        if(arith_expr_oprnd()){
             ;
-        Ë
+        }
         else return  0;
-    Ë
+    }
 
-    debug_2("Rule recognized: arith_expr2_old Án");
+    debug_2("Rule recognized: arith_expr2_old \n");
     return 1;
-Ë
+}
 
 int arith_expr_oprnd()
-È
-    debug_2("Trying to match rule : arith_expr_oprnd Án");
+{
+    debug_2("Trying to match rule : arith_expr_oprnd \n");
 
-    if (match("INTEGER"))È
+    if (match("INTEGER")){
         ;
-    Ë
-    else if (id_name_qualif())È
+    }
+    else if (id_name_qualif()){
         ;
-    Ë
+    }
     else return  0;
 
-    debug_2("Rule recognized: arith_expr_oprnd Án");
+    debug_2("Rule recognized: arith_expr_oprnd \n");
     return 1;
-Ë
+}
 
 int arith_expr_oprtn()
-È
-    debug_2("Trying to match rule : arith_expr_oprtn Án");
+{
+    debug_2("Trying to match rule : arith_expr_oprtn \n");
 
-    if (match("+"))È
+    if (match("+")){
         ;
-    Ë
-    else if (match("-"))È
+    }
+    else if (match("-")){
         ;
-    Ë
-    else if (match("*"))È
+    }
+    else if (match("*")){
         ;
-    Ë
+    }
     else return  0;
 
-    debug_2("Rule recognized: arith_expr_oprtn Án");
+    debug_2("Rule recognized: arith_expr_oprtn \n");
     return 1;
-Ë
+}
 */
 /*---------------------- Data declaration    ------------------------*/
 ast*
-data_fields()È
+data_fields(){
 
-    debug_2("Trying to match rule : data_fields Án");
+    debug_2("Trying to match rule : data_fields \n");
 
     ast* ret=NULL;
     ast* driver=NULL;
     ast* sub_ret=NULL;
     int i;
 
-    static ast* lvl_arr ›89~;
+    static ast* lvl_arr [89];
 
-    while(sub_ret=data_field()) È
+    while(sub_ret=data_field()) {
 
-       debug_2("lvl_arr(%d)=(%d)AVÁn",FLD_LVL(sub_ret)
-                                     ,lvl_arr›FLD_LVL(sub_ret)~);
+       debug_2("lvl_arr(%d)=(%d)AV\n",FLD_LVL(sub_ret)
+                                     ,lvl_arr[FLD_LVL(sub_ret)]);
 
-       debug_2("sub_ret(%d)name(%s)lvl(%d)Án",sub_ret,FLD_NAME(sub_ret),
+       debug_2("sub_ret(%d)name(%s)lvl(%d)\n",sub_ret,FLD_NAME(sub_ret),
                                                  FLD_LVL(sub_ret));
-       if(driver) È
-          debug_2("driver(%d)lvl(%d)Án",driver,FLD_LVL(driver));
-       Ë
+       if(driver) {
+          debug_2("driver(%d)lvl(%d)\n",driver,FLD_LVL(driver));
+       }
 
-       if(ßret) È
-          if(FLD_LVL(sub_ret)==1 !! FLD_LVL(sub_ret)==77)È
+       if(!ret) {
+          if(FLD_LVL(sub_ret)==1 !! FLD_LVL(sub_ret)==77){
              ret=append_list(ret,sub_ret);
              driver=ret;
-          Ë else È
-             printf("Section must begin with data level 01 or 77Án");
-       printf("expected procedure but found (%s)type(%s)l(%d)c(%d)Án",
+          } else {
+             printf("Section must begin with data level 01 or 77\n");
+       printf("expected procedure but found (%s)type(%s)l(%d)c(%d)\n",
               get_token_val(),get_token_type(),get_token_line(),
               get_token_col());
              exit(EXIT_FAILURE);
-          Ë
-       Ë else È
+          }
+       } else {
           // gerer field lu lvl 77
-          if       (FLD_LVL(sub_ret)==77)È
-             debug_2("(%d-%s) == 77 Lonely field Án",
+          if       (FLD_LVL(sub_ret)==77){
+             debug_2("(%d-%s) == 77 Lonely field \n",
                       FLD_LVL(sub_ret),FLD_NAME(sub_ret));
-             if(FLD_LVL(driver)==77)È
+             if(FLD_LVL(driver)==77){
                 append_list(driver,sub_ret) ; // sister
                 // Erasing ...
-                for(i=1;i<89;i++) È
-                    debug_3(" Erasing lvl arr (%d) Án",i);
-                    lvl_arr›i~=NULL;
-                Ë
+                for(i=1;i<89;i++) {
+                    debug_3(" Erasing lvl arr (%d) \n",i);
+                    lvl_arr[i]=NULL;
+                }
 
-             Ë else if (lvl_arr›1~) È
-                append_list(lvl_arr›1~,sub_ret) ; // sister
-                for(i=1;i<89;i++) È
-                    debug_3(" Erasing lvl arr (%d) Án",i);
-                    lvl_arr›i~=NULL;
-                Ë
+             } else if (lvl_arr[1]) {
+                append_list(lvl_arr[1],sub_ret) ; // sister
+                for(i=1;i<89;i++) {
+                    debug_3(" Erasing lvl arr (%d) \n",i);
+                    lvl_arr[i]=NULL;
+                }
 
-             Ë else È
-                printf("Section must begin with data level 01 or 77Án");
-       printf("expected procedure but found (%s)type(%s)l(%d)c(%d)Án",
+             } else {
+                printf("Section must begin with data level 01 or 77\n");
+       printf("expected procedure but found (%s)type(%s)l(%d)c(%d)\n",
               get_token_val(),get_token_type(),get_token_line(),
               get_token_col());
                 exit(EXIT_FAILURE);
-             Ë
+             }
              driver=sub_ret;
 
           // gerer field existant lvl 77
-          Ë else if(FLD_LVL(driver) == 77)È
-             if(FLD_LVL(sub_ret)==1 !! FLD_LVL(sub_ret)==77)È
-                debug_2("(%d-%s) New start after 77Án",
+          } else if(FLD_LVL(driver) == 77){
+             if(FLD_LVL(sub_ret)==1 !! FLD_LVL(sub_ret)==77){
+                debug_2("(%d-%s) New start after 77\n",
                          FLD_LVL(sub_ret),FLD_NAME(sub_ret));
                 append_list(driver,sub_ret) ; // sister
                 driver=sub_ret;
-                for(i=1;i<89;i++) È
-                    debug_3(" Erasing lvl arr (%d) Án",i);
-                    lvl_arr›i~=NULL;
-                Ë
-             Ë else È
-                printf("Level 77 must be followed by level 01 or 77Án");
+                for(i=1;i<89;i++) {
+                    debug_3(" Erasing lvl arr (%d) \n",i);
+                    lvl_arr[i]=NULL;
+                }
+             } else {
+                printf("Level 77 must be followed by level 01 or 77\n");
                 exit(EXIT_FAILURE);
-             Ë
+             }
 
-          Ë else if(FLD_LVL(driver) == FLD_LVL(sub_ret))È
+          } else if(FLD_LVL(driver) == FLD_LVL(sub_ret)){
              FLD_PARENT   (sub_ret) =  FLD_PARENT   (driver);
              FLD_NB_PARENT(sub_ret) =  FLD_NB_PARENT(driver);
              FLD_NB_BCHON (sub_ret) =  FLD_NB_BCHON (driver);
-             debug_2("(%d-%s) == (%d-%s) Append to sisterÁn",
+             debug_2("(%d-%s) == (%d-%s) Append to sister\n",
                       FLD_LVL(driver) ,FLD_NAME(driver),
                       FLD_LVL(sub_ret),FLD_NAME(sub_ret));
              append_list(driver,sub_ret) ; // sister
              driver=sub_ret;
 
-          Ë else if(FLD_LVL(driver) < FLD_LVL(sub_ret))È
+          } else if(FLD_LVL(driver) < FLD_LVL(sub_ret)){
              FLD_PARENT   (sub_ret) =  driver;
              FLD_NB_PARENT(sub_ret) =  FLD_NB_PARENT(driver)+1;
              FLD_NB_BCHON (sub_ret) =  FLD_NB_BCHON (driver);
          //  FLD_CHILD    (driver ) =  sub_ret; // children
-             debug_2("(%d-%s) <  (%d-%s) Append to child Án",
+             debug_2("(%d-%s) <  (%d-%s) Append to child \n",
                       FLD_LVL(driver) ,FLD_NAME(driver),
                       FLD_LVL(sub_ret),FLD_NAME(sub_ret));
 
              append_child(driver,sub_ret) ;
              driver=sub_ret;
 
-          Ë else if(FLD_LVL(driver) > FLD_LVL(sub_ret))È
+          } else if(FLD_LVL(driver) > FLD_LVL(sub_ret)){
 
              debug_2("(%d-%s) >  (%d-%s) ",
                       FLD_LVL(driver) ,FLD_NAME(driver),
                       FLD_LVL(sub_ret),FLD_NAME(sub_ret));
 
              /* parcourir array pour trouver lvl <= lvl du sub_ret */
-             for(i=FLD_LVL(sub_ret);i>0;i--) È
+             for(i=FLD_LVL(sub_ret);i>0;i--) {
                  debug_3("loop lvl array (%d) ",i);
-                 if(lvl_arr›i~) È
+                 if(lvl_arr[i]) {
                     /* nouveau driver est celui trouve */
-                    driver=lvl_arr›i~;
+                    driver=lvl_arr[i];
                     debug_2(" lvl found(%d-%s)",
                     FLD_LVL(driver) ,FLD_NAME(driver));
 
                     /* si meme lvl non trouve */
-                    if(FLD_LVL(sub_ret)>i) È
+                    if(FLD_LVL(sub_ret)>i) {
                        // append to child
                        // ca rend sub_ret frere des child de driver
                        // du coup deux lvl different peuvent etre freres
@@ -1982,72 +1982,72 @@ data_fields()È
                        FLD_NB_PARENT(sub_ret) = FLD_NB_PARENT(driver)+1;
                        FLD_NB_BCHON (sub_ret) = FLD_NB_BCHON (driver);
                        append_child(driver,sub_ret) ;
-                       debug_2("append to child Án");
+                       debug_2("append to child \n");
 
-                    Ë else È /*  i = lvl de sub_ret  */
+                    } else { /*  i = lvl de sub_ret  */
                        /* append to sister */
                        FLD_PARENT   (sub_ret) = FLD_PARENT   (driver);
                        FLD_NB_PARENT(sub_ret) = FLD_NB_PARENT(driver);
                        FLD_NB_BCHON (sub_ret) = FLD_NB_BCHON (driver);
                        append_list(driver,sub_ret) ;
-                       debug_2("append to sister Án");
+                       debug_2("append to sister \n");
 
-                    Ë
+                    }
                     // un field superior trouve quitter
                     break;
-                 Ë else È
-                    debug_3("not foundÁn");
-                 Ë
-             Ë
+                 } else {
+                    debug_3("not found\n");
+                 }
+             }
 
-             if(i==0) È
+             if(i==0) {
 
-                 printf("field parent not found Án");
+                 printf("field parent not found \n");
                  exit(EXIT_FAILURE);
-             Ë
+             }
 
              driver=sub_ret;
 
-             debug_2(" driver lvl > subret lvl Án");
-             debug_2(" driver (%d) Án",driver);
-             debug_2(" dr-nxt (%d) Án",driver->next);
-             debug_2(" subret (%d) Án",sub_ret);
-             debug_2(" su-nxt (%d) Án",sub_ret->next);
+             debug_2(" driver lvl > subret lvl \n");
+             debug_2(" driver (%d) \n",driver);
+             debug_2(" dr-nxt (%d) \n",driver->next);
+             debug_2(" subret (%d) \n",sub_ret);
+             debug_2(" su-nxt (%d) \n",sub_ret->next);
          //  append_list(driver,sub_ret) ; /* sister */
-             debug_2(" driver (%d) Án",driver);
-             debug_2(" dr-nxt (%d) Án",driver->next);
+             debug_2(" driver (%d) \n",driver);
+             debug_2(" dr-nxt (%d) \n",driver->next);
 
-             debug_3(" i (%d) Án",i);
-             for(++i;i<60;i++) È
-                 debug_3(" Erasing lvl arr (%d) Án",i);
-                 lvl_arr›i~=NULL;
-             Ë
+             debug_3(" i (%d) \n",i);
+             for(++i;i<60;i++) {
+                 debug_3(" Erasing lvl arr (%d) \n",i);
+                 lvl_arr[i]=NULL;
+             }
 
-          Ë
-       Ë
+          }
+       }
 
        debug_3("lvl_arr(%d)= (%d)AP",FLD_LVL(sub_ret),
-                lvl_arr›FLD_LVL(sub_ret)~);
-       lvl_arr›FLD_LVL(sub_ret)~ = sub_ret;
-       debug_3("--> (%d)Án ",sub_ret);
+                lvl_arr[FLD_LVL(sub_ret)]);
+       lvl_arr[FLD_LVL(sub_ret)] = sub_ret;
+       debug_3("--> (%d)\n ",sub_ret);
 
-      if (ret) debug_3("(%d-%s) next (%d) child (%s) Án",
+      if (ret) debug_3("(%d-%s) next (%d) child (%s) \n",
              FLD_LVL(ret) ,FLD_NAME(ret),
              ret->next, FLD_NAME(FLD_CHILD(ret)));
 
-    Ë
+    }
 
-    if(ret) debug_2("Rule recognized: data_fields Án");
+    if(ret) debug_2("Rule recognized: data_fields \n");
 
 
     return ret;
 
-Ë
+}
 
 ast*
-data_field()È
+data_field(){
 
-    debug_2("Trying to match rule : data_field Án");
+    debug_2("Trying to match rule : data_field \n");
 
     ast* ret=NULL;
     ast* name_ret=NULL;
@@ -2059,133 +2059,133 @@ data_field()È
     char** ptr=NULL;
 
     if  (equal_attr("LEVEL NUMBER")&&
-        ßequal_val ("66")          &&
-        ßequal_val ("88")          )È
+        !equal_val ("66")          &&
+        !equal_val ("88")          ){
 
-         if (get_token_val()=="77") È
+         if (get_token_val()=="77") {
             field_lvl=LVL_77;
-         Ë else È
+         } else {
             field_lvl=LVL_49;
-         Ë
+         }
          lvl=strtol(get_token_val(),ptr,10);
          consume();
 
-        if (equal_type("IDENTIFIER"))È
+        if (equal_type("IDENTIFIER")){
 
-           if (name_ret=id_name())È
+           if (name_ret=id_name()){
               ;
-           Ë
+           }
            else return NULL;
-        Ë
-        else if (equal_val("FILLER"))È
+        }
+        else if (equal_val("FILLER")){
 
                 name_ret=make_ident_name(get_token_len(),
                                          get_token_val());
                 field_name=FILLER;
                 consume();
-             Ë
-             else È
+             }
+             else {
                 name_ret=make_ident_name(0,"");
                 field_name=SPACE;
-             Ë
+             }
 
-        if (ret=data_desc())È
+        if (ret=data_desc()){
            ;
-        Ë
+        }
         else return NULL;
 
-        if (match_val("."))È
+        if (match_val(".")){
            ;
-        Ë
+        }
         else return NULL;
 
-    Ë
+    }
     else if (equal_attr("LEVEL NUMBER")&&
-             equal_val ("66")          )È
+             equal_val ("66")          ){
 
              field_lvl =LVL_66;
              lvl=strtol(get_token_val(),ptr,10);
              consume();
 
-        if (name_ret=id_name())È
+        if (name_ret=id_name()){
            ;
-        Ë
+        }
         else return NULL;
 
-        if (ret=renames_cl())È
+        if (ret=renames_cl()){
            ;
-        Ë
+        }
         else return NULL;
 
-        if (match_val("."))È
+        if (match_val(".")){
            ;
-        Ë
+        }
         else return NULL;
 
-    Ë
+    }
     else if (equal_attr("LEVEL NUMBER")&&
-             equal_val ("88")          )È
+             equal_val ("88")          ){
 
              field_lvl =LVL_88;
              lvl=strtol(get_token_val(),ptr,10);
              consume();
 
-        if (name_ret=cond_name())È
+        if (name_ret=cond_name()){
            ;
-        Ë
+        }
         else return NULL;
 
-        if (ret=cond_val_cl())È
+        if (ret=cond_val_cl()){
            ;
-        Ë
+        }
         else return NULL;
 
-        if (match_val("."))È
+        if (match_val(".")){
            ;
-        Ë
+        }
         else return NULL;
 
-    Ë
+    }
     else return NULL;
 
     ret=update_field_init(ret,name_ret,field_name,field_lvl,lvl);
 
 
-    debug_2("Rule recognized: data_field Án");
+    debug_2("Rule recognized: data_field \n");
     return ret;
 
-Ë
+}
 /*---------------------- Declaration  body   ------------------------*/
 
 ast*
 cond_name()
-È
-    debug_2("Trying to match rule : cond_name Án");
+{
+    debug_2("Trying to match rule : cond_name \n");
 
     ast* ret=NULL;
     ast* sub_ret=NULL;
     /*
-    if (match_type("IDENTIFIER"))È
+    if (match_type("IDENTIFIER")){
         ;
-    Ë
+    }
     else return NULL;
     */
 
-    if(ret=id_name())È
+    if(ret=id_name()){
 
-    Ë
+    }
     else return NULL;
 
-    debug_2("Rule recognized: cond_name Án");
+    debug_2("Rule recognized: cond_name \n");
     return ret;
-Ë
+}
 
 /*------*/
 
 ast*
 data_desc()
-È
-    debug_2("Trying to match rule : data_desc Án");
+{
+    debug_2("Trying to match rule : data_desc \n");
 
     ast* ret=NULL;
     ast* sub_ret=NULL;
@@ -2206,13 +2206,13 @@ data_desc()
     /* Known bug : normalement global peut venir avant redefines */
     /* Mais pour nous redefines doit obligatoirement etre en premier */
 
-    if (equal_val("REDEFINES"))È
+    if (equal_val("REDEFINES")){
 
-       if (redefines_ret=data_redefines_cl())È
+       if (redefines_ret=data_redefines_cl()){
           ;
-       Ë
+       }
        else return NULL;
-    Ë
+    }
 
     /* Array of clauses to permute      */
     fp_t_nod *clauses;
@@ -2221,187 +2221,187 @@ data_desc()
 
     fp_t_nod *iterator= clauses;
 
-    debug_3("Permutation loop start ... Án list head (%d)Án",iterator);
+    debug_3("Permutation loop start ... \n list head (%d)\n",iterator);
 
     ret = make_field(NULL, NULL, UNKNOWN_FIELD_NAME, UNKNOWN_FIELD_LVL,
                      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                      NULL, NULL, NULL, NULL, NULL, NULL,
                      redefines_ret, NULL, NULL, NULL, NULL, NULL,
                      UNKNOWN_SECTION);
-    while (iterator ß= NULL)È
+    while (iterator != NULL){
 
-         debug_3("Permutation loop .iterator (%d)Án",iterator);
+         debug_3("Permutation loop .iterator (%d)\n",iterator);
        /* Known bug : 'IS' is accepted before each clause !! */
        /* if should be for external et gloabal only          */
        /* A deleguer a l'analyse semantique                  */
-       if (equal_val("IS"))È
+       if (equal_val("IS")){
 
           consume();
 
-       Ë
+       }
 
        /* if lookahead match    */
-       if (tkn_in_array(iterator->val.cond_1))È
+       if (tkn_in_array(iterator->val.cond_1)){
           /* invoquer la function pointer */
-          if (sub_ret=iterator->val.fp())È
-             debug_2("Function pointer (%d) invoked after cond Án",
+          if (sub_ret=iterator->val.fp()){
+             debug_2("Function pointer (%d) invoked after cond \n",
                                                 iterator->val.id);
              update_field(ret,sub_ret,iterator->val.tag);
-          Ë
+          }
           else return NULL;
 
-          /* Reduire la ligne de la liste chainÈe */
+          /* Reduire la ligne de la liste chain{e */
           clauses = delete_clauses(clauses,iterator);
           /* Repointer vers la tete de la chaine */
           iterator = clauses;
-       Ë
+       }
        else
-       È
+       {
           /* pointer vers le noeud suivant */
           iterator = iterator->next;
 
-       Ë
-    Ë
+       }
+    }
 
     /* Not implemented clause : Like */
     /* Not implemented clause : Typedef */
 
     /* Not implemented clause : Type    */
 
-    debug_2("Rule recognized: data_desc Án");
+    debug_2("Rule recognized: data_desc \n");
     return ret;
-Ë
+}
 
 /*--------------------- Data declaration functions ------------------*/
 
 ast*
-data_redefines_cl()È
+data_redefines_cl(){
 
-    debug_2("Trying to match rule : data_redefines_cl Án");
+    debug_2("Trying to match rule : data_redefines_cl \n");
 
     ast* ret=NULL;
 
-    if (match_val("REDEFINES"))È
+    if (match_val("REDEFINES")){
        ;
-    Ë
+    }
     else return NULL;
 
-    if (ret=id_name())È
+    if (ret=id_name()){
        ;
-    Ë
+    }
     else return NULL;
 
-    debug_2("Rule recognized: data_redefines_cl Án");
+    debug_2("Rule recognized: data_redefines_cl \n");
     return ret;
-Ë
+}
 
 /*------*/
 
 ast*
-data_external_cl()È
+data_external_cl(){
 
-    debug_2("Trying to match rule : data_external_cl Án");
+    debug_2("Trying to match rule : data_external_cl \n");
 
     ast* ret=NULL;
     ast* sub_ret=NULL;
 
-    if (match_val("EXTERNAL"))È
+    if (match_val("EXTERNAL")){
        ret=make_ast();
-    Ë
+    }
     else return NULL;
 
 
-    debug_2("Rule recognized: data_external_cl Án");
+    debug_2("Rule recognized: data_external_cl \n");
     return ret;
-Ë
+}
 
 /*------*/
 
 ast*
-data_blankzero_cl()È
+data_blankzero_cl(){
 
-    debug_2("Trying to match rule : data_blankzero_cl Án");
+    debug_2("Trying to match rule : data_blankzero_cl \n");
 
     ast* ret=NULL;
 
 
-    if (match_val("BLANK"))È
+    if (match_val("BLANK")){
        ;
-    Ë
+    }
     else return NULL;
 
-    if (equal_val("WHEN"))È
+    if (equal_val("WHEN")){
 
        consume();
 
-    Ë
+    }
 
-    if (match_val("ZERO"))È
+    if (match_val("ZERO")){
        ;
-    Ë
+    }
     else return NULL;
 
     ret=make_ast();
 
-    debug_2("Rule recognized: data_blankzero_cl Án");
+    debug_2("Rule recognized: data_blankzero_cl \n");
     return ret;
-Ë
+}
 
 /*------*/
 
 ast*
-data_global_cl()È
+data_global_cl(){
 
-    debug_2("Trying to match rule : data_global_cl Án");
+    debug_2("Trying to match rule : data_global_cl \n");
 
     ast* ret=NULL;
 
-    if (match_val("GLOBAL"))È
+    if (match_val("GLOBAL")){
        ;
-    Ë
+    }
     else return NULL;
 
     ret=make_ast();
 
-    debug_2("Rule recognized: data_global_cl Án");
+    debug_2("Rule recognized: data_global_cl \n");
     return ret;
-Ë
+}
 
 /*------*/
 
 ast*
-data_just_cl()È
+data_just_cl(){
 
-    debug_2("Trying to match rule : data_just_cl Án");
+    debug_2("Trying to match rule : data_just_cl \n");
 
     ast* ret=NULL;
     ast* sub_ret=NULL;
 
 
-    if ((equal_val("JUST"))!!(equal_val("JUSTIFIED")))È
+    if ((equal_val("JUST"))!!(equal_val("JUSTIFIED"))){
 
        consume();
 
-    Ë else return NULL; /* ajoutÈ au cours de ast */
+    } else return NULL; /* ajout{ au cours de ast */
 
-    if ((equal_val("RIGHT")))È
+    if ((equal_val("RIGHT"))){
 
        consume();
 
-    Ë
+    }
 
     ret = make_ast();
 
-    debug_2("Rule recognized: data_just_cl Án");
+    debug_2("Rule recognized: data_just_cl \n");
     return ret;
-Ë
+}
 
 /*------*/
 
 ast*
-data_occurs_cl()È
+data_occurs_cl(){
 
-    debug_2("Trying to match rule : data_occurs_cl Án");
+    debug_2("Trying to match rule : data_occurs_cl \n");
 
     ast* ret       =NULL;
     ast* sub_ret   =NULL;
@@ -2414,110 +2414,110 @@ data_occurs_cl()È
     ast* indexes   =NULL;
 
 
-    if (match_val("OCCURS"))È
+    if (match_val("OCCURS")){
        ;
-    Ë
+    }
     else return NULL;
 
-    if ((equal_attr("INTEGER"))!!(equal_attr("UNSIGNED")))È
+    if ((equal_attr("INTEGER"))!!(equal_attr("UNSIGNED"))){
 
        times = strtol(get_token_val(),ptr,10);
        consume();
-    Ë
+    }
     else return NULL;
 
     /* Format 2 */
-    if ((equal_val("TO")))È
+    if ((equal_val("TO"))){
 
         consume();
 
-        if ((equal_attr("INTEGER"))!!(equal_attr("UNSIGNED")))È
+        if ((equal_attr("INTEGER"))!!(equal_attr("UNSIGNED"))){
 
            to_times = strtol(get_token_val(),ptr,10);
            consume();
-        Ë
+        }
         else return NULL;
 
-        if ((equal_val("TIMES")))È
+        if ((equal_val("TIMES"))){
 
            consume();
-        Ë
+        }
 
-        if (match_val("DEPENDING"))È
+        if (match_val("DEPENDING")){
            ;
-        Ë
+        }
         else return NULL;
 
-        if ((equal_val("ON")))È
+        if ((equal_val("ON"))){
 
            consume();
-        Ë
+        }
 
-        if (depend_on=id_name())È
+        if (depend_on=id_name()){
            ;
-        Ë
+        }
         else return NULL;
 
         /* Key-indexed-by phrase */
 
         if ((equal_val("ASCENDING")) !!
-            (equal_val("DESCENDING")) )È
+            (equal_val("DESCENDING")) ){
 
-            if (keys=data_index_key_cls())È
+            if (keys=data_index_key_cls()){
                ;
-            Ë
+            }
             else return NULL;
-        Ë
+        }
 
-        if ((equal_val("INDEX")))È
+        if ((equal_val("INDEX"))){
 
-            if (indexes=data_index_by_cl())È
+            if (indexes=data_index_by_cl()){
                ;
-            Ë
+            }
             else return NULL;
-        Ë
+        }
 
-    Ë
+    }
 
     /* Format 1 */
 
-    else È
+    else {
 
-        if ((equal_val("TIMES")))È
+        if ((equal_val("TIMES"))){
 
            consume();
-        Ë
+        }
 
         /* Key-indexed-by phrase */
 
         if ((equal_val("ASCENDING")) !!
-            (equal_val("DESCENDING")) )È
+            (equal_val("DESCENDING")) ){
 
-            if (keys=data_index_key_cls())È
+            if (keys=data_index_key_cls()){
                ;
-            Ë
+            }
             else return NULL;
-        Ë
+        }
 
-        if ((equal_val("INDEX")))È
+        if ((equal_val("INDEX"))){
 
-            if (indexes=data_index_by_cl())È
+            if (indexes=data_index_by_cl()){
                ;
-            Ë
+            }
             else return NULL;
-        Ë
+        }
 
-    Ë
+    }
 
     ret=make_occurs(times,to_times,depend_on,keys,indexes);
 
-    debug_2("Rule recognized: data_occurs_cl Án");
+    debug_2("Rule recognized: data_occurs_cl \n");
     return ret;
-Ë
+}
 
-ast* data_index_key_cls()È
+ast* data_index_key_cls(){
 
-    debug_2("Trying to match rule : data_index_key_cls Án");
+    debug_2("Trying to match rule : data_index_key_cls \n");
 
     ast* ret=NULL;
     ast* sub_ret=NULL;
@@ -2525,145 +2525,145 @@ ast* data_index_key_cls()È
     int  bool_des =0;
 
     while ((equal_val("ASCENDING")) !!
-           (equal_val("DESCENDING")))È
+           (equal_val("DESCENDING"))){
 
         if (equal_val("ASCENDING"))  bool_asc = 1;
         else                         bool_des = 1;
 
-        if (sub_ret=data_index_key_cl())È /* names */
+        if (sub_ret=data_index_key_cl()){ /* names */
            ret=append_list(ret,
                            make_occurs_key(bool_asc,bool_des,sub_ret));
            bool_asc =0;
            bool_des =0;
-        Ë
+        }
         else return NULL;
 
-    Ë
+    }
 
-    if(ret) debug_2("Rule recognized: data_index_key_cls Án");
+    if(ret) debug_2("Rule recognized: data_index_key_cls \n");
 
     return ret; /* occurs_key */
-Ë
+}
 
 ast*
-data_index_key_cl()È
+data_index_key_cl(){
 
-    debug_2("Trying to match rule : data_index_key_cl Án");
+    debug_2("Trying to match rule : data_index_key_cl \n");
 
     ast* ret=NULL;
 
     if ((equal_val("ASCENDING")) !!
-        (equal_val("DESCENDING")) )È
+        (equal_val("DESCENDING")) ){
 
        consume();
 
-       if ((equal_val("KEY")))È
+       if ((equal_val("KEY"))){
 
           consume();
-       Ë
+       }
 
-       if ((equal_val("IS")))È
+       if ((equal_val("IS"))){
 
           consume();
-       Ë
+       }
 
-       if (ret=id_names())È
+       if (ret=id_names()){
           ;
-       Ë
+       }
        else return NULL;
 
-    Ë
+    }
     else return NULL;
 
-    debug_2("Rule recognized: data_index_key_cl Án");
+    debug_2("Rule recognized: data_index_key_cl \n");
     return ret;
-Ë
+}
 
 ast*
-data_index_by_cl()È
+data_index_by_cl(){
 
-    debug_2("Trying to match rule : data_index_by_cl Án");
+    debug_2("Trying to match rule : data_index_by_cl \n");
 
     ast* ret=NULL;
 
-    if (match_val("INDEX"))È
+    if (match_val("INDEX")){
        ;
-    Ë
+    }
     else return NULL;
 
-    if ((equal_val("BY")))È
+    if ((equal_val("BY"))){
 
        consume();
-    Ë
+    }
 
-    if (ret=id_names())È
+    if (ret=id_names()){
        ;
-    Ë
+    }
     else return NULL;
 
 
-    debug_2("Rule recognized: data_index_by_cl Án");
+    debug_2("Rule recognized: data_index_by_cl \n");
     return ret;
-Ë
+}
 
 /*------*/
 
 ast*
-data_pic_cl()È
+data_pic_cl(){
 
-    debug_2("Trying to match rule : data_pic_cl Án");
+    debug_2("Trying to match rule : data_pic_cl \n");
 
     ast* ret=NULL;
     ast* sub_ret=NULL;
 
 
-    if(equal_val("PIC")!!equal_val("PICTURE"))È
+    if(equal_val("PIC")!!equal_val("PICTURE")){
        save = set_context("data_pic_chars");
        consume();
        ;
-    Ë
+    }
     else return NULL;
 
-    if (ret=data_pic_str())È
+    if (ret=data_pic_str()){
        ;
-    Ë
+    }
     else return NULL;
 
     /* restore_context(save);*/
 
 
-    if (equal_val("SIZE"))È /* ?? */
-       if (sub_ret=data_pic_size_local())È
+    if (equal_val("SIZE")){ /* ?? */
+       if (sub_ret=data_pic_size_local()){
           ;
-       Ë
+       }
        else return NULL;
-    Ë
+    }
 
 
     /* consommer Space qui vient apres la fin de pic str  (??) */
-    if (equal_type("SPACE"))È
+    if (equal_type("SPACE")){
 
        consume();
-    Ë
+    }
 
 
-    debug_2("Rule recognized: data_pic_cl Án");
+    debug_2("Rule recognized: data_pic_cl \n");
     return ret;
-Ë
+}
 
 
 ast*
-data_pic_str()È
+data_pic_str(){
 
-    debug_2("Trying to match rule : data_pic_str Án");
+    debug_2("Trying to match rule : data_pic_str \n");
 
     ast* ret=NULL;
     ast* sub_ret=NULL;
 
-    if (equal_val("IS"))È
+    if (equal_val("IS")){
 
        consume();
-    Ë
+    }
 
     /* Lexer/Parser Hack */
     /* pour ne pas accepter espace apres repeat : */
@@ -2673,89 +2673,89 @@ data_pic_str()È
 
     /* Space */
 
-    if (equal_type("SPACE"))È
+    if (equal_type("SPACE")){
        consume();
-    Ë
+    }
     else return NULL;
 
     // bug : on ajoute une boucle de consommation space
     //         08 I-EMTITRE-FININFO REDEFINES I-EMTITRE-NSIGFT   PIC
     //   9(7).
-    while (equal_type("SPACE"))È
+    while (equal_type("SPACE")){
        consume();
-    Ë
+    }
 
     /* Currency */
-    if (equal_val("$"))È
+    if (equal_val("$")){
        sub_ret=make_pic_cmpnt(PIC_CURRENCY,0,"",get_token_val());
        ret=append_list(ret,sub_ret);
        consume();
 
-    Ë
+    }
 
-    while (equal_type("PICCHARS"))È
+    while (equal_type("PICCHARS")){
 
    /*  set_context("data_pic_chars");
    */
        /* PicChars */
-       if (sub_ret=data_pic_chars())È
+       if (sub_ret=data_pic_chars()){
           ret=append_list(ret,sub_ret);
-       Ë
+       }
        else return NULL;
 
    /*  restore_context(save);
    */
        /* Repeat */
-       if (equal_val("("))È
+       if (equal_val("(")){
 
-          if (sub_ret=data_pic_repeat())È
+          if (sub_ret=data_pic_repeat()){
              ret=append_list(ret,sub_ret);
-          Ë
+          }
           else return NULL;
 
-       Ë
-    Ë
+       }
+    }
 
 
-    debug_2("Rule recognized: data_pic_str Án");
+    debug_2("Rule recognized: data_pic_str \n");
     return ret;
-Ë
+}
 
 /****/
 
 ast*
-data_pic_chars()È
+data_pic_chars(){
 
-    debug_2("Trying to match rule : data_pic_chars Án");
+    debug_2("Trying to match rule : data_pic_chars \n");
 
     ast* ret=NULL;
     ast* sub_ret=NULL;
-    char chars›120~;
+    char chars[120];
 
 
-    if (equal_type("PICCHARS"))È
+    if (equal_type("PICCHARS")){
        /* si dernier char de picchar est un point alors */
        /* exiger un point avant la fin de la ligne */
        strcpy(chars,get_token_val());
        consume();
-    Ë
+    }
     else
-    È
+    {
        return NULL;
-    Ë
+    }
 
     ret=make_pic_cmpnt(PIC_CHARS,0,chars,"");
     strcpy(chars,"");
 
-    debug_2("Rule recognized: data_pic_chars Án");
+    debug_2("Rule recognized: data_pic_chars \n");
 
     return ret;
-Ë
+}
 
 ast*
-data_pic_repeat()È
+data_pic_repeat(){
 
-    debug_2("Trying to match rule : data_pic_repeat Án");
+    debug_2("Trying to match rule : data_pic_repeat \n");
 
     ast* ret=NULL;
     ast* sub_ret=NULL;
@@ -2763,99 +2763,99 @@ data_pic_repeat()È
     char** ptr=NULL;
 
 
-    if (match_val("("))È
+    if (match_val("(")){
        ;
-    Ë
+    }
     else return NULL;
 
-    if ((equal_attr("UNSIGNED"))&&(equal_attr("INTEGER")))È
+    if ((equal_attr("UNSIGNED"))&&(equal_attr("INTEGER"))){
        repeat=strtol(get_token_val(),ptr,10);
        consume();
-    Ë
+    }
     else return NULL;
 
-    if (equal_val(")"))È
+    if (equal_val(")")){
        set_context("data_pic_chars");
        consume();
-    Ë
+    }
     else return NULL;
 
     /* picchar hack */
-    if (ßequal_type("PICCHARS"))È
+    if (!equal_type("PICCHARS")){
        erase_context();
-       if(equal_type("SPACE"))È
+       if(equal_type("SPACE")){
           consume();
-       Ë
-    Ë
+       }
+    }
 
     ret=make_pic_cmpnt(PIC_REPEAT,repeat,"","");
 
-    debug_2("Rule recognized: data_pic_repeat Án");
+    debug_2("Rule recognized: data_pic_repeat \n");
     return ret;
-Ë
+}
 
 
 ast*
-data_pic_size_local()È
+data_pic_size_local(){
 
-    debug_2("Trying to match rule : data_pic_size_local Án");
+    debug_2("Trying to match rule : data_pic_size_local \n");
 
     ast* ret=NULL;
     ast* sub_ret=NULL;
 
 
-    if (match_val("SIZE"))È
+    if (match_val("SIZE")){
        ;
-    Ë
+    }
     else return NULL;
 
-    if (equal_val("IS"))È
+    if (equal_val("IS")){
 
        consume();
 
-    Ë
+    }
 
-    if (match_attr("INTEGER"))È
+    if (match_attr("INTEGER")){
        ;
-    Ë
+    }
     else return NULL;
 
-    if (match_val("LOCALE"))È
+    if (match_val("LOCALE")){
        ;
-    Ë
+    }
     else return NULL;
 
-    if (equal_val("IS"))È
+    if (equal_val("IS")){
 
        consume();
 
-       if (mnemo_or_envir())È
+       if (mnemo_or_envir()){
           ;
-       Ë
+       }
        else return NULL;
-    Ë
+    }
 
-    else È
-       if (equal_type("IDENTIFIER"))È
-          if (mnemo_or_envir())È
+    else {
+       if (equal_type("IDENTIFIER")){
+          if (mnemo_or_envir()){
              ;
-          Ë
+          }
           else return NULL;
-       Ë
-    Ë
-    /* clause size and local n'est pas exmploitÈ */
+       }
+    }
+    /* clause size and local n'est pas exmploit{ */
     ret=make_ast();
 
-    debug_2("Rule recognized: data_pic_size_local Án");
+    debug_2("Rule recognized: data_pic_size_local \n");
     return ret;
-Ë
+}
 
 /*------*/
 
 ast*
-data_sign_cl()È
+data_sign_cl(){
 
-    debug_2("Trying to match rule : data_sign_cl Án");
+    debug_2("Trying to match rule : data_sign_cl \n");
 
     ast* ret=NULL;
     int  bool_leading=0;
@@ -2863,245 +2863,245 @@ data_sign_cl()È
     int  bool_separate=0;
     int  bool_character=0;
 
-    if (equal_val("SIGN"))È
+    if (equal_val("SIGN")){
        consume();
 
-       if (equal_val("IS"))È
+       if (equal_val("IS")){
 
           consume();
-       Ë
-    Ë
+       }
+    }
 
-    if (equal_val("LEADING"))È
+    if (equal_val("LEADING")){
        bool_leading=1;
        consume();
 
-    Ë
-    else if(equal_val("TRAILING"))È
+    }
+    else if(equal_val("TRAILING")){
              bool_trailing=1;
              consume();
-         Ë
+         }
 
     else return NULL;
 
-    if (equal_val("SEPARATE"))È
+    if (equal_val("SEPARATE")){
        bool_separate=1;
        consume();
 
-       if (equal_val("CHARACTER"))È
+       if (equal_val("CHARACTER")){
           bool_character=1;
           consume();
-       Ë
-    Ë
+       }
+    }
 
     ret=make_field_sign(bool_leading,bool_trailing,bool_separate,
                                                    bool_character);
-    debug_2("Rule recognized: data_sign_cl Án");
+    debug_2("Rule recognized: data_sign_cl \n");
     return ret;
-Ë
+}
 
 /*------*/
 
 ast*
-data_value_cl()È
+data_value_cl(){
 
-    debug_2("Trying to match rule : data_value_cl Án");
+    debug_2("Trying to match rule : data_value_cl \n");
 
     ast* ret=NULL;
     ast* sub_ret=NULL;
 
 
-    if (match_val("VALUE"))È
+    if (match_val("VALUE")){
        ;
-    Ë
+    }
     else return NULL;
 
-    if (equal_val("IS"))È
+    if (equal_val("IS")){
 
        consume();
 
-    Ë
+    }
 
-    if (sub_ret=litr())È
+    if (sub_ret=litr()){
        ;
-    Ë
+    }
     else return NULL;
 
     ret=make_field_value(sub_ret,NULL);
 
-    debug_2("Rule recognized: data_value_cl Án");
+    debug_2("Rule recognized: data_value_cl \n");
     return ret;
-Ë
+}
 
 /*------*/
 
 ast*
-data_sync_cl()È
+data_sync_cl(){
 
-    debug_2("Trying to match rule : data_sync_cl Án");
+    debug_2("Trying to match rule : data_sync_cl \n");
 
     ast* ret=NULL;
     int  bool_right=0;
     int  bool_left=0;
 
-    if ((equal_val("SYNC"))) È
+    if ((equal_val("SYNC"))) {
 
        consume();
 
-    Ë
-    else if (equal_val("SYNCHRONIZED"))È
+    }
+    else if (equal_val("SYNCHRONIZED")){
 
        consume();
-    Ë
+    }
     else return NULL;
 
-    if ((equal_val("LEFT"))) È
+    if ((equal_val("LEFT"))) {
        bool_left=1;
        consume();
-    Ë
-    else if (equal_val("RIGHT")) È
+    }
+    else if (equal_val("RIGHT")) {
        bool_right=1;
        consume();
 
-    Ë
+    }
 
     ret=make_field_sync(bool_right,bool_left);
 
-    debug_2("Rule recognized: data_sync_cl Án");
+    debug_2("Rule recognized: data_sync_cl \n");
     return ret;
-Ë
+}
 
 /*------*/
 
 ast*
-data_usage_cl()È
+data_usage_cl(){
 
-    debug_2("Trying to match rule : data_usage_cl Án");
+    debug_2("Trying to match rule : data_usage_cl \n");
 
     ast* ret=NULL;
     usage_t usage;
 
-    if (equal_val("USAGE"))È
+    if (equal_val("USAGE")){
 
        consume();
 
-       if (equal_val("IS"))È
+       if (equal_val("IS")){
 
           consume();
 
-       Ë
+       }
 
-    Ë
+    }
 
-    if (equal_val("BINARY"))È
+    if (equal_val("BINARY")){
         usage=BINARY;
         consume();
 
 
-    Ë else if (equal_val("COMPUTATIONAL"))È
+    } else if (equal_val("COMPUTATIONAL")){
         usage=COMPUTATIONAL;
         consume();
 
-    Ë else if (equal_val("COMP"))È
+    } else if (equal_val("COMP")){
         usage=COMP;
         consume();
 
-    Ë else if (equal_val("COMPUTATIONAL-1"))È
+    } else if (equal_val("COMPUTATIONAL-1")){
         usage=COMPUTATIONAL_1;
         consume();
 
-    Ë else if (equal_val("COMP-1"))È
+    } else if (equal_val("COMP-1")){
         usage=COMP_1;
         consume();
 
-    Ë else if (equal_val("COMPUTATIONAL-2"))È
+    } else if (equal_val("COMPUTATIONAL-2")){
         usage=COMPUTATIONAL_2;
         consume();
 
-    Ë else if (equal_val("COMP-2"))È
+    } else if (equal_val("COMP-2")){
         usage=COMP_2;
         consume();
 
-    Ë else if (equal_val("COMPUTATIONAL-3"))È
+    } else if (equal_val("COMPUTATIONAL-3")){
         usage=COMPUTATIONAL_3;
         consume();
 
-    Ë else if (equal_val("COMP-3"))È
+    } else if (equal_val("COMP-3")){
         usage=COMP_3;
         consume();
 
-    Ë else if (equal_val("COMPUTATIONAL-4"))È
+    } else if (equal_val("COMPUTATIONAL-4")){
         usage=COMPUTATIONAL_4;
         consume();
 
-    Ë else if (equal_val("COMP-4"))È
+    } else if (equal_val("COMP-4")){
         usage=COMP_4;
         consume();
 
-    Ë else if (equal_val("DISPLAY"))È
+    } else if (equal_val("DISPLAY")){
         usage=DISPLAY;
         consume();
 
-    Ë else if (equal_val("DISPLAY-1"))È
+    } else if (equal_val("DISPLAY-1")){
         usage=DISPLAY_1;
         consume();
 
-    Ë else if (equal_val("INDEX"))È
+    } else if (equal_val("INDEX")){
         usage=INDEX;
         consume();
 
-    Ë else if (equal_val("PACKED-DECIMAL"))È
+    } else if (equal_val("PACKED-DECIMAL")){
         usage=PACKED_DECIMAL;
         consume();
 
-    Ë else if (equal_val("POINTER"))È
+    } else if (equal_val("POINTER")){
         usage=POINTER;
         consume();
 
-    Ë else if (equal_val("PROCEDURE-POINTER"))È
+    } else if (equal_val("PROCEDURE-POINTER")){
         usage=PROCEDURE_POINTER;
         consume();
 
-    Ë else return NULL;
+    } else return NULL;
 
     ret=make_usage(usage);
 
-    debug_2("Rule recognized: data_usage_cl Án");
+    debug_2("Rule recognized: data_usage_cl \n");
     return ret;
-Ë
+}
 /*---------------------- renames and conditional function -----------*/
 
 ast*
 renames_cl()
-È
-    debug_2("Trying to match rule : renames_cl Án");
+{
+    debug_2("Trying to match rule : renames_cl \n");
 
     ast* ret=NULL;
     ast* renames_ret=NULL;
     ast* id_qualif_ret=NULL;
     ast* thru_id_qualif_ret=NULL;
 
-    if (match_val("RENAMES"))È
+    if (match_val("RENAMES")){
         ;
-    Ë
+    }
     else return NULL;
 
-    if (id_qualif_ret=id_name_qualif())È
+    if (id_qualif_ret=id_name_qualif()){
         ;
-    Ë
+    }
     else return NULL;
 
     if ((equal_val("THROUGH")) !!
-        (equal_val("THRU")) )È
+        (equal_val("THRU")) ){
 
        consume();
 
-       if (thru_id_qualif_ret=id_name_qualif())È
+       if (thru_id_qualif_ret=id_name_qualif()){
            ;
-       Ë
+       }
        else return NULL;
 
-    Ë
+    }
 
     renames_ret=make_renames(id_qualif_ret,thru_id_qualif_ret);
     ret=make_field(NULL, NULL, UNKNOWN_FIELD_NAME, UNKNOWN_FIELD_LVL,
@@ -3109,14 +3109,14 @@ renames_cl()
                    NULL, NULL, NULL, NULL, NULL, NULL,
                    NULL, renames_ret , NULL,NULL, NULL, NULL,
                    UNKNOWN_SECTION);
-    debug_2("Rule recognized: renames_cl Án");
+    debug_2("Rule recognized: renames_cl \n");
     return ret;
-Ë
+}
 
 ast*
 cond_val_cl()
-È
-    debug_2("Trying to match rule : cond_val_cl Án");
+{
+    debug_2("Trying to match rule : cond_val_cl \n");
 
     ast* ret=NULL;
     ast* field_value_ret=NULL;
@@ -3124,35 +3124,35 @@ cond_val_cl()
     ast* value_ret=NULL;
     ast* thru_value_ret=NULL;
 
-    if      (match_val("VALUE"))È
-         if (match_val("IS"))È
+    if      (match_val("VALUE")){
+         if (match_val("IS")){
             ;
-         Ë
-    Ë
-    else if (match_val("VALUES"))È
-         if (match_val("ARE"))È
+         }
+    }
+    else if (match_val("VALUES")){
+         if (match_val("ARE")){
             ;
-         Ë
-    Ë
+         }
+    }
     else return NULL;
 
-    while (value_ret=litr())È
+    while (value_ret=litr()){
 
        if ((equal_val("THROUGH")) !!
-           (equal_val("THRU")) )È
+           (equal_val("THRU")) ){
 
            consume();
 
-          if (thru_value_ret=litr())È
+          if (thru_value_ret=litr()){
               ;
-          Ë
+          }
           else return NULL;
-       Ë
+       }
        sub_ret=make_field_value(value_ret,thru_value_ret);
    /*  value_ret=NULL;
        thru_value_ret=NULL; */
        field_value_ret=append_list(field_value_ret,sub_ret);
-    Ë
+    }
 
     ret=make_field(NULL, NULL, UNKNOWN_FIELD_NAME, UNKNOWN_FIELD_LVL,
                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -3160,18 +3160,18 @@ cond_val_cl()
                    NULL, NULL, NULL,NULL, NULL, NULL,UNKNOWN_SECTION);
 
 
-    debug_2("Rule recognized: cond_val_cl Án");
+    debug_2("Rule recognized: cond_val_cl \n");
     return ret;
-Ë
+}
 
 //
 //   PREPROCESSING OF COPY
 //
 
 ast*
-copy_replacing()È
+copy_replacing(){
 
-    debug_9("Trying to match rule : %s Án",__func__);
+    debug_9("Trying to match rule : %s \n",__func__);
 
     ast* ret=NULL;
     ast* copy_ret=NULL;
@@ -3179,83 +3179,83 @@ copy_replacing()È
     int  bool_rplc=0;
 
 
-    if(match_val("COPY"))È
+    if(match_val("COPY")){
         ;
-    Ë
+    }
     else return NULL;
 
     // text-name
-    if(copy_ret=id_name())È
+    if(copy_ret=id_name()){
         ;
 
     // or literal
-    Ë else if(equal_attr("ALPHANUMERIC"))È
+    } else if(equal_attr("ALPHANUMERIC")){
 
         copy_ret=litr();
 
-    Ë else return NULL;
+    } else return NULL;
 
     // optional qualifier
-    if (equal_val("OF") !! equal_val("IN"))È
+    if (equal_val("OF") !! equal_val("IN")){
        consume();
 
        // text-name
-       if(lib_ret=id_name())È
+       if(lib_ret=id_name()){
            ;
 
        // or literal
-       Ë else if(equal_attr("ALPHANUMERIC"))È
+       } else if(equal_attr("ALPHANUMERIC")){
 
            lib_ret=litr();
 
-       Ë else return NULL;
+       } else return NULL;
 
-    Ë
+    }
 
     // optional suppress
-    if (equal_val("SUPPRESS"))È
+    if (equal_val("SUPPRESS")){
        consume();
-    Ë
+    }
 
     /*
-    if (equal_val("REPLACING"))È
+    if (equal_val("REPLACING")){
 
-       if(intlz_rplc())È
+       if(intlz_rplc()){
            bool_rplc =1;
-       Ë
+       }
        else return NULL;
 
-    Ë
+    }
 
     ret = make_initialize(bool_rplc,0,sub_ret);
     */
-    debug_2("Rule recognized: %s Án",__func__);
+    debug_2("Rule recognized: %s \n",__func__);
 
     return ret;
-Ë
+}
 
 
 /*---------------------- Context function    ------------------------*/
 
 int
-affich_context()È
+affich_context(){
 
-   debug_2("context.division : <%s>Án", _context.division);
-   debug_2("context.section  : <%s>Án", _context.section );
-   debug_2("context.sentence : <%s>Án", _context.sentence);
-   debug_2("context.clause   : <%s>Án", _context.clause  );
-   debug_2("context.keyword  : <%s>Án", _context.keyword );
-   debug_2("context.other    : <%s>Án", _context.other   );
+   debug_2("context.division : <%s>\n", _context.division);
+   debug_2("context.section  : <%s>\n", _context.section );
+   debug_2("context.sentence : <%s>\n", _context.sentence);
+   debug_2("context.clause   : <%s>\n", _context.clause  );
+   debug_2("context.keyword  : <%s>\n", _context.keyword );
+   debug_2("context.other    : <%s>\n", _context.other   );
 
    return 1;
-Ë
+}
 
 context
-set_context(char* clause)È
+set_context(char* clause){
 
     context save;
 
-    if(strcmp("data_pic_chars",clause)==0)È
+    if(strcmp("data_pic_chars",clause)==0){
 
        save = _context;
        _context.division ="DATA";
@@ -3264,16 +3264,16 @@ set_context(char* clause)È
        _context.keyword  ="PIC";
        _context.other    ="";
 
-    Ë
+    }
 
     affich_context();
 
     return  save;
 
-Ë
+}
 
 int
-restore_context(context save)È
+restore_context(context save){
 
     _context = save;
 
@@ -3281,15 +3281,15 @@ restore_context(context save)È
 
     return  1;
 
-Ë
+}
 
 /*---------------------- Functions for permutation -----------------*/
 fp_t_nod*
-alim_clauses()È
+alim_clauses(){
 
-    /*printf("alim_clauses : Start Án"); */
+    /*printf("alim_clauses : Start \n"); */
 
-    fp_t clauses_arr›MAX_FP_ARR~;
+    fp_t clauses_arr[MAX_FP_ARR];
     fp_t_nod* head;
 
     int i=0;
@@ -3297,237 +3297,237 @@ alim_clauses()È
     fp_t_nod* node;
     node  = malloc (sizeof (fp_t_nod));
 
-    clauses_arr›i~.cond_1.len =0;
-    clauses_arr›i~.cond_2.len =0;
-    clauses_arr›i~.cond_1.arr›0~ = "";
-    clauses_arr›i~.cond_2.arr›0~ = "";
+    clauses_arr[i].cond_1.len =0;
+    clauses_arr[i].cond_2.len =0;
+    clauses_arr[i].cond_1.arr[0] = "";
+    clauses_arr[i].cond_2.arr[0] = "";
 
-    clauses_arr›i~.id = 1;
-    clauses_arr›i~.tag= CL_EXTERNAL;
-    clauses_arr›i~.fp = data_external_cl;
-    clauses_arr›i~.cond_1.arr›0~ = "EXTERNAL";
-  /*printf("alim_clauses : alimentation of cond_1 Án");
-  */clauses_arr›i~.cond_1.len++;
-  /*printf("alim_clauses : Succesful insertion of clause  1 Án");
+    clauses_arr[i].id = 1;
+    clauses_arr[i].tag= CL_EXTERNAL;
+    clauses_arr[i].fp = data_external_cl;
+    clauses_arr[i].cond_1.arr[0] = "EXTERNAL";
+  /*printf("alim_clauses : alimentation of cond_1 \n");
+  */clauses_arr[i].cond_1.len++;
+  /*printf("alim_clauses : Succesful insertion of clause  1 \n");
   *//**/
-    node->val      = clauses_arr›i~;
+    node->val      = clauses_arr[i];
     node->next     = malloc (sizeof (fp_t_nod));
     head           = node;
     node           = node->next;
     /**/
     i++;
 
-    clauses_arr›i~.cond_1.len =0;
-    clauses_arr›i~.cond_2.len =0;
-    clauses_arr›i~.cond_1.arr›0~ = "";
-    clauses_arr›i~.cond_2.arr›0~ = "";
+    clauses_arr[i].cond_1.len =0;
+    clauses_arr[i].cond_2.len =0;
+    clauses_arr[i].cond_1.arr[0] = "";
+    clauses_arr[i].cond_2.arr[0] = "";
 
-    clauses_arr›i~.id = 2;
-    clauses_arr›i~.tag= CL_BLANK_WHEN_ZERO;
-    clauses_arr›i~.fp = data_blankzero_cl;
-    clauses_arr›i~.cond_1.arr›0~ = "BLANK";
-  /*printf("alim_clauses : alimentation of cond_1 Án");
-  */clauses_arr›i~.cond_1.len++;
-  /*printf("alim_clauses : Succesful insertion of clause  2 Án");
+    clauses_arr[i].id = 2;
+    clauses_arr[i].tag= CL_BLANK_WHEN_ZERO;
+    clauses_arr[i].fp = data_blankzero_cl;
+    clauses_arr[i].cond_1.arr[0] = "BLANK";
+  /*printf("alim_clauses : alimentation of cond_1 \n");
+  */clauses_arr[i].cond_1.len++;
+  /*printf("alim_clauses : Succesful insertion of clause  2 \n");
   *//**/
-    node->val      = clauses_arr›i~;
+    node->val      = clauses_arr[i];
     node->next     = malloc (sizeof (fp_t_nod));
     node           = node->next;
     /**/
     i++;
 
-    clauses_arr›i~.cond_1.len =0;
-    clauses_arr›i~.cond_2.len =0;
-    clauses_arr›i~.cond_1.arr›0~ = "";
-    clauses_arr›i~.cond_2.arr›0~ = "";
+    clauses_arr[i].cond_1.len =0;
+    clauses_arr[i].cond_2.len =0;
+    clauses_arr[i].cond_1.arr[0] = "";
+    clauses_arr[i].cond_2.arr[0] = "";
 
-    clauses_arr›i~.id = 3;
-    clauses_arr›i~.tag= CL_GLOBAL;
-    clauses_arr›i~.fp = data_global_cl;
-    clauses_arr›i~.cond_1.arr›0~ = "GLOBAL";
-  /*printf("alim_clauses : alimentation of cond_1 Án");
-  */clauses_arr›i~.cond_1.len++;
-  /*printf("alim_clauses : Succesful insertion of clause  3 Án");
+    clauses_arr[i].id = 3;
+    clauses_arr[i].tag= CL_GLOBAL;
+    clauses_arr[i].fp = data_global_cl;
+    clauses_arr[i].cond_1.arr[0] = "GLOBAL";
+  /*printf("alim_clauses : alimentation of cond_1 \n");
+  */clauses_arr[i].cond_1.len++;
+  /*printf("alim_clauses : Succesful insertion of clause  3 \n");
     /**/
-    node->val      = clauses_arr›i~;
+    node->val      = clauses_arr[i];
     node->next     = malloc (sizeof (fp_t_nod));
     node           = node->next;
     /**/
     i++;
 
-    clauses_arr›i~.cond_1.len =0;
-    clauses_arr›i~.cond_2.len =0;
-    clauses_arr›i~.cond_1.arr›0~ = "";
-    clauses_arr›i~.cond_2.arr›0~ = "";
+    clauses_arr[i].cond_1.len =0;
+    clauses_arr[i].cond_2.len =0;
+    clauses_arr[i].cond_1.arr[0] = "";
+    clauses_arr[i].cond_2.arr[0] = "";
 
-    clauses_arr›i~.id = 4;
-    clauses_arr›i~.tag= CL_JUSTIFIED;
-    clauses_arr›i~.fp = data_just_cl;
-    clauses_arr›i~.cond_1.arr›0~ = "JUST";
-    clauses_arr›i~.cond_1.len++;
-    clauses_arr›i~.cond_1.arr›1~ = "JUSTIFIED";
-    clauses_arr›i~.cond_1.len++;
-  /*printf("alim_clauses : alimentation of cond_1 Án");
-    printf("alim_clauses : Succesful insertion of clause  4 Án");
+    clauses_arr[i].id = 4;
+    clauses_arr[i].tag= CL_JUSTIFIED;
+    clauses_arr[i].fp = data_just_cl;
+    clauses_arr[i].cond_1.arr[0] = "JUST";
+    clauses_arr[i].cond_1.len++;
+    clauses_arr[i].cond_1.arr[1] = "JUSTIFIED";
+    clauses_arr[i].cond_1.len++;
+  /*printf("alim_clauses : alimentation of cond_1 \n");
+    printf("alim_clauses : Succesful insertion of clause  4 \n");
   *//**/
-    node->val      = clauses_arr›i~;
+    node->val      = clauses_arr[i];
     node->next     = malloc (sizeof (fp_t_nod));
     node           = node->next;
     /**/
     i++;
 
-    clauses_arr›i~.cond_1.len =0;
-    clauses_arr›i~.cond_2.len =0;
-    clauses_arr›i~.cond_1.arr›0~ = "";
-    clauses_arr›i~.cond_2.arr›0~ = "";
+    clauses_arr[i].cond_1.len =0;
+    clauses_arr[i].cond_2.len =0;
+    clauses_arr[i].cond_1.arr[0] = "";
+    clauses_arr[i].cond_2.arr[0] = "";
 
-    clauses_arr›i~.id = 5;
-    clauses_arr›i~.tag= CL_OCCURS;
-    clauses_arr›i~.fp = data_occurs_cl;
-    clauses_arr›i~.cond_1.arr›0~ = "OCCURS";
-  /*printf("alim_clauses : alimentation of cond_1 Án");
-  */clauses_arr›i~.cond_1.len++;
-  /*printf("alim_clauses : Succesful insertion of clause  5 Án");
+    clauses_arr[i].id = 5;
+    clauses_arr[i].tag= CL_OCCURS;
+    clauses_arr[i].fp = data_occurs_cl;
+    clauses_arr[i].cond_1.arr[0] = "OCCURS";
+  /*printf("alim_clauses : alimentation of cond_1 \n");
+  */clauses_arr[i].cond_1.len++;
+  /*printf("alim_clauses : Succesful insertion of clause  5 \n");
   *//**/
-    node->val      = clauses_arr›i~;
+    node->val      = clauses_arr[i];
     node->next     = malloc (sizeof (fp_t_nod));
     node           = node->next;
     /**/
     i++;
 
 
-    clauses_arr›i~.cond_1.len =0;
-    clauses_arr›i~.cond_2.len =0;
-    clauses_arr›i~.cond_1.arr›0~ = "";
-    clauses_arr›i~.cond_2.arr›0~ = "";
+    clauses_arr[i].cond_1.len =0;
+    clauses_arr[i].cond_2.len =0;
+    clauses_arr[i].cond_1.arr[0] = "";
+    clauses_arr[i].cond_2.arr[0] = "";
 
-    clauses_arr›i~.id = 6;
-    clauses_arr›i~.tag= CL_PICTURE;
-    clauses_arr›i~.fp = data_pic_cl;
-    clauses_arr›i~.cond_1.arr›0~ = "PIC";
-    clauses_arr›i~.cond_1.len++;
-    clauses_arr›i~.cond_1.arr›1~ = "PICTURE";
-    clauses_arr›i~.cond_1.len++;
-  /*printf("alim_clauses : alimentation of cond_1 Án");
-    printf("alim_clauses : Succesful insertion of clause  6 Án");
+    clauses_arr[i].id = 6;
+    clauses_arr[i].tag= CL_PICTURE;
+    clauses_arr[i].fp = data_pic_cl;
+    clauses_arr[i].cond_1.arr[0] = "PIC";
+    clauses_arr[i].cond_1.len++;
+    clauses_arr[i].cond_1.arr[1] = "PICTURE";
+    clauses_arr[i].cond_1.len++;
+  /*printf("alim_clauses : alimentation of cond_1 \n");
+    printf("alim_clauses : Succesful insertion of clause  6 \n");
   *//**/
-    node->val      = clauses_arr›i~;
+    node->val      = clauses_arr[i];
     node->next     = malloc (sizeof (fp_t_nod));
     node           = node->next;
     /**/
     i++;
 
-    clauses_arr›i~.cond_1.len =0;
-    clauses_arr›i~.cond_2.len =0;
-    clauses_arr›i~.cond_1.arr›0~ = "";
-    clauses_arr›i~.cond_2.arr›0~ = "";
+    clauses_arr[i].cond_1.len =0;
+    clauses_arr[i].cond_2.len =0;
+    clauses_arr[i].cond_1.arr[0] = "";
+    clauses_arr[i].cond_2.arr[0] = "";
 
-    clauses_arr›i~.id = 7;
-    clauses_arr›i~.tag= CL_SIGN;
-    clauses_arr›i~.fp = data_sign_cl;
-    clauses_arr›i~.cond_1.arr›0~ = "SIGN";
-    clauses_arr›i~.cond_1.len++;
-    clauses_arr›i~.cond_1.arr›1~ = "LEADING";
-    clauses_arr›i~.cond_1.len++;
-    clauses_arr›i~.cond_1.arr›2~ = "TRAILING";
-    clauses_arr›i~.cond_1.len++;
-  /*printf("alim_clauses : alimentation of cond_1 Án");
-    printf("alim_clauses : Succesful insertion of clause  7 Án");
+    clauses_arr[i].id = 7;
+    clauses_arr[i].tag= CL_SIGN;
+    clauses_arr[i].fp = data_sign_cl;
+    clauses_arr[i].cond_1.arr[0] = "SIGN";
+    clauses_arr[i].cond_1.len++;
+    clauses_arr[i].cond_1.arr[1] = "LEADING";
+    clauses_arr[i].cond_1.len++;
+    clauses_arr[i].cond_1.arr[2] = "TRAILING";
+    clauses_arr[i].cond_1.len++;
+  /*printf("alim_clauses : alimentation of cond_1 \n");
+    printf("alim_clauses : Succesful insertion of clause  7 \n");
   *//**/
-    node->val      = clauses_arr›i~;
+    node->val      = clauses_arr[i];
     node->next     = malloc (sizeof (fp_t_nod));
     node           = node->next;
     /**/
     i++;
 
-    clauses_arr›i~.cond_1.len =0;
-    clauses_arr›i~.cond_2.len =0;
-    clauses_arr›i~.cond_1.arr›0~ = "";
-    clauses_arr›i~.cond_2.arr›0~ = "";
+    clauses_arr[i].cond_1.len =0;
+    clauses_arr[i].cond_2.len =0;
+    clauses_arr[i].cond_1.arr[0] = "";
+    clauses_arr[i].cond_2.arr[0] = "";
 
-    clauses_arr›i~.id = 8;
-    clauses_arr›i~.tag= CL_VALUE;
-    clauses_arr›i~.fp = data_value_cl;
-    clauses_arr›i~.cond_1.arr›0~ = "VALUE";
-    clauses_arr›i~.cond_1.len++;
-  /*printf("alim_clauses : alimentation of cond_1 Án");
-    printf("alim_clauses : Succesful insertion of clause  8 Án");
+    clauses_arr[i].id = 8;
+    clauses_arr[i].tag= CL_VALUE;
+    clauses_arr[i].fp = data_value_cl;
+    clauses_arr[i].cond_1.arr[0] = "VALUE";
+    clauses_arr[i].cond_1.len++;
+  /*printf("alim_clauses : alimentation of cond_1 \n");
+    printf("alim_clauses : Succesful insertion of clause  8 \n");
   *//**/
-    node->val      = clauses_arr›i~;
+    node->val      = clauses_arr[i];
     node->next     = malloc (sizeof (fp_t_nod));
     node           = node->next;
     /**/
     i++;
 
-    clauses_arr›i~.cond_1.len =0;
-    clauses_arr›i~.cond_2.len =0;
-    clauses_arr›i~.cond_1.arr›0~ = "";
-    clauses_arr›i~.cond_2.arr›0~ = "";
+    clauses_arr[i].cond_1.len =0;
+    clauses_arr[i].cond_2.len =0;
+    clauses_arr[i].cond_1.arr[0] = "";
+    clauses_arr[i].cond_2.arr[0] = "";
 
-    clauses_arr›i~.id = 9;
-    clauses_arr›i~.tag= CL_SYNCHRONIZED;
-    clauses_arr›i~.fp = data_sync_cl;
-    clauses_arr›i~.cond_1.arr›0~ = "SYNC";
-    clauses_arr›i~.cond_1.len++;
-    clauses_arr›i~.cond_1.arr›1~ = "SYNCHRONIZED";
-    clauses_arr›i~.cond_1.len++;
-  /*printf("alim_clauses : alimentation of cond_1 Án");
-    printf("alim_clauses : Succesful insertion of clause  9 Án");
+    clauses_arr[i].id = 9;
+    clauses_arr[i].tag= CL_SYNCHRONIZED;
+    clauses_arr[i].fp = data_sync_cl;
+    clauses_arr[i].cond_1.arr[0] = "SYNC";
+    clauses_arr[i].cond_1.len++;
+    clauses_arr[i].cond_1.arr[1] = "SYNCHRONIZED";
+    clauses_arr[i].cond_1.len++;
+  /*printf("alim_clauses : alimentation of cond_1 \n");
+    printf("alim_clauses : Succesful insertion of clause  9 \n");
   *//**/
-    node->val      = clauses_arr›i~;
+    node->val      = clauses_arr[i];
     node->next     = malloc (sizeof (fp_t_nod));
     node           = node->next;
     /**/
     i++;
 
-    clauses_arr›i~.cond_1.len =0;
-    clauses_arr›i~.cond_2.len =0;
-    clauses_arr›i~.cond_1.arr›0~ = "";
-    clauses_arr›i~.cond_2.arr›0~ = "";
+    clauses_arr[i].cond_1.len =0;
+    clauses_arr[i].cond_2.len =0;
+    clauses_arr[i].cond_1.arr[0] = "";
+    clauses_arr[i].cond_2.arr[0] = "";
 
-    clauses_arr›i~.id = 10;
-    clauses_arr›i~.tag= CL_USAGE;
-    clauses_arr›i~.fp = data_usage_cl;
-    clauses_arr›i~.cond_1.arr›0~  = "USAGE";
-    clauses_arr›i~.cond_1.len++;
-    clauses_arr›i~.cond_1.arr›1~  = "BINARY";
-    clauses_arr›i~.cond_1.len++;
-    clauses_arr›i~.cond_1.arr›2~  = "COMPUTATIONAL";
-    clauses_arr›i~.cond_1.len++;
-    clauses_arr›i~.cond_1.arr›3~  = "COMP";;
-    clauses_arr›i~.cond_1.len++;
-    clauses_arr›i~.cond_1.arr›4~  = "COMPUTATIONAL-1";
-    clauses_arr›i~.cond_1.len++;
-    clauses_arr›i~.cond_1.arr›5~  = "COMP-1";
-    clauses_arr›i~.cond_1.len++;
-    clauses_arr›i~.cond_1.arr›6~  = "COMPUTATIONAL-2";
-    clauses_arr›i~.cond_1.len++;
-    clauses_arr›i~.cond_1.arr›7~  = "COMP-2";
-    clauses_arr›i~.cond_1.len++;
-    clauses_arr›i~.cond_1.arr›8~  = "COMPUTATIONAL-3";
-    clauses_arr›i~.cond_1.len++;
-    clauses_arr›i~.cond_1.arr›9~  = "COMP-3";
-    clauses_arr›i~.cond_1.len++;
-    clauses_arr›i~.cond_1.arr›10~ = "COMPUTATIONAL-4";
-    clauses_arr›i~.cond_1.len++;
-    clauses_arr›i~.cond_1.arr›11~ = "COMP-4";
-    clauses_arr›i~.cond_1.len++;
-    clauses_arr›i~.cond_1.arr›12~ = "DISPLAY";
-    clauses_arr›i~.cond_1.len++;
-    clauses_arr›i~.cond_1.arr›13~ = "DISPLAY-1";
-    clauses_arr›i~.cond_1.len++;
-    clauses_arr›i~.cond_1.arr›14~ = "INDEX";;
-    clauses_arr›i~.cond_1.len++;
-    clauses_arr›i~.cond_1.arr›15~ = "PACKED-DECIMAL";
-    clauses_arr›i~.cond_1.len++;
-    clauses_arr›i~.cond_1.arr›16~ = "POINTER";
-    clauses_arr›i~.cond_1.len++;
-    clauses_arr›i~.cond_1.arr›17~ = "PROCEDURE-POINTER";
-    clauses_arr›i~.cond_1.len++;
-  /*printf("alim_clauses : alimentation of cond_1 Án");
-    printf("alim_clauses : Succesful insertion of clause 10 Án");
+    clauses_arr[i].id = 10;
+    clauses_arr[i].tag= CL_USAGE;
+    clauses_arr[i].fp = data_usage_cl;
+    clauses_arr[i].cond_1.arr[0]  = "USAGE";
+    clauses_arr[i].cond_1.len++;
+    clauses_arr[i].cond_1.arr[1]  = "BINARY";
+    clauses_arr[i].cond_1.len++;
+    clauses_arr[i].cond_1.arr[2]  = "COMPUTATIONAL";
+    clauses_arr[i].cond_1.len++;
+    clauses_arr[i].cond_1.arr[3]  = "COMP";;
+    clauses_arr[i].cond_1.len++;
+    clauses_arr[i].cond_1.arr[4]  = "COMPUTATIONAL-1";
+    clauses_arr[i].cond_1.len++;
+    clauses_arr[i].cond_1.arr[5]  = "COMP-1";
+    clauses_arr[i].cond_1.len++;
+    clauses_arr[i].cond_1.arr[6]  = "COMPUTATIONAL-2";
+    clauses_arr[i].cond_1.len++;
+    clauses_arr[i].cond_1.arr[7]  = "COMP-2";
+    clauses_arr[i].cond_1.len++;
+    clauses_arr[i].cond_1.arr[8]  = "COMPUTATIONAL-3";
+    clauses_arr[i].cond_1.len++;
+    clauses_arr[i].cond_1.arr[9]  = "COMP-3";
+    clauses_arr[i].cond_1.len++;
+    clauses_arr[i].cond_1.arr[10] = "COMPUTATIONAL-4";
+    clauses_arr[i].cond_1.len++;
+    clauses_arr[i].cond_1.arr[11] = "COMP-4";
+    clauses_arr[i].cond_1.len++;
+    clauses_arr[i].cond_1.arr[12] = "DISPLAY";
+    clauses_arr[i].cond_1.len++;
+    clauses_arr[i].cond_1.arr[13] = "DISPLAY-1";
+    clauses_arr[i].cond_1.len++;
+    clauses_arr[i].cond_1.arr[14] = "INDEX";;
+    clauses_arr[i].cond_1.len++;
+    clauses_arr[i].cond_1.arr[15] = "PACKED-DECIMAL";
+    clauses_arr[i].cond_1.len++;
+    clauses_arr[i].cond_1.arr[16] = "POINTER";
+    clauses_arr[i].cond_1.len++;
+    clauses_arr[i].cond_1.arr[17] = "PROCEDURE-POINTER";
+    clauses_arr[i].cond_1.len++;
+  /*printf("alim_clauses : alimentation of cond_1 \n");
+    printf("alim_clauses : Succesful insertion of clause 10 \n");
   *//**/
-    node->val      = clauses_arr›i~;
+    node->val      = clauses_arr[i];
     node->next     = NULL;
     /**/
     i++;
@@ -3536,25 +3536,25 @@ alim_clauses()È
     /*                                                  */
     /*--------------------------------------------------*/
     /*
-    printf("Start for linked list building from array ...(%d)Án",i);
+    printf("Start for linked list building from array ...(%d)\n",i);
 
     fp_t_nod* temp;
 
     fp_t_nod* node = malloc (sizeof (fp_t_nod));
-    node->val      = clauses_arr›0~;
+    node->val      = clauses_arr[0];
     clauses = node;
 
     temp = clauses->next;
 
-    for(j=1;j<i;j++)È
+    for(j=1;j<i;j++){
 
-       printf("iteration (%d) Án",j+1);
-       if (temp == NULL) È
+       printf("iteration (%d) \n",j+1);
+       if (temp == NULL) {
           temp = malloc (sizeof (fp_t_nod));
-          printf("malloc done Án");
-       Ë
+          printf("malloc done \n");
+       }
 
-       temp->val  = clauses_arr›j~;
+       temp->val  = clauses_arr[j];
        temp->next = NULL;
 
        clause_print(temp->val,"temp->val");
@@ -3563,31 +3563,31 @@ alim_clauses()È
        clause_nod_print(temp,"temp->val");
        temp = temp->next;
 
-       printf("Creation done Án");
+       printf("Creation done \n");
 
-    Ë
+    }
     */
     return head;
 
-Ë
+}
 /*
-int alim_clause_arr(fp_t_arr clauses)È
+int alim_clause_arr(fp_t_arr clauses){
 
-    printf("alim_clause_arr : Start Án");
+    printf("alim_clause_arr : Start \n");
 
     int i=0;
     int j=0;
 
-    if (clause_arr == NULL) È
+    if (clause_arr == NULL) {
        clause_arr = malloc(MAX_FUNCTIONS*sizeof(fp_t));
-       printf("alim_clause_arr : allocation of MAX_FUNCTIONS size Án");
-       for(i=0;i<MAX_FUNCTIONS;i++)È
+       printf("alim_clause_arr : allocation of MAX_FUNCTIONS size \n");
+       for(i=0;i<MAX_FUNCTIONS;i++){
           (clause_arr+i)->cond_1 = malloc(MAX_COND*sizeof(char*));
           (clause_arr+i)->cond_2 = malloc(MAX_COND*sizeof(char*));
-       Ë
-    Ë
-    printf("alim_clause_arr : allocation of MAX_COND size Án");
-    printf("sizeof(clause_arr) malloc : (%d) Án",sizeof(*clause_arr));
+       }
+    }
+    printf("alim_clause_arr : allocation of MAX_COND size \n");
+    printf("sizeof(clause_arr) malloc : (%d) \n",sizeof(*clause_arr));
 
     i = 0;
     j = 0;
@@ -3595,15 +3595,15 @@ int alim_clause_arr(fp_t_arr clauses)È
     (clause_arr+i)->id = 1;
     (clause_arr+i)->fp = data_external_cl;
     *(((clause_arr+i)->cond_1)+j) = "IS"; j++;
-    printf("alim_clause_arr : alimentation of cond_1 Án");
+    printf("alim_clause_arr : alimentation of cond_1 \n");
     realloc((clause_arr+i)->cond_1,j*sizeof(char*)); j=0;
-    printf("alim_clause_arr : allocation of j size for cond_1 Án");
+    printf("alim_clause_arr : allocation of j size for cond_1 \n");
     *(((clause_arr+i)->cond_2)+j) = "EXTERNAL"; j++;
-    printf("alim_clause_arr : alimentation of cond_2 Án");
+    printf("alim_clause_arr : alimentation of cond_2 \n");
     realloc((clause_arr+i)->cond_2,j*sizeof(char*)); j=0;
-    printf("alim_clause_arr : allocation of j size for cond_2 Án");
+    printf("alim_clause_arr : allocation of j size for cond_2 \n");
     i++;
-    printf("alim_clause_arr : Succesful insertion of clause  1 Án");
+    printf("alim_clause_arr : Succesful insertion of clause  1 \n");
 
     (clause_arr+i)->id = 2;
     (clause_arr+i)->fp = data_external_cl;
@@ -3611,7 +3611,7 @@ int alim_clause_arr(fp_t_arr clauses)È
     realloc((clause_arr+i)->cond_1,j*sizeof(char*)); j=0;
     realloc((clause_arr+i)->cond_2,j*sizeof(char*)); j=0;
     i++;
-    printf("alim_clause_arr : Succesful insertion of clause  2 Án");
+    printf("alim_clause_arr : Succesful insertion of clause  2 \n");
 
     (clause_arr+i)->id = 3;
     (clause_arr+i)->fp = data_global_cl;
@@ -3620,7 +3620,7 @@ int alim_clause_arr(fp_t_arr clauses)È
     *(((clause_arr+i)->cond_2)+j) = "GLOBAL"; j++;
     realloc((clause_arr+i)->cond_2,j*sizeof(char*)); j=0;
     i++;
-    printf("alim_clause_arr : Succesful insertion of clause  3 Án");
+    printf("alim_clause_arr : Succesful insertion of clause  3 \n");
 
     (clause_arr+i)->id = 4;
     (clause_arr+i)->fp = data_just_cl;
@@ -3630,7 +3630,7 @@ int alim_clause_arr(fp_t_arr clauses)È
     *(((clause_arr+i)->cond_2)+j) = "GLOBAL"; j++;
     realloc((clause_arr+i)->cond_2,j*sizeof(char*)); j=0;
     i++;
-    printf("alim_clause_arr : Succesful insertion of clause  4 Án");
+    printf("alim_clause_arr : Succesful insertion of clause  4 \n");
 
     (clause_arr+i)->id = 5;
     (clause_arr+i)->fp = data_occurs_cl;
@@ -3638,65 +3638,65 @@ int alim_clause_arr(fp_t_arr clauses)È
     realloc((clause_arr+i)->cond_1,j*sizeof(char*)); j=0;
     realloc((clause_arr+i)->cond_2,j*sizeof(char*)); j=0;
     i++;
-    printf("alim_clause_arr : Succesful insertion of clause  5 Án");
+    printf("alim_clause_arr : Succesful insertion of clause  5 \n");
 
     fp_t *temp = realloc(clause_arr,i*sizeof(fp_t));
 
-    if (temp == NULL)È
-       printf("Error allocating memory!Án");
+    if (temp == NULL){
+       printf("Error allocating memory!\n");
        return 0;
-    Ë
-    else È
+    }
+    else {
        clause_arr = temp;
-       printf("Succesful reallocation!Án");
-    printf("sizeof(clause_arr) realloc : (%d) Án",sizeof(*clause_arr));
-    Ë
+       printf("Succesful reallocation!\n");
+    printf("sizeof(clause_arr) realloc : (%d) \n",sizeof(*clause_arr));
+    }
     return 1;
 
-Ë
+}
 */
 
 int
-tkn_in_array (str_arr conditions)È
+tkn_in_array (str_arr conditions){
 
    int i;
 
-   debug_3("tkn_in_array: conditions.len = (%d) Án",conditions.len);
+   debug_3("tkn_in_array: conditions.len = (%d) \n",conditions.len);
 
-   for(i=0;i<conditions.len;i++)È
+   for(i=0;i<conditions.len;i++){
 
-      debug_3("tkn_in_array: conditions.arr:(%s) Án",conditions.arr›i~);
-      if (equal_val(conditions.arr›i~)) È
-         debug_3("tkn_in_array: lookahead found(%s) Án",
-                conditions.arr›i~);
+      debug_3("tkn_in_array: conditions.arr:(%s) \n",conditions.arr[i]);
+      if (equal_val(conditions.arr[i])) {
+         debug_3("tkn_in_array: lookahead found(%s) \n",
+                conditions.arr[i]);
          return 1;
-      Ë
-   Ë
+      }
+   }
 
    return 0;
-Ë
+}
 
 fp_t_nod*
-delete_clauses(fp_t_nod* clauses,fp_t_nod* to_delete)È
+delete_clauses(fp_t_nod* clauses,fp_t_nod* to_delete){
 
-/* printf("delete_clauses: clauses = (%d) to_delete(%d) Án",
+/* printf("delete_clauses: clauses = (%d) to_delete(%d) \n",
                            clauses ,      to_delete);
 */ fp_t_nod* temp;
 
    /* list is empty */
-   if(clauses == NULL) È
-     debug_3("delete_clauses : List is empty no destroying to do. Án");
+   if(clauses == NULL) {
+     debug_3("delete_clauses : List is empty no destroying to do. \n");
      return clauses;
 
-   Ë
+   }
 
    /* node to delete is the head of list */
-   if(clauses == to_delete) È
-     debug_3("delete_clauses : Beheading the List >:) ... Án");
+   if(clauses == to_delete) {
+     debug_3("delete_clauses : Beheading the List >:) ... \n");
      temp = clauses->next;
      free(clauses);
      return temp;
-   Ë
+   }
 
 
    /* when other */
@@ -3705,79 +3705,79 @@ delete_clauses(fp_t_nod* clauses,fp_t_nod* to_delete)È
    fp_t_nod* beforeTemp = clauses;
 
    /* refaire tant qu'on est pas ‡ null (fin liste) */
-   while (temp ß= NULL)È
+   while (temp != NULL){
 
       /* si adresse d'element a supprimer trouver */
-      if(temp == to_delete)È
-         debug_3("delete_clauses : node found, destroying ... Án");
+      if(temp == to_delete){
+         debug_3("delete_clauses : node found, destroying ... \n");
          /* pointer le next du maillon d'avant vers celui d'apres */
          /* c-a-d : skip temp */
          beforeTemp->next = temp->next;
          /* liberer element a supprimer */
          free(temp);
          return clauses;
-      Ë
+      }
 
       beforeTemp = temp;
       temp = temp->next;
 
 
-   Ë
-Ë
+   }
+}
 
 int
-clause_print(fp_t clause,char* txt)È
+clause_print(fp_t clause,char* txt){
 
     int i = 0;
     txt ="";
-    printf("clause.id           :(%d)Án",clause.id);
-    printf("clause.cond_1.len   :(%d)Án",clause.cond_1.len);
+    printf("clause.id           :(%d)\n",clause.id);
+    printf("clause.cond_1.len   :(%d)\n",clause.cond_1.len);
     for(i=0;i<clause.cond_1.len;i++)
-       printf("clause.cond_1.arr(%d):(%s)Án",i,clause.cond_1.arr›i~);
-    printf("clause.cond_2.len   :(%d)Án",clause.cond_2.len);
+       printf("clause.cond_1.arr(%d):(%s)\n",i,clause.cond_1.arr[i]);
+    printf("clause.cond_2.len   :(%d)\n",clause.cond_2.len);
     for(i=0;i<clause.cond_2.len;i++)
-       printf("clause.cond_2.arr(%d):(%s)Án",i,clause.cond_2.arr›i~);
+       printf("clause.cond_2.arr(%d):(%s)\n",i,clause.cond_2.arr[i]);
 
     return 1;
-Ë
+}
 
 int
-clause_nod_print(fp_t_nod* clause_nod,char* txt)È
+clause_nod_print(fp_t_nod* clause_nod,char* txt){
 
-    printf("*************************************Án");
-    printf("* Current * clause_nod       (%d) ***Án",clause_nod);
-    printf("* Next    * clause_nod->next (%d) ***Án",clause_nod->next);
+    printf("*************************************\n");
+    printf("* Current * clause_nod       (%d) ***\n",clause_nod);
+    printf("* Next    * clause_nod->next (%d) ***\n",clause_nod->next);
     clause_print(clause_nod->val,txt);
-    printf("*************************************Án");
+    printf("*************************************\n");
 
     return 1;
-Ë
+}
 
 int
-print_clauses(fp_t_nod* clauses)È
+print_clauses(fp_t_nod* clauses){
 
-    printf("printf_clauses Start...ÁnÁn");
+    printf("printf_clauses Start...\n\n");
 
     fp_t_nod *iterator = clauses;
 
-    do È
+    do {
 
        clause_nod_print(iterator,"");
        iterator = iterator->next;
     /* assert(iterator == NULL); */
 
-    Ë
-    while (iterator ß= NULL);
+    }
+    while (iterator != NULL);
 
-    printf("printf_clauses End.Án");
+    printf("printf_clauses End.\n");
     return 1;
-Ë
+}
 
 /*---------------------- Build AST from attr ------------------------*/
 /* cette fonction peut etre remplacer par un simple make_literal */
 /* avec en parametres les equal_attr comme des int */
 ast*
-build_literal(int bool_all)È
+build_literal(int bool_all){
 
     ast* ret=NULL;
 
@@ -3821,134 +3821,134 @@ build_literal(int bool_all)È
                      char_length);
 
     return ret;
-Ë
+}
 
 /*---------------------- Auxiliary functions ------------------------*/
 int
-equal_type(char* expected)È
+equal_type(char* expected){
 
-    if ((strcasecmp(lookahead.tkn_type,       expected) == 0 ))È
-        debug_2("equal_type (%s) ?? Án",expected);
+    if ((strcasecmp(lookahead.tkn_type,       expected) == 0 )){
+        debug_2("equal_type (%s) ?? \n",expected);
         return 1;
-    Ë
-    else È
-    /*  printf("FALSE Án");
+    }
+    else {
+    /*  printf("FALSE \n");
     */  return 0;
-    Ë
-Ë
+    }
+}
 /*----*/
 int
-equal_val(char* expected)È
+equal_val(char* expected){
 
-    if ((strcasecmp(lookahead.tkn_val,        expected) == 0 )) È
-        debug_2("equal_val (%s) ?? TRUE Án",expected);
+    if ((strcasecmp(lookahead.tkn_val,        expected) == 0 )) {
+        debug_2("equal_val (%s) ?? TRUE \n",expected);
         return 1;
-    Ë
+    }
 
-    else È
-    /*  printf("FALSE Án"); */
+    else {
+    /*  printf("FALSE \n"); */
         return 0;
-    Ë
-Ë
+    }
+}
 /*----*/
 int
-equal_attr(char* expected)È
+equal_attr(char* expected){
 
 
     int i;
 
-    for(i=0;i<lookahead.tkn_attr_len;i++)È
+    for(i=0;i<lookahead.tkn_attr_len;i++){
 
-       if (strcasecmp(lookahead.tkn_attr›i~, expected) == 0)È
-          debug_2("equal_attr (%s) ?? TRUE Án",expected);
+       if (strcasecmp(lookahead.tkn_attr[i], expected) == 0){
+          debug_2("equal_attr (%s) ?? TRUE \n",expected);
           return 1;
-       Ë
-    Ë
+       }
+    }
 
-    /*printf("FALSE Án"); */
+    /*printf("FALSE \n"); */
     return 0;
-Ë
+}
 /*----*/
 int
-match_type(char* expected)È
+match_type(char* expected){
 
-    debug_2("match_type : Trying to match type  : <%s> Án", expected);
+    debug_2("match_type : Trying to match type  : <%s> \n", expected);
 
-    if (equal_type(expected)) È
+    if (equal_type(expected)) {
         consume();
         return 1;
-    Ë
+    }
     else
         return 0;
-Ë
+}
 /*----*/
 int
-match_val (char* expected)È
+match_val (char* expected){
 
-    debug_2(" Trying to match Value <%s> with <%s>Án",
+    debug_2(" Trying to match Value <%s> with <%s>\n",
               expected,get_token_val());
 
-    if (equal_val(expected)) È
+    if (equal_val(expected)) {
         consume();
         return 1;
-    Ë
+    }
     else
         return 0;
-Ë
+}
 /*----*/
 int
-match_attr(char* expected)È
+match_attr(char* expected){
 
-    debug_2("match_attr : Trying to match Attr  : <%s> Án", expected);
+    debug_2("match_attr : Trying to match Attr  : <%s> \n", expected);
 
-    if (equal_attr(expected)) È
+    if (equal_attr(expected)) {
         consume();
         return 1;
-    Ë
+    }
     else
         return 0;
-Ë
+}
 /*----*/
 int
-consume()È
+consume(){
 
-    debug_3("consume(%s).Án ",lookahead.tkn_val);
+    debug_3("consume(%s).\n ",lookahead.tkn_val);
     lookahead = getNextToken();
-    debug_3("current(%s). Án",lookahead.tkn_val);
+    debug_3("current(%s). \n",lookahead.tkn_val);
 
     return 1;
-Ë
+}
 /*----*/
 int
-error(char* msg )È
+error(char* msg ){
 
     printf("error : %s",msg);
     exit(EXIT_FAILURE);
 
-Ë
+}
 
 /*----*/
 
 int
-match(char* terminal)È
-    printf("match()    : Trying to match token : <%s> Án",terminal);
+match(char* terminal){
+    printf("match()    : Trying to match token : <%s> \n",terminal);
 
     /*
     if    ((strcasecmp(lookahead.tkn_val,  "ZERO") == 0 )
         && (strcasecmp(lookahead.tkn_type, "ZERO") == 0 )
         && (strcasecmp(lookahead.tkn_type2,"ZERO") == 0 ) )
-    È
+    {
         printf("match()    : Lookahead ZERO, Get next token");
         lookahead = getNextToken();
 
-    Ë  */
+    }  */
 
     if    ((strcasecmp(lookahead.tkn_val,     terminal) == 0 )
         !! (strcasecmp(lookahead.tkn_type,    terminal) == 0 )
-        !! (strcasecmp(lookahead.tkn_attr›0~, terminal) == 0 )
-        !! (strcasecmp(lookahead.tkn_attr›1~, terminal) == 0 ))
-    È
-        printf("match()    : Token recognized : %s Án",terminal);
+        !! (strcasecmp(lookahead.tkn_attr[0], terminal) == 0 )
+        !! (strcasecmp(lookahead.tkn_attr[1], terminal) == 0 ))
+    {
+        printf("match()    : Token recognized : %s \n",terminal);
     /* mettre lookahead a zero en attendant le chargement de context */
     /*  lookahead.tkn_val    = "ZERO";
         lookahead.tkn_type   = "ZERO";
@@ -3956,70 +3956,70 @@ match(char* terminal)È
 
         lookahead = getNextToken();
 
-    Ë
+    }
     else
-    È
-        printf("match()    : Syntax error expected %s found<%s><%s>Án",
+    {
+        printf("match()    : Syntax error expected %s found<%s><%s>\n",
 		      terminal, lookahead.tkn_type,lookahead.tkn_val);
         return 0;
-    Ë
+    }
     return 1;
-Ë
+}
 
 /*------*/
 
 int
-tknEqual(char* expected)È
-/*  printf("tknEqual() : is Current token equal to:<%s>? Án",expected);
+tknEqual(char* expected){
+/*  printf("tknEqual() : is Current token equal to:<%s>? \n",expected);
 */ /*
     if    ((strcasecmp(lookahead.tkn_val,  "ZERO") == 0 )
         && (strcasecmp(lookahead.tkn_type, "ZERO") == 0 )
         && (strcasecmp(lookahead.tkn_type2,"ZERO") == 0 ) )
-    È
+    {
         printf("match()    : Lookahead ZERO, Get next token");
         lookahead = getNextToken();
 
-    Ë
+    }
     */
     if ((strcasecmp(lookahead.tkn_val,        expected) == 0 )
         !! (strcasecmp(lookahead.tkn_type,    expected) == 0 )
-        !! (strcasecmp(lookahead.tkn_attr›0~, expected) == 0 )
-        !! (strcasecmp(lookahead.tkn_attr›1~, expected) == 0 ) )
-    È
-        printf("tknEqual() : Current token == to <%s> Án",expected);
+        !! (strcasecmp(lookahead.tkn_attr[0], expected) == 0 )
+        !! (strcasecmp(lookahead.tkn_attr[1], expected) == 0 ) )
+    {
+        printf("tknEqual() : Current token == to <%s> \n",expected);
         return 1;
 
-    Ë
+    }
     else
-    È
-    /*  printf("tknEqual() : Current token != to <%s> Án",expected);*/
+    {
+    /*  printf("tknEqual() : Current token != to <%s> \n",expected);*/
         return 0;
-    Ë
+    }
 
-Ë
+}
 /*------------------------- Auxiliary functions ---------------------*/
 
 char*
-get_token_val()È
+get_token_val(){
     return lookahead.tkn_val;
-Ë
+}
 
 char*
-get_token_type()È
+get_token_type(){
     return lookahead.tkn_type;
-Ë
+}
 int
-get_token_len()È
+get_token_len(){
     return lookahead.tkn_len;
-Ë
+}
 
 int
-get_token_line()È
+get_token_line(){
     return lookahead.tkn_lnnum;
-Ë
+}
 
 int
-get_token_col()È
+get_token_col(){
     return lookahead.tkn_colnum;
-Ë
+}
 

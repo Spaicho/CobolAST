@@ -1,20 +1,19 @@
-£include <stdio.h>
-£include <stddef.h>
-£define __XPG4 // itoa, strccase
-£define __UU
-£define __OE_8
-£include <stdlib.h>
-£include <assert.h>
-£include "debugh"
-£include "asth"
-£include "helperh"
+#include <stdio.h>
+#include <stddef.h>
+#define __XPG4 // itoa, strccase
+#define __UU
+#define __OE_8
+#include <stdlib.h>
+#include <assert.h>
+#include "debug.h"
+#include "ast.h"
+#include "helper.h"
 
 static int lvl=-1;
 
-
 /*---   SENTENCE   ---*/
 ast*
-make_sentence    (int nb_statement, struct ast* list_statement)é
+make_sentence    (int nb_statement, struct ast* list_statement){
 
   ast* e = (ast*) malloc(sizeof(ast));
   e->node.sentence.ast_name          = "SENTENCE";
@@ -28,16 +27,16 @@ make_sentence    (int nb_statement, struct ast* list_statement)é
 
   e->next =NULL;
 
-  debug_2("**********  SENTENCE   ***************çn");
-  debug_2("* SENTENCE AST BUILT SUCCESFULLY (%d)*çn",e);
-  debug_2("**************************************çn");
+  debug_2("**********  SENTENCE   ***************\n");
+  debug_2("* SENTENCE AST BUILT SUCCESFULLY (%d)*\n",e);
+  debug_2("**************************************\n");
 
   return e;
 
-è
+}
 
 ast*
-make_ast ()é
+make_ast (){
 
   ast* e = (ast*) malloc(sizeof(ast));
   e->next =NULL;
@@ -45,9 +44,9 @@ make_ast ()é
 
   return e;
 
-è
+}
 
-affich_sentence(ast* tree,scr_line* screen)é
+affich_sentence(ast* tree,scr_line* screen){
 
 
    ast* temp = NULL;
@@ -57,22 +56,22 @@ affich_sentence(ast* tree,scr_line* screen)é
 
    temp=tree->node.sentence.list_statement;
 
-   while(temp §= NULL)é
+   while(temp != NULL){
       affich_statement(temp,screen);
       temp = temp->next;
-   è
+   }
 
    lvl--;
 
-è
+}
 
-affich_statement(ast* tree,scr_line* screen)é
+affich_statement(ast* tree,scr_line* screen){
 
-   debug_2("Switch for statement ... çn");
+   debug_2("Switch for statement ... \n");
    ast* temp = NULL;
 
-   debug_3("Statement (%s) çn",tagValuesÝtree->tag~);
-   debug_2("Statement (%d) çn",tree->tag);
+   debug_3("Statement (%s) \n",tagValues[tree->tag]);
+   debug_2("Statement (%d) \n",tree->tag);
 
    lvl++;
 
@@ -88,22 +87,22 @@ affich_statement(ast* tree,scr_line* screen)é
 
            affich_initialize_stm(tree,screen);
 
-   else é
+   else {
 
-        /* printf("Unknown Tag for statement (%s) çn",
-                                tagValuesÝtree->tag~);
-        */ printf("Unknown Tag for statement (%d) çn",
+        /* printf("Unknown Tag for statement (%s) \n",
+                                tagValues[tree->tag]);
+        */ printf("Unknown Tag for statement (%d) \n",
                                           tree->tag );
            exit(EXIT_FAILURE);
-   è
+   }
 
    lvl--;
-è
+}
 
 /*---   MOVE   ---*/
 ast*
 make_move        (int bool_corresp, int nb_operand_r,
-                  struct ast* operand_g, struct ast* list_operand_r)é
+                  struct ast* operand_g, struct ast* list_operand_r){
 
   ast* e = (ast*) malloc(sizeof(ast));
   e->node.move_stm.ast_name          = "MOVE";
@@ -115,15 +114,15 @@ make_move        (int bool_corresp, int nb_operand_r,
   e->node.move_stm.list_operand_r    = list_operand_r;
 
   e->next =NULL;
-  debug_2("**********  MOVE       **********çn");
-  debug_2("* MOVE    AST BUILT SUCCESFULLY *çn");
-  debug_2("**********************************çn");
+  debug_2("**********  MOVE       **********\n");
+  debug_2("* MOVE    AST BUILT SUCCESFULLY *\n");
+  debug_2("**********************************\n");
 
   return e;
 
-è
+}
 
-affich_move_stm(ast* tree,scr_line* screen)é
+affich_move_stm(ast* tree,scr_line* screen){
 
    ast* temp = NULL;
 
@@ -147,19 +146,19 @@ affich_move_stm(ast* tree,scr_line* screen)é
    temp=tree->node.move_stm.list_operand_r;
 
    lvl++;
-   while(temp §= NULL)é
-      debug_3("Printing inner nodes (%s) çn",tagValuesÝtemp->tag~);
-      debug_2("Printing inner nodes (%d) çn",          temp->tag );
+   while(temp != NULL){
+      debug_3("Printing inner nodes (%s) \n",tagValues[temp->tag]);
+      debug_2("Printing inner nodes (%d) \n",          temp->tag );
       affich_operand(temp,screen);
       temp=temp->next;
-   è
+   }
    lvl--;
 
-è
+}
 /*---   DISPLAY   ---*/
 ast*
 make_display (int bool_upon, int bool_no_adv, char* upon_operand,
-                   int nb_operand, struct ast* list_operand)é
+                   int nb_operand, struct ast* list_operand){
 
   ast* e = (ast*) malloc(sizeof(ast));
   e->node.display_stm.ast_name          = "DISPLAY";
@@ -177,15 +176,15 @@ make_display (int bool_upon, int bool_no_adv, char* upon_operand,
 
   e->next =NULL;
 
-  debug_2("**********  DISPLAY    **********çn");
-  debug_2("* DISPLAY AST BUILT SUCCESFULLY *çn");
-  debug_2("**********************************çn");
+  debug_2("**********  DISPLAY    **********\n");
+  debug_2("* DISPLAY AST BUILT SUCCESFULLY *\n");
+  debug_2("**********************************\n");
 
   return e;
 
-è
+}
 
-affich_display_stm(ast* tree,scr_line* screen)é
+affich_display_stm(ast* tree,scr_line* screen){
 
    ast* temp = NULL;
 
@@ -193,19 +192,19 @@ affich_display_stm(ast* tree,scr_line* screen)é
 
    temp=tree->node.display_stm.list_operand;
    lvl++;
-   while(temp §= NULL)é
-      debug_3("Printing inner nodes (%s) çn",tagValuesÝtemp->tag~);
-      debug_2("Printing inner nodes (%d) çn",          temp->tag );
+   while(temp != NULL){
+      debug_3("Printing inner nodes (%s) \n",tagValues[temp->tag]);
+      debug_2("Printing inner nodes (%d) \n",          temp->tag );
       affich_operand(temp,screen);
       temp=temp->next;
-   è
+   }
    lvl--;
 
-è
+}
 
 ast*
 make_initialize  (int bool_repl, int nb_operand,
-                  struct ast* list_operand)é
+                  struct ast* list_operand){
 
   ast* e = (ast*) malloc(sizeof(ast));
   e->node.initialize_stm.ast_name          = "INITIALIZE";
@@ -216,16 +215,16 @@ make_initialize  (int bool_repl, int nb_operand,
   e->node.initialize_stm.list_operand      = list_operand;
 
   e->next =NULL;
-  debug_2("**********  INITIALIZE   **********çn");
-  debug_2("* INITIALIZE AST BUILT SUCCESFULLY *çn");
-  debug_2("************************************çn");
+  debug_2("**********  INITIALIZE   **********\n");
+  debug_2("* INITIALIZE AST BUILT SUCCESFULLY *\n");
+  debug_2("************************************\n");
 
   return e;
 
 
-è
+}
 
-affich_initialize_stm(ast* tree,scr_line* screen)é
+affich_initialize_stm(ast* tree,scr_line* screen){
 
    ast* temp = NULL;
 
@@ -243,20 +242,20 @@ affich_initialize_stm(ast* tree,scr_line* screen)é
    temp=tree->node.initialize_stm.list_operand;
 
    lvl++;
-   while(temp §= NULL)é
-      debug_3("Printing inner nodes (%s) çn",tagValuesÝtemp->tag~);
-      debug_2("Printing inner nodes (%d) çn",          temp->tag );
+   while(temp != NULL){
+      debug_3("Printing inner nodes (%s) \n",tagValues[temp->tag]);
+      debug_2("Printing inner nodes (%d) \n",          temp->tag );
       affich_operand(temp,screen);
       temp=temp->next;
-   è
+   }
    lvl--;
-è
+}
 
 
 /*---   OPERAND   ---*/
 ast*
 make_operand (int bool_literal, int bool_identifier,
-                  struct ast* operand)é
+                  struct ast* operand){
 
   ast* e = (ast*) malloc(sizeof(ast));
   e->node.operand.ast_name          = "OPERAND";
@@ -264,15 +263,15 @@ make_operand (int bool_literal, int bool_identifier,
 
 
   e->next =NULL;
-  debug_3("**********  OPERAND    **********çn");
-  debug_3("* OPERAND AST BUILT SUCCESFULLY (%d)*çn",e);
-  debug_3("**********************************çn");
+  debug_3("**********  OPERAND    **********\n");
+  debug_3("* OPERAND AST BUILT SUCCESFULLY (%d)*\n",e);
+  debug_3("**********************************\n");
 
   return e;
 
-è
+}
 
-affich_operand(ast* tree,scr_line* screen)é
+affich_operand(ast* tree,scr_line* screen){
 
    ast* temp = NULL;
 
@@ -286,7 +285,7 @@ affich_operand(ast* tree,scr_line* screen)é
 
    else exit(EXIT_FAILURE);
 
-è
+}
 
 /*---   LITERAL   ---*/
 ast*
@@ -298,7 +297,7 @@ make_literal     (char* value,
                   int bool_singl_q, int bool_doubl_q,
                   int bool_intgr,   int bool_decim,
                   int bool_figurative,
-                  int char_length)é
+                  int char_length){
 
   ast* e = (ast*) malloc(sizeof(ast));
   e->node.literal.ast_name          = "LITERAL";
@@ -325,40 +324,40 @@ make_literal     (char* value,
 
   e->next =NULL;
 
-  debug_2("**********  LITERAL   **********çn");
-  debug_2("* LITERAL AST BUILT SUCCESFULLY (%d)*çn",e);
-  debug_2("*********************************çn");
+  debug_2("**********  LITERAL   **********\n");
+  debug_2("* LITERAL AST BUILT SUCCESFULLY (%d)*\n",e);
+  debug_2("*********************************\n");
 
   return e;
 
-è
+}
 
-affich_literal(ast* tree,scr_line* screen)é
+affich_literal(ast* tree,scr_line* screen){
 
    /* comportement bizzare des strings */
    /* str continue toujours a garder sa valeur tout au long du pgm */
    char* value=malloc(125);
    strcpy(value,"ALL ");
 
-   if (tree->node.literal.bool_all) é
+   if (tree->node.literal.bool_all) {
       strcat(value,tree->node.literal.value); // modif , makefile
       draw_box(screen,tree->node.literal.ast_name,
                value,                       lvl);
 
-   è else
+   } else
 
    draw_box(screen,tree->node.literal.ast_name,
             tree->node.literal.value,lvl);
 
    strcpy(value,"");
 
-è
+}
 
 ast*
 make_identifier  (int bool_length, int bool_address,
                   int bool_special_reg,
                   struct ast* name, struct ast* qualif,
-                  struct ast* subscript, struct ast* refmod)é
+                  struct ast* subscript, struct ast* refmod){
 
   ast* e = (ast*) malloc(sizeof(ast));
   e->node.identifier.ast_name          = "IDENTIFIER";
@@ -376,15 +375,15 @@ make_identifier  (int bool_length, int bool_address,
   e->node.identifier.refmod            = refmod;
 
   e->next =NULL;
-  debug_2("**********  IDENTIFIER   **********çn");
-  debug_2("* IDENTIFIER AST BUILT SUCCESFULLY (%d)*çn",e);
-  debug_2("************************************çn");
+  debug_2("**********  IDENTIFIER   **********\n");
+  debug_2("* IDENTIFIER AST BUILT SUCCESFULLY (%d)*\n",e);
+  debug_2("************************************\n");
 
   return e;
 
-è
+}
 
-affich_identifier(ast* tree,scr_line* screen)é
+affich_identifier(ast* tree,scr_line* screen){
 
    char* value_1=malloc(125);
    char* value_2=malloc(125);
@@ -411,28 +410,28 @@ affich_identifier(ast* tree,scr_line* screen)é
 
    lvl++;
 
-   debug_2("Identifier name  ? (%d)çn",tree->node.identifier.name);
-   if(tree->node.identifier.name §= NULL)
+   debug_2("Identifier name  ? (%d)\n",tree->node.identifier.name);
+   if(tree->node.identifier.name != NULL)
       affich_ident_name(tree->node.identifier.name,screen);
 
-   debug_2("Identifier qualif? (%d)çn",tree->node.identifier.qualif);
-   if(tree->node.identifier.qualif §= NULL)
+   debug_2("Identifier qualif? (%d)\n",tree->node.identifier.qualif);
+   if(tree->node.identifier.qualif != NULL)
       affich_ident_qualif(tree->node.identifier.qualif,screen);
 
-   debug_2("Identifier subscr  (%d)çn",tree->node.identifier.subscript);;
-   if(tree->node.identifier.subscript §= NULL)
+   debug_2("Identifier subscr  (%d)\n",tree->node.identifier.subscript);;
+   if(tree->node.identifier.subscript != NULL)
       affich_ident_subscript(tree->node.identifier.subscript,screen);
 
-   debug_2("Identifier refmod ? (%d)çn",tree->node.identifier.refmod);
-   if(tree->node.identifier.refmod §= NULL)
+   debug_2("Identifier refmod ? (%d)\n",tree->node.identifier.refmod);
+   if(tree->node.identifier.refmod != NULL)
       affich_ident_refmod(tree->node.identifier.refmod,screen);
    lvl--;
-è
+}
 
 
 ast*
 make_ident_name_qualif
-                 (struct ast* name, struct ast* qualif)é
+                 (struct ast* name, struct ast* qualif){
 
   ast* e = (ast*) malloc(sizeof(ast));
   e->node.ident_name_qualif.ast_name          = "IDENT_NAME_QUALIF";
@@ -443,21 +442,21 @@ make_ident_name_qualif
 
 
   e->next =NULL;
-  debug_2("*********** ID NAME QUALIF  ***********çn");
-  debug_2("* ID NAME QUALIF AST BUILT SUCCESFULLY (%d)*çn",e);
-  debug_2("****************************************çn");
+  debug_2("*********** ID NAME QUALIF  ***********\n");
+  debug_2("* ID NAME QUALIF AST BUILT SUCCESFULLY (%d)*\n",e);
+  debug_2("****************************************\n");
 
   return e;
 
-è
+}
 
-affich_ident_name_qualif(ast* tree,scr_line* screen)é
+affich_ident_name_qualif(ast* tree,scr_line* screen){
 
 
-è
+}
 
 ast*
-make_ident_name  (int length, char* value)é
+make_ident_name  (int length, char* value){
 
   ast* e = (ast*) malloc(sizeof(ast));
   e->node.ident_name.ast_name          = "IDENT_NAME";
@@ -467,22 +466,22 @@ make_ident_name  (int length, char* value)é
   strcpy(e->node.ident_name.value,value);
 
   e->next =NULL;
-  debug_2("*********** ID NAME  ***********çn");
-  debug_2("* ID NAME AST BUILT SUCCESFULLY (%d)*çn",e);
-  debug_2("*********************************çn");
+  debug_2("*********** ID NAME  ***********\n");
+  debug_2("* ID NAME AST BUILT SUCCESFULLY (%d)*\n",e);
+  debug_2("*********************************\n");
   return e;
 
 
-è
+}
 
-affich_ident_name(ast* tree,scr_line* screen)é
+affich_ident_name(ast* tree,scr_line* screen){
 
    draw_box(screen,tree->node.ident_name.ast_name,
                    tree->node.ident_name.value,lvl);
-è
+}
 
 ast*
-make_ident_qualif(struct ast* list_qualif)é
+make_ident_qualif(struct ast* list_qualif){
 
   ast* e = (ast*) malloc(sizeof(ast));
   e->node.ident_qualif.ast_name          = "IDENT_QUALIF";
@@ -492,14 +491,14 @@ make_ident_qualif(struct ast* list_qualif)é
 
 
   e->next =NULL;
-  debug_2("*********** ID QUALIF  ***********çn");
-  debug_2("* ID QUALIF AST BUILT SUCCESFULLY (%d)*çn",e);
-  debug_2("***********************************çn");
+  debug_2("*********** ID QUALIF  ***********\n");
+  debug_2("* ID QUALIF AST BUILT SUCCESFULLY (%d)*\n",e);
+  debug_2("***********************************\n");
   return e;
 
-è
+}
 
-affich_ident_qualif(ast* tree,scr_line* screen)é
+affich_ident_qualif(ast* tree,scr_line* screen){
 
    ast* temp = NULL;
 
@@ -507,20 +506,20 @@ affich_ident_qualif(ast* tree,scr_line* screen)é
    temp=tree->node.ident_qualif.list_qualif;
 
    lvl++;
-   while(temp §= NULL)é
+   while(temp != NULL){
       draw_box(screen,tree->node.ident_qualif.ast_name,
                    temp->node.ident_name.value,lvl);
 
       temp=temp->next;
-   è
+   }
    lvl--;
 
-è
+}
 
 
 ast*
 make_ident_subscript
-                 (struct ast* list_subscript)é
+                 (struct ast* list_subscript){
 
   ast* e = (ast*) malloc(sizeof(ast));
   e->node.ident_subscript.ast_name          = "IDENT_SUBSCRIPT";
@@ -528,18 +527,18 @@ make_ident_subscript
 
   e->node.ident_subscript.list_subscript  = list_subscript;
 
-  debug_2("*********** ID SUBSCR  ***********çn");
-  debug_2("* ID SUBSCR AST BUILT SUCCESFULLY *çn");
-  debug_2("***********************************çn");
+  debug_2("*********** ID SUBSCR  ***********\n");
+  debug_2("* ID SUBSCR AST BUILT SUCCESFULLY *\n");
+  debug_2("***********************************\n");
 
 
   e->next =NULL;
   return e;
 
 
-è
+}
 
-affich_ident_subscript(ast* tree,scr_line* screen)é
+affich_ident_subscript(ast* tree,scr_line* screen){
 
    ast* temp = NULL;
 
@@ -548,22 +547,22 @@ affich_ident_subscript(ast* tree,scr_line* screen)é
    temp=tree->node.ident_subscript.list_subscript;
 
    lvl++;
-   while(temp §= NULL)é
-      debug_3("Printing (%s) (%d)     çn",tagValuesÝtemp->tag~,temp);
-      debug_2("Printing (%d) (%d)     çn",          temp->tag ,temp);
+   while(temp != NULL){
+      debug_3("Printing (%s) (%d)     \n",tagValues[temp->tag],temp);
+      debug_2("Printing (%d) (%d)     \n",          temp->tag ,temp);
       affich_arith_exp(temp,screen);
       /*
       draw_box(screen,tree->node.ident_subscript.ast_name,
                       temp->node.arith_exp.value,lvl);
       */
       temp=temp->next;
-   è
+   }
    lvl--;
-è
+}
 
 
 ast*
-make_ident_refmod(struct ast* charleft, struct ast* length)é
+make_ident_refmod(struct ast* charleft, struct ast* length){
 
   ast* e = (ast*) malloc(sizeof(ast));
   e->node.ident_refmod.ast_name          = "IDENT_REFMOD";
@@ -572,18 +571,18 @@ make_ident_refmod(struct ast* charleft, struct ast* length)é
   e->node.ident_refmod.charleft        = charleft;
   e->node.ident_refmod.length          = length;
 
-  debug_2("*********** ID REFMOD  ***********çn");
-  debug_2("* ID REFMOD AST BUILT SUCCESFULLY *çn");
-  debug_2("***********************************çn");
+  debug_2("*********** ID REFMOD  ***********\n");
+  debug_2("* ID REFMOD AST BUILT SUCCESFULLY *\n");
+  debug_2("***********************************\n");
 
 
   e->next =NULL;
   return e;
 
 
-è
+}
 
-affich_ident_refmod(ast* tree,scr_line* screen)é
+affich_ident_refmod(ast* tree,scr_line* screen){
 
 
    draw_box(screen,tree->node.ident_refmod.ast_name,"",lvl);
@@ -593,17 +592,17 @@ affich_ident_refmod(ast* tree,scr_line* screen)é
    draw_box(screen,"OFFSET","",lvl);
    affich_arith_exp(tree->node.ident_refmod.charleft,screen);
 
-   if(tree->node.ident_refmod.length)é
+   if(tree->node.ident_refmod.length){
      draw_box(screen,"LENGTH","",lvl);
      affich_arith_exp(tree->node.ident_refmod.length,screen);
-   è
+   }
    lvl--;
 
-è
+}
 
 ast*
 make_arith_exp   (char* value, char* oper, char* sign,
-                  struct ast* left, struct ast* right)é
+                  struct ast* left, struct ast* right){
 
   ast* e = (ast*) malloc(sizeof(ast));
   e->node.arith_exp.ast_name          = "ARITH_EXP";
@@ -619,9 +618,9 @@ make_arith_exp   (char* value, char* oper, char* sign,
   e->next =NULL;
   return e;
 
-è
+}
 
-affich_arith_exp(ast* tree,scr_line* screen)é
+affich_arith_exp(ast* tree,scr_line* screen){
 
    /*draw_box(screen,tree->node.arith_exp.ast_name,"",lvl);*/
 
@@ -637,12 +636,12 @@ affich_arith_exp(ast* tree,scr_line* screen)é
    if (tree->node.arith_exp.right)
       affich_node(tree->node.arith_exp.right,screen);
 
-è
+}
 
 /*--- DATA_DIV ---*/
 ast*
 make_data_div    (struct ast* file_sect, struct ast* ws_sect,
-                  struct ast* link_sect)é
+                  struct ast* link_sect){
 
   ast* e = (ast*) malloc(sizeof(ast));
   e->node.data_div.ast_name          = "DATA_DIV";
@@ -652,14 +651,14 @@ make_data_div    (struct ast* file_sect, struct ast* ws_sect,
   e->node.data_div.ws_sect           = ws_sect;
   e->node.data_div.link_sect         = link_sect;
 
-  debug_2("*********** DATA DIV   ***********çn");
-  debug_2("* DATA DIV  AST BUILT SUCCESFULLY *çn");
-  debug_2("***********************************çn");
+  debug_2("*********** DATA DIV   ***********\n");
+  debug_2("* DATA DIV  AST BUILT SUCCESFULLY *\n");
+  debug_2("***********************************\n");
 
   e->next =NULL;
   return e;
 
-è
+}
 
 /*---   FIELD    ---*/
 ast*
@@ -692,7 +691,7 @@ make_field (struct ast*  name,
             struct ast*  field_sign,
             struct ast*  field_sync,
             section_t    section
-           )é
+           ){
 
   ast* e = (ast*) malloc(sizeof(ast));
   e->node.field.ast_name                = "FIELD";
@@ -730,17 +729,17 @@ make_field (struct ast*  name,
 
   e->next =NULL;
 
-  debug_2("**********  FIELD   **********çn");
-  debug_2("* FIELD AST BUILT SUCCESFULLY (%d)*çn",e);
-  debug_2("*******************************çn");
+  debug_2("**********  FIELD   **********\n");
+  debug_2("* FIELD AST BUILT SUCCESFULLY (%d)*\n",e);
+  debug_2("*******************************\n");
 
   return e;
 
-è
+}
 
 ast*
 update_field_init(struct ast* field, struct ast* name,
-                  field_name field_name, field_lvl field_lvl, int lvl)é
+                  field_name field_name, field_lvl field_lvl, int lvl){
 
   field->node.field.name                    = name;
   field->node.field.field_name              = field_name;
@@ -749,12 +748,12 @@ update_field_init(struct ast* field, struct ast* name,
 
   return field;
 
-è
+}
 
 ast*
-update_field     (struct ast* field, struct ast* clause, tag_t tag)é
+update_field     (struct ast* field, struct ast* clause, tag_t tag){
 
-  switch(tag)é
+  switch(tag){
 
      case CL_EXTERNAL  :
         field->node.field.bool_external      = 1;
@@ -797,16 +796,16 @@ update_field     (struct ast* field, struct ast* clause, tag_t tag)é
         return field;
 
      default :
-        printf("Update_field : Unknown clause (%d)çn",tag);
+        printf("Update_field : Unknown clause (%d)\n",tag);
         exit(EXIT_FAILURE);
 
-  è
+  }
 
-è
+}
 
 ast*
 make_occurs (int times, int to_times, ast* depend_on, ast* indexes,
-                                                      ast* keys )é
+                                                      ast* keys ){
 
   ast* e = (ast*) malloc(sizeof(ast));
   e->node.occurs.ast_name               = "OCCURS";
@@ -820,15 +819,15 @@ make_occurs (int times, int to_times, ast* depend_on, ast* indexes,
 
   e->next =NULL;
 
-  debug_2("*********** OCCURS   **********çn");
-  debug_2("* OCCURS AST BUILT SUCCESFULLY (%d)*çn",e);
-  debug_2("********************************çn");
+  debug_2("*********** OCCURS   **********\n");
+  debug_2("* OCCURS AST BUILT SUCCESFULLY (%d)*\n",e);
+  debug_2("********************************\n");
 
   return e;
-è
+}
 
 ast*
-make_occurs_key (int bool_asc, int bool_des, ast* key)é
+make_occurs_key (int bool_asc, int bool_des, ast* key){
 
   ast* e = (ast*) malloc(sizeof(ast));
   e->node.occurs_key.ast_name               = "OCCURS_KEY";
@@ -840,23 +839,23 @@ make_occurs_key (int bool_asc, int bool_des, ast* key)é
 
   e->next =NULL;
 
-  debug_2("*********** OCCURS_KEY *********çn");
-  debug_2("* OCCURS_KEY BUILT SUCCESFULLY (%d)*çn",e);
-  debug_2("********************************çn");
+  debug_2("*********** OCCURS_KEY *********\n");
+  debug_2("* OCCURS_KEY BUILT SUCCESFULLY (%d)*\n",e);
+  debug_2("********************************\n");
 
   return e;
-è
+}
 
 ast*
 make_pic_cmpnt(pic_cmpnt_t pic_cmpnt,int repeat, char* chars,
-                                                 char* currency)é
+                                                 char* currency){
   ast* e = (ast*) malloc(sizeof(ast));
   e->node.pic_cmpnt.ast_name               = "PIC_CMPNT";
   e->tag = PIC_CMPNT;
 
   e->node.pic_cmpnt.pic_cmpnt            = pic_cmpnt;
 
-  switch (pic_cmpnt)   é
+  switch (pic_cmpnt)   {
      case PIC_REPEAT   :
           e->node.pic_cmpnt.pic_val.repeat       = repeat;
           break;
@@ -868,22 +867,22 @@ make_pic_cmpnt(pic_cmpnt_t pic_cmpnt,int repeat, char* chars,
           break;
 
      default           :
-          printf("pic_cmpnt unknown çn");
+          printf("pic_cmpnt unknown \n");
           exit(EXIT_FAILURE);
-  è
+  }
 
   e->next =NULL;
 
-  debug_2("*********** PIC_CMPNT *********çn");
-  debug_2("* PIC_CMPNT BUILT SUCCESFULLY (%d)*çn",e);
-  debug_2("*******************************çn");
+  debug_2("*********** PIC_CMPNT *********\n");
+  debug_2("* PIC_CMPNT BUILT SUCCESFULLY (%d)*\n",e);
+  debug_2("*******************************\n");
 
   return e;
-è
+}
 
 ast*
 make_field_sign(int bool_leading, int bool_trailing, int bool_separate,
-                int bool_character)é
+                int bool_character){
 
   ast* e = (ast*) malloc(sizeof(ast));
   e->node.field_sign.ast_name               = "FIELD_SIGN";
@@ -896,15 +895,15 @@ make_field_sign(int bool_leading, int bool_trailing, int bool_separate,
 
   e->next =NULL;
 
-  debug_2("*********** FIELD_SIGN *********çn");
-  debug_2("* FIELD_SIGN BUILT SUCCESFULLY (%d)*çn",e);
-  debug_2("*******************************çn");
+  debug_2("*********** FIELD_SIGN *********\n");
+  debug_2("* FIELD_SIGN BUILT SUCCESFULLY (%d)*\n",e);
+  debug_2("*******************************\n");
 
   return e;
-è
+}
 
 ast*
-make_field_value(ast* value, ast* thru_value)é
+make_field_value(ast* value, ast* thru_value){
 
   ast* e = (ast*) malloc(sizeof(ast));
   e->node.field_value.ast_name            = "FIELD_VALUE";
@@ -915,15 +914,15 @@ make_field_value(ast* value, ast* thru_value)é
 
   e->next =NULL;
 
-  debug_2("*********** FIELD_VALUE *********çn");
-  debug_2("* FIELD_VALUE BUILT SUCCESFULLY (%d)*çn",e);
-  debug_2("*********************************çn");
+  debug_2("*********** FIELD_VALUE *********\n");
+  debug_2("* FIELD_VALUE BUILT SUCCESFULLY (%d)*\n",e);
+  debug_2("*********************************\n");
 
   return e;
-è
+}
 
 ast*
-make_usage(usage_t usage)é
+make_usage(usage_t usage){
 
   ast* e = (ast*) malloc(sizeof(ast));
   e->node.usage.ast_name                  = "USAGE";
@@ -933,15 +932,15 @@ make_usage(usage_t usage)é
 
   e->next =NULL;
 
-  debug_2("*********** USAGE *********çn");
-  debug_2("* USAGE BUILT SUCCESFULLY (%d)*çn",e);
-  debug_2("***************************çn");
+  debug_2("*********** USAGE *********\n");
+  debug_2("* USAGE BUILT SUCCESFULLY (%d)*\n",e);
+  debug_2("***************************\n");
 
   return e;
-è
+}
 
 ast*
-make_renames(ast* id_qualif,ast* thru_id_qualif)é
+make_renames(ast* id_qualif,ast* thru_id_qualif){
 
   ast* e = (ast*) malloc(sizeof(ast));
   e->node.renames.ast_name                  = "RENAMES";
@@ -952,15 +951,15 @@ make_renames(ast* id_qualif,ast* thru_id_qualif)é
 
   e->next =NULL;
 
-  debug_2("*********** RENAMES *********çn");
-  debug_2("* RENAMES BUILT SUCCESFULLY (%d)*çn",e);
-  debug_2("*****************************çn");
+  debug_2("*********** RENAMES *********\n");
+  debug_2("* RENAMES BUILT SUCCESFULLY (%d)*\n",e);
+  debug_2("*****************************\n");
 
   return e;
-è
+}
 
 ast*
-make_field_sync(int bool_right, int bool_left)é
+make_field_sync(int bool_right, int bool_left){
 
   ast* e = (ast*) malloc(sizeof(ast));
   e->node.field_sync.ast_name            = "FIELD_SYNC";
@@ -971,24 +970,24 @@ make_field_sync(int bool_right, int bool_left)é
 
   e->next =NULL;
 
-  debug_2("*********** FIELD_SYNC *********çn");
-  debug_2("* FIELD_SYNC BUILT SUCCESFULLY *çn");
-  debug_2("********************************çn");
+  debug_2("*********** FIELD_SYNC *********\n");
+  debug_2("* FIELD_SYNC BUILT SUCCESFULLY *\n");
+  debug_2("********************************\n");
 
   return e;
-è
+}
 
-affich_field (ast* tree,scr_line* screen)é
+affich_field (ast* tree,scr_line* screen){
 
    assert(tree->tag==FIELD);
-   assert((§tree->next)!!tree->next->tag==FIELD);
+   assert((!tree->next)!!tree->next->tag==FIELD);
    static int nb_call=0;
    nb_call++;
-   debug_3("repere nb call (%d)çn",nb_call);
+   debug_3("repere nb call (%d)\n",nb_call);
 
 
    ast*  temp    =NULL;
-   debug_3("tree->tag (%s) value (%s) çn",tagValuesÝtree->tag~
+   debug_3("tree->tag (%s) value (%s) \n",tagValues[tree->tag]
                                          ,tree->node.field.name->
                                           node.ident_name.value);
    char* buffer_1=malloc(125);
@@ -1014,32 +1013,32 @@ affich_field (ast* tree,scr_line* screen)é
    strcat(buffer_1,FLD_NAME(tree));
 
 
-   if(tree->node.field.occurs       ) é
+   if(tree->node.field.occurs       ) {
       strcat(buffer_1," OCCURS ");
       itoa(tree->node.field.occurs->node.occurs.times,buffer,10);
       strcat(buffer_1,buffer);                        /* times */
       strcpy(buffer,"");
-      if(tree->node.field.occurs->node.occurs.to_times>0)é
+      if(tree->node.field.occurs->node.occurs.to_times>0){
          strcat(buffer_1," TO ");
          itoa(tree->node.field.occurs->node.occurs.to_times,buffer,10);
          strcat(buffer_1,buffer);                     /* to_times */
          strcpy(buffer,"");
-      è
-   è
+      }
+   }
 
 
-   if(tree->node.field.redefines    ) é
+   if(tree->node.field.redefines    ) {
       strcat(buffer_1," REDEF ");
       strcat(buffer_1,tree->node.field.redefines
                           ->node.ident_name.value);
-   è
+   }
 
 
-   if(tree->node.field.picture      ) é
+   if(tree->node.field.picture      ) {
       strcat(buffer_1," PIC ");
       temp=tree->node.field.picture;
-      while(temp)é
-         switch (temp->node.pic_cmpnt.pic_cmpnt) é
+      while(temp){
+         switch (temp->node.pic_cmpnt.pic_cmpnt) {
             case PIC_REPEAT :
                  itoa(temp->node.pic_cmpnt.pic_val.repeat,buffer,10);
                  strcat(buffer_1,"(");
@@ -1053,102 +1052,102 @@ affich_field (ast* tree,scr_line* screen)é
                  strcat(buffer_1,temp->node.pic_cmpnt.pic_val.currency);
                  break;
             default         :
-                 printf("pic_cmpnt unknown !çn");
+                 printf("pic_cmpnt unknown !\n");
                  exit(EXIT_FAILURE);
-         è
+         }
          temp=temp->next;
-      è
+      }
 
-   è
+   }
 
 
    temp=tree->node.field.field_value;
    if(temp)strcat(buffer_1," VALUE ");
 
-   while(temp)é
+   while(temp){
       strcpy(buffer," ");
       strcat(buffer,
       temp->node.field_value.value->node.literal.value);
-      if (temp->node.field_value.thru_value)é
+      if (temp->node.field_value.thru_value){
           strcat(buffer," THRU ");
           strcat(buffer,
           temp->node.field_value.thru_value->node.literal.value);
-      è
+      }
       strcat(buffer_1,buffer);
       strcpy(buffer,"");
       temp=temp->next;
-   è
+   }
 
 
-   if(tree->node.field.usage        ) é
+   if(tree->node.field.usage        ) {
       strcat(buffer_1," USAGE ");
-      strcat(buffer_1,usageValuesÝtree->node.field.usage
-                                      ->node.usage.usage~);
-   è
+      strcat(buffer_1,usageValues[tree->node.field.usage
+                                      ->node.usage.usage]);
+   }
 
 
-   if(tree->node.field.renames          ) é
+   if(tree->node.field.renames          ) {
       strcat(buffer_1," RENAMES ");
       strcat(buffer_1,
       tree->node.field.renames->node.renames.id_qualif
                               ->node.identifier.name
                               ->node.ident_name.value);
-      if (tree->node.field.renames->node.renames.thru_id_qualif)é
+      if (tree->node.field.renames->node.renames.thru_id_qualif){
           strcat(buffer_1," THRU ");
           strcat(buffer_1,
           tree->node.field.renames->node.renames.thru_id_qualif
                                   ->node.identifier.name
                                   ->node.ident_name.value);
-      è
-   è
+      }
+   }
 
 
    /* buffer 2 */
 
-   if(tree->node.field.bool_blank_zero) é
+   if(tree->node.field.bool_blank_zero) {
       strcat(buffer_2," BLANK WHEN ZERO -");
-   è
-   if(tree->node.field.bool_justified ) é
+   }
+   if(tree->node.field.bool_justified ) {
       strcat(buffer_2," JUSTIFIED -");
-   è
-   if(tree->node.field.field_sign       ) é
+   }
+   if(tree->node.field.field_sign       ) {
       strcat(buffer_2," SIGN ");
-      if(tree->node.field.field_sign->node.field_sign.bool_leading) é
+      if(tree->node.field.field_sign->node.field_sign.bool_leading) {
          strcat(buffer_2,"LEAD ");
-      è
-      if(tree->node.field.field_sign->node.field_sign.bool_trailing) é
+      }
+      if(tree->node.field.field_sign->node.field_sign.bool_trailing) {
          strcat(buffer_2,"TRAIL ");
-      è
-      if(tree->node.field.field_sign->node.field_sign.bool_separate) é
+      }
+      if(tree->node.field.field_sign->node.field_sign.bool_separate) {
          strcat(buffer_2,"SEPARATE ");
-      è
-      if(tree->node.field.field_sign->node.field_sign.bool_character) é
+      }
+      if(tree->node.field.field_sign->node.field_sign.bool_character) {
          strcat(buffer_2,"CHAR ");
-      è
+      }
       strcat(buffer_2,"-");
-   è
+   }
 
 
-   if(tree->node.field.field_sync) é
+   if(tree->node.field.field_sync) {
       strcat(buffer_2," SYNC ");
-      if(tree->node.field.field_sync->node.field_sync.bool_right)é
+      if(tree->node.field.field_sync->node.field_sync.bool_right){
          strcat(buffer_2,"RIGHT -");
-      è else if(tree->node.field.field_sync->node.field_sync.bool_left)é
+      } else if(tree->node.field.field_sync->node.field_sync.bool_left){
          strcat(buffer_2,"LEFT -");
-      è else é
+      } else {
          strcat(buffer_2,"-");
-      è
-   è
-   if(tree->node.field.bool_global) é
+      }
+   }
+   if(tree->node.field.bool_global) {
       strcat(buffer_2," GLOBAL -");
-   è
-   if(tree->node.field.bool_external) é
+   }
+   if(tree->node.field.bool_external) {
       strcat(buffer_2," EXTERNAL -");
-   è
+   }
 
 
    lvl = tree->node.field.nb_parents;// + tree->node.field.nb_bouchon;
-   debug_3("nb_parents  (%d) nb_bouchon(%d) draw lvl  (%d)çn",
+   debug_3("nb_parents  (%d) nb_bouchon(%d) draw lvl  (%d)\n",
    tree->node.field.nb_parents,tree->node.field.nb_bouchon,lvl);
 
    draw_box(screen,buffer_1,buffer_2,lvl);
@@ -1162,144 +1161,144 @@ affich_field (ast* tree,scr_line* screen)é
 
    temp =tree->node.field.children;
 
-   if(temp) é
+   if(temp) {
   /*  lvl++; */
       affich_field(temp,screen);
   /*  lvl--; */
-   è
+   }
 
    temp =tree->next;
 
-   if(temp) é
-      debug_2("afficher next field : addr (%d) çn",temp);
+   if(temp) {
+      debug_2("afficher next field : addr (%d) \n",temp);
 
       affich_field(temp,screen);
-   è
+   }
 
-è
+}
 
-affich_binary_op(ast* tree,scr_line* screen)é
+affich_binary_op(ast* tree,scr_line* screen){
 
 
-è
+}
 
-affich_data_div(ast* tree,scr_line* screen)é
+affich_data_div(ast* tree,scr_line* screen){
 
-   debug_1("afficher file_sectçn");
+   debug_1("afficher file_sect\n");
    affich_node(tree->node.data_div.file_sect);
-   debug_1("afficher ws_sectçn");
+   debug_1("afficher ws_sect\n");
    affich_node(tree->node.data_div.ws_sect);
-   debug_1("afficher link_sectçn");
+   debug_1("afficher link_sect\n");
    affich_node(tree->node.data_div.link_sect);
 
-è
+}
 
-affich_declaration(ast* tree,scr_line* screen)é
-
-
-è
-
-affich_special_reg(ast* tree,scr_line* screen)é
+affich_declaration(ast* tree,scr_line* screen){
 
 
-è
+}
+
+affich_special_reg(ast* tree,scr_line* screen){
+
+
+}
 
 int
-chain_length(ast* tree)é
+chain_length(ast* tree){
 
    ast* p=NULL;
    int  n=0;
 
-   for(p=tree;p;p=p->next)é
+   for(p=tree;p;p=p->next){
       n++;
-      debug_3("p%d : %d (%d) (%s) çn",n,p,p->tag,
+      debug_3("p%d : %d (%d) (%s) \n",n,p,p->tag,
                         p->node.field.name->node.ident_name.value);
-   è
-      debug_3("Chain  length (%d) çn",n);
+   }
+      debug_3("Chain  length (%d) \n",n);
    return n;
-è
+}
 
                      /***                 ***/
 ast*
-append_list (struct ast* list, struct ast* toadd)é
+append_list (struct ast* list, struct ast* toadd){
 
-  debug_3("çn*******************************************");
-  debug_3("çn");
-  debug_3("append_list element(%s) to list (%s) start ...çn",
-            tagValuesÝtoadd->tag~    ,tagValuesÝlist->tag~);
-  debug_3("list (%d) list->next (%d) toadd (%d) toadd->next (%d) çn",
+  debug_3("\n*******************************************");
+  debug_3("\n");
+  debug_3("append_list element(%s) to list (%s) start ...\n",
+            tagValues[toadd->tag]    ,tagValues[list->tag]);
+  debug_3("list (%d) list->next (%d) toadd (%d) toadd->next (%d) \n",
           list,list->next,toadd,toadd->next);
-  debug_3("çn*******************************************çn");
+  debug_3("\n*******************************************\n");
 
   ast* head;
 
-  if(list == NULL)é
+  if(list == NULL){
 
 
-     debug_3("list (%d) list->next (%d)çn",toadd,toadd->next);
+     debug_3("list (%d) list->next (%d)\n",toadd,toadd->next);
 
      return toadd;
-  è
+  }
 
   head = list;
 
-  while(list->next §= NULL)é
-     debug_3("noeud visité non non null passer au suivant ... çn");
+  while(list->next != NULL){
+     debug_3("noeud visit{ non non null passer au suivant ... \n");
      list = list->next;
-  è
+  }
 
   list->next=toadd;
   /*list->next=NULL;*/
 
-  debug_3("append succesful            çn");
-  debug_3("çn*****************************************çn");
-  debug_3("head (%d) head->next (%d) list (%d) list->next (%d) çn",
+  debug_3("append succesful            \n");
+  debug_3("\n*****************************************\n");
+  debug_3("head (%d) head->next (%d) list (%d) list->next (%d) \n",
           head,head->next,list,list->next);
-  debug_3("çn*******************************************");
-  debug_3("çn");
+  debug_3("\n*******************************************");
+  debug_3("\n");
 
   return head;
 
-è
+}
 
 void
-append_child(struct ast* dad, struct ast* child)é
+append_child(struct ast* dad, struct ast* child){
 
   ast* head;
   ast* temp=NULL;
 
-  if(FLD_CHILD(dad)) debug_3("dad first child (%s)çn",
+  if(FLD_CHILD(dad)) debug_3("dad first child (%s)\n",
   FLD_NAME(FLD_CHILD(dad)));
 
-  if(FLD_CHILD(dad) == NULL)é
+  if(FLD_CHILD(dad) == NULL){
 
-     debug_3("Dad has no children çn");
+     debug_3("Dad has no children \n");
      FLD_CHILD(dad) = child;
      return;
-  è
+  }
 
   temp = FLD_CHILD(dad);
 
-  while(temp->next)é
-     debug_3("Hi bro (%s)çn",FLD_NAME(temp->next));
+  while(temp->next){
+     debug_3("Hi bro (%s)\n",FLD_NAME(temp->next));
      temp = temp->next;
-  è
+  }
 
-  debug_3("dad put your child (%s) next bro (%s) çn",
+  debug_3("dad put your child (%s) next bro (%s) \n",
            FLD_NAME(child),FLD_NAME(temp));
 
   temp->next=child;
 
 
-è
+}
 
 /*              Affichage des AST                       */
 
-affich_node (ast* tree,scr_line* screen)é
+affich_node (ast* tree,scr_line* screen){
 
    if (tree==NULL) return;
 
-   debug_1("  afficher node (%d) çn",tree->tag);
+   debug_1("  afficher node (%d) \n",tree->tag);
 
    if      (tree->tag == SENTENCE)
 
@@ -1377,38 +1376,38 @@ affich_node (ast* tree,scr_line* screen)é
 
            affich_field(tree,screen);
 
-   else é
-          /* printf("node to print not allowed (%s) çn",
-                     tagValuesÝtree->tag~);
-          */ printf("node to print not allowed (%d) (%d)çn",
+   else {
+          /* printf("node to print not allowed (%s) \n",
+                     tagValues[tree->tag]);
+          */ printf("node to print not allowed (%d) (%d)\n",
                                tree,tree->tag );
              exit(EXIT_FAILURE);
-   è
+   }
 
-è
+}
 
 /*              Free AST               */
 
-free_node   (ast* tree)é
+free_node   (ast* tree){
 
-   /* si ast n'est pas créée */
+   /* si ast n'est pas cr{{e */
    if (tree==NULL) return;
 
-   /* Cas spécial ast : free children first */
-   if ((tree->tag == FIELD) && (tree->node.field.children)) é
-      debug_2("Child to free found (%d)çn",tree->node.field.children);
+   /* Cas sp{cial ast : free children first */
+   if ((tree->tag == FIELD) && (tree->node.field.children)) {
+      debug_2("Child to free found (%d)\n",tree->node.field.children);
       free_node(tree->node.field.children);
-   è
+   }
 
-   if(tree->next)é
-      debug_2("Next to free found (%d)(%d)çn",
+   if(tree->next){
+      debug_2("Next to free found (%d)(%d)\n",
                                            tree->next->tag,tree->next);
       free_node(tree->next);
-   è
+   }
 
-   debug_3("Real free start switch (%d)(%d)çn",tree->tag,tree);
+   debug_3("Real free start switch (%d)(%d)\n",tree->tag,tree);
 
-   switch (tree->tag) é
+   switch (tree->tag) {
 
       case SENTENCE          : free_sentence(tree);tree=NULL;break;
       case DECLARATION       : free_declaration(tree);tree=NULL;break;
@@ -1425,7 +1424,7 @@ free_node   (ast* tree)é
       case IDENT_NAME_QUALIF : free_ident_name_qualif(tree);
                                tree=NULL;break;
       case IDENT_QUALIF      : free_ident_qualif(tree);tree=NULL;break;
-      case IDENT_SUBSCRIPT   : free_ident_subscript(tree);              k;
+      case IDENT_SUBSCRIPT   : free_ident_subscript(tree);              
                                tree=NULL;break;
       case IDENT_REFMOD      : free_ident_refmod(tree);tree=NULL;break;
       case SPECIAL_REG       : free_special_reg(tree);tree=NULL;break;
@@ -1441,71 +1440,71 @@ free_node   (ast* tree)é
       case USAGE             : free_usage(tree);tree=NULL;break;
       case RENAMES           : free_renames(tree);tree=NULL;break;
       default:
-        /* printf("Unknown Tag (%d)(%s) çn", tree->tag,
-           tagValuesÝtree->tag~); */
-           printf("Unknown Tag (%d)(%d) çn", tree->tag,tree);
+        /* printf("Unknown Tag (%d)(%s) \n", tree->tag,
+           tagValues[tree->tag]); */
+           printf("Unknown Tag (%d)(%d) \n", tree->tag,tree);
            exit(EXIT_FAILURE);
-   è
+   }
 
-   debug_3("Real free end for (%d)(%d)çn",tree->tag,tree);
-è
+   debug_3("Real free end for (%d)(%d)\n",tree->tag,tree);
+}
 
 
 
-free_sentence(ast* tree)é
+free_sentence(ast* tree){
 
    free_node(tree->node.sentence.list_statement);
 
    free(tree);
 
-è
+}
 
-free_declaration(ast* tree)é
-
-   free(tree);
-
-è
-
-free_statement(ast* tree)é /* to_del */
+free_declaration(ast* tree){
 
    free(tree);
 
-è
+}
 
-free_move_stm(ast* tree)é
+free_statement(ast* tree){ /* to_del */
+
+   free(tree);
+
+}
+
+free_move_stm(ast* tree){
 
    free_node(tree->node.move_stm.operand_g);
    free_node(tree->node.move_stm.list_operand_r);
    free(tree);
 
-è
+}
 
-free_display_stm(ast* tree)é
+free_display_stm(ast* tree){
 
    free_node(tree->node.display_stm.list_operand);
    free(tree);
 
-è
+}
 
-free_initialize_stm(ast* tree)é
+free_initialize_stm(ast* tree){
 
    free_node(tree->node.initialize_stm.list_operand);
    free(tree);
 
-è
+}
 
-free_operand(ast* tree)é
+free_operand(ast* tree){
 
    free_node(tree->node.operand.operand);
    free(tree);
-è
+}
 
-free_literal(ast* tree)é
+free_literal(ast* tree){
 
    free(tree);
-è
+}
 
-free_identifier(ast* tree)é
+free_identifier(ast* tree){
 
    free_node(tree->node.identifier.name);
    free_node(tree->node.identifier.qualif);
@@ -1514,72 +1513,72 @@ free_identifier(ast* tree)é
 
    free(tree);
 
-è
+}
 
-free_ident_name(ast* tree)é
+free_ident_name(ast* tree){
 
    free(tree);
 
-è
+}
 
-free_ident_name_qualif(ast* tree)é /* to_del */
+free_ident_name_qualif(ast* tree){ /* to_del */
 
    free_node(tree->node.ident_name_qualif.name);
    free_node(tree->node.ident_name_qualif.qualif);
 
    free(tree);
 
-è
+}
 
-free_ident_qualif(ast* tree)é
+free_ident_qualif(ast* tree){
 
    free_node(tree->node.ident_qualif.list_qualif);
 
    free(tree);
 
-è
+}
 
-free_ident_refmod(ast* tree)é
+free_ident_refmod(ast* tree){
 
    free_node(tree->node.ident_refmod.charleft);
    free_node(tree->node.ident_refmod.length);
 
    free(tree);
 
-è
+}
 
-free_ident_subscript(ast* tree)é
+free_ident_subscript(ast* tree){
 
    free_node(tree->node.ident_subscript.list_subscript);
 
    free(tree);
 
-è
+}
 
-free_special_reg(ast* tree)é
+free_special_reg(ast* tree){
 
    free(tree);
 
-è
+}
 
-free_arith_exp(ast* tree)é
+free_arith_exp(ast* tree){
 
    free_node(tree->node.arith_exp.left);
    free_node(tree->node.arith_exp.right);
 
    free(tree);
-è
+}
 
-free_data_div(ast* tree)é
+free_data_div(ast* tree){
 
    free_node(tree->node.data_div.file_sect);
    free_node(tree->node.data_div.ws_sect);
    free_node(tree->node.data_div.link_sect);
 
    free(tree);
-è
+}
 
-free_field(ast* tree)é
+free_field(ast* tree){
 
    free_node(tree->node.field.name);
    free_node(tree->node.field.copy);
@@ -1598,9 +1597,9 @@ free_field(ast* tree)é
    free_node(tree->node.field.field_sync);
    free(tree);
 
-è
+}
 
-free_occurs(ast* tree)é
+free_occurs(ast* tree){
 
    free_node(tree->node.occurs.depend_on);
    free_node(tree->node.occurs.keys);
@@ -1608,65 +1607,65 @@ free_occurs(ast* tree)é
 
    free(tree);
 
-è
+}
 
-free_occurs_key(ast* tree)é
+free_occurs_key(ast* tree){
 
    free_node(tree->node.occurs_key.key);
 
    free(tree);
 
-è
+}
 
-free_pic_cmpnt(ast* tree)é
-
-   free(tree);
-
-è
-
-free_field_sign(ast* tree)é
+free_pic_cmpnt(ast* tree){
 
    free(tree);
 
-è
+}
 
-free_field_value(ast* tree)é
+free_field_sign(ast* tree){
+
+   free(tree);
+
+}
+
+free_field_value(ast* tree){
 
    free_node(tree->node.field_value.value);
    free_node(tree->node.field_value.thru_value);
    free(tree);
 
-è
+}
 
-free_field_sync(ast* tree)é
-
-   free(tree);
-è
-
-free_usage(ast* tree)é
+free_field_sync(ast* tree){
 
    free(tree);
+}
 
-è
+free_usage(ast* tree){
 
-free_renames(ast* tree)é
+   free(tree);
+
+}
+
+free_renames(ast* tree){
 
    free_node(tree->node.renames.id_qualif);
    free_node(tree->node.renames.thru_id_qualif);
    free(tree);
 
-è
+}
 
-free_binary_op(ast* tree)é /* to_del */
+free_binary_op(ast* tree){ /* to_del */
 
    free(tree);
 
-è
+}
 
 /* Maj de nombre de bouchon pour tous les childs */
-/* en entrée : premier child */
+/* en entr{e : premier child */
 void
-maj_nb_bouchon(ast* tree)é
+maj_nb_bouchon(ast* tree){
 
    assert(tree->tag==FIELD);
 
@@ -1674,17 +1673,17 @@ maj_nb_bouchon(ast* tree)é
 
    ast* p =NULL;
 
-   for(p=tree->node.field.children;p;p=p->node.field.children)é
+   for(p=tree->node.field.children;p;p=p->node.field.children){
 
       maj_nb_bouchon(p);
 
-   è
+   }
 
-   for(p=tree->next;p;p=p->next)é
+   for(p=tree->next;p;p=p->next){
 
       maj_nb_bouchon(p);
 
-   è
+   }
 
-è
+}
 
