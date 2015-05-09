@@ -980,7 +980,7 @@ make_field_sync(int bool_right, int bool_left){
 affich_field (ast* tree,scr_line* screen){
 
    assert(tree->tag==FIELD);
-   assert((!tree->next)!!tree->next->tag==FIELD);
+   assert((!tree->next)||tree->next->tag==FIELD);
    static int nb_call=0;
    nb_call++;
    debug_3("repere nb call (%d)\n",nb_call);

@@ -46,7 +46,7 @@ gen_initialize_ran (ast* tree){
 
          strcpy (id_name,tree->node.field.name->node.ident_name.value);
 
-         if((*(pic_cmpnt->node.pic_cmpnt.pic_val.chars)=='9')  !!
+         if((*(pic_cmpnt->node.pic_cmpnt.pic_val.chars)=='9')  ||
             (*(pic_cmpnt->node.pic_cmpnt.pic_val.chars)=='S')) {
 
             printf ("MOVE ZERO  TO %s \n",id_name);

@@ -1029,7 +1029,7 @@ token tokenizer(char* ln_8_72)
           /* son dernier caractere est le point et le prochain*/
           /* caractere nest pas le point piouf .. */
         /*
-        !!(((rc =regexec(pregs[i].preg, args, nmatch, pmatch, 0)) == 0)
+        ||(((rc =regexec(pregs[i].preg, args, nmatch, pmatch, 0)) == 0)
         && (strcmp(pregs[i].name,"PICCHARS")==0)    picchar
         && (*(args+pmatch[2].rm_eo-1)=='.')    dernier char est '.'
         && ((pmatch[2].rm_eo)<=strlen(args))    pas fin de args

@@ -167,7 +167,7 @@ file_section(){
        consume();
     }
 
-    if (equal_type("PROGRAM$") !! equal_type("ERROR")){
+    if (equal_type("PROGRAM$") || equal_type("ERROR")){
        printf("expected working-storage, linkage or procedure \n");
        exit(EXIT_FAILURE);
     }
@@ -215,7 +215,7 @@ working_storage_section(){
            else return ret;
     }
 
-    if (equal_type("PROGRAM$") !! equal_type("ERROR")){
+    if (equal_type("PROGRAM$") || equal_type("ERROR")){
        printf("expected linkage or procedure \n");
        exit(EXIT_FAILURE);
     }
@@ -257,7 +257,7 @@ linkage_section(){
            else return ret;
     }
 
-    if (equal_type("PROGRAM$") !! equal_type("ERROR")){
+    if (equal_type("PROGRAM$") || equal_type("ERROR")){
        printf("expected  procedure \n");
        exit(EXIT_FAILURE);
     }
@@ -281,8 +281,8 @@ sntce()
 
     debug_2("Trying to match rule : sntce \n");
 
-    while((equal_val("MOVE"))         !!
-          (equal_val("DISPLAY"))      !!
+    while((equal_val("MOVE"))         ||
+          (equal_val("DISPLAY"))      ||
           (equal_val("INITIALIZE"))){
 
       if(stmnt_ret=stmnt()){
@@ -420,7 +420,7 @@ dsply()
     }
 
     /* optional */
-    if ((equal_val("WITH"))!!(equal_val("NO"))){
+    if ((equal_val("WITH"))||(equal_val("NO"))){
        if(dsply_noadv()){
            ret->node.display_stm.bool_no_adv =1;
        }
@@ -498,8 +498,8 @@ intlz_rplc_oprnds()
 
     int ret = 0;
 
-    while((equal_val("ALPHABETIC"))   !!
-          (equal_val("ALPHANUMERIC")) !!
+    while((equal_val("ALPHABETIC"))   ||
+          (equal_val("ALPHANUMERIC")) ||
           (equal_val("NUMERIC")))    {
 
        if(intlz_rplc_oprnd()){
@@ -621,7 +621,7 @@ move_oprnd(){
     int  bool_corresp = 0;
 
 
-    if((equal_val("CORR")) !!
+    if((equal_val("CORR")) ||
        (equal_val("CORRESPONDING"))) {
        if(sub_ret=corspnd()){
           bool_corresp = 1;
@@ -821,7 +821,7 @@ id_litr() {
 
     ast* ret=NULL;
 
-    if(equal_type("IDENTIFIER") !! equal_attr("SPECIAL REGISTER")){
+    if(equal_type("IDENTIFIER") || equal_attr("SPECIAL REGISTER")){
 
        if (ret=id()){
            ;
@@ -851,7 +851,7 @@ ids() {
     ast* ret     =NULL;
     ast* sub_ret =NULL;
 
-    while(equal_type("IDENTIFIER") !! equal_attr("SPECIAL REGISTER")){
+    while(equal_type("IDENTIFIER") || equal_attr("SPECIAL REGISTER")){
        if(sub_ret=id()){
 
           ret = append_list(ret,sub_ret);
@@ -915,17 +915,17 @@ figurative_constants() {
 
     }
        /* QUOTED  est pr{sent ici dans le cas ou ALL est consomm{ */
-    if (equal_attr("QUOTED")       !!
-        equal_val ("ZERO")         !!
-        equal_val ("ZEROS")        !!
-        equal_val ("ZEROES")       !!
-        equal_val ("SPACE")        !!
-        equal_val ("SPACES")       !!
-        equal_val ("HIGH-VALUE")   !!
-        equal_val ("HIGH-VALUES")  !!
-        equal_val ("LOW-VALUE")    !!
-        equal_val ("LOW-VALUES")   !!
-        equal_val ("QUOTE")        !!
+    if (equal_attr("QUOTED")       ||
+        equal_val ("ZERO")         ||
+        equal_val ("ZEROS")        ||
+        equal_val ("ZEROES")       ||
+        equal_val ("SPACE")        ||
+        equal_val ("SPACES")       ||
+        equal_val ("HIGH-VALUE")   ||
+        equal_val ("HIGH-VALUES")  ||
+        equal_val ("LOW-VALUE")    ||
+        equal_val ("LOW-VALUES")   ||
+        equal_val ("QUOTE")        ||
         equal_val ("QUOTES")){
 
        /*  BUILD AST : LITERAL */
@@ -1028,7 +1028,7 @@ special_register() {
     int bool_address=0;
 
     /* gestion de special register avec OF */
-    if ((equal_val("LENGTH")) !! (equal_val("ADDRESS"))){
+    if ((equal_val("LENGTH")) || (equal_val("ADDRESS"))){
 
        if(equal_val("LENGTH"))  bool_length  =1;
        if(equal_val("ADDRESS")) bool_address =1;
@@ -1484,7 +1484,7 @@ refmodif()
     }
     else return  NULL;
 
-    /* it's optional !! */
+    /* it's optional || */
     if(refmodif_length_ret=refmodif_length()){
         ;
     }
@@ -1581,7 +1581,7 @@ arith_expr()
     }
     else return  NULL;
 
-    while((equal_val("+")) !! (equal_val("-"))){
+    while((equal_val("+")) || (equal_val("-"))){
 
        strcpy(oper,get_token_val());
        strcpy(ret->node.arith_exp.oper,oper);
@@ -1620,7 +1620,7 @@ times_div()
     }
     else return  NULL;
 
-    while((equal_val("*")) !! (equal_val("/"))){
+    while((equal_val("*")) || (equal_val("/"))){
 
        strcpy(oper,get_token_val());
        strcpy(ret->node.arith_exp.oper,oper);
@@ -1703,7 +1703,7 @@ basis()
     ast* ret    =NULL;
     ast* sub_ret=NULL;
 
-    if ((equal_type("IDENTIFIER"))!!(equal_attr("SPECIAL REGISTER"))){
+    if ((equal_type("IDENTIFIER"))||(equal_attr("SPECIAL REGISTER"))){
 
        if (sub_ret=id()){
           ret=append_list(ret,sub_ret);
@@ -1775,7 +1775,7 @@ arith_expr2()
 
 
             /* optional */
-            if((equal_val("+"))!!(equal_val("-"))) {
+            if((equal_val("+"))||(equal_val("-"))) {
 
                strcpy(oper,get_token_val());
                strcpy(ret->node.arith_exp.oper,oper);
@@ -1881,7 +1881,7 @@ data_fields(){
        }
 
        if(!ret) {
-          if(FLD_LVL(sub_ret)==1 !! FLD_LVL(sub_ret)==77){
+          if(FLD_LVL(sub_ret)==1 || FLD_LVL(sub_ret)==77){
              ret=append_list(ret,sub_ret);
              driver=ret;
           } else {
@@ -1922,7 +1922,7 @@ data_fields(){
 
           // gerer field existant lvl 77
           } else if(FLD_LVL(driver) == 77){
-             if(FLD_LVL(sub_ret)==1 !! FLD_LVL(sub_ret)==77){
+             if(FLD_LVL(sub_ret)==1 || FLD_LVL(sub_ret)==77){
                 debug_2("(%d-%s) New start after 77\n",
                          FLD_LVL(sub_ret),FLD_NAME(sub_ret));
                 append_list(driver,sub_ret) ; // sister
@@ -2231,7 +2231,7 @@ data_desc()
     while (iterator != NULL){
 
          debug_3("Permutation loop .iterator (%d)\n",iterator);
-       /* Known bug : 'IS' is accepted before each clause !! */
+       /* Known bug : 'IS' is accepted before each clause || */
        /* if should be for external et gloabal only          */
        /* A deleguer a l'analyse semantique                  */
        if (equal_val("IS")){
@@ -2378,7 +2378,7 @@ data_just_cl(){
     ast* sub_ret=NULL;
 
 
-    if ((equal_val("JUST"))!!(equal_val("JUSTIFIED"))){
+    if ((equal_val("JUST"))||(equal_val("JUSTIFIED"))){
 
        consume();
 
@@ -2419,7 +2419,7 @@ data_occurs_cl(){
     }
     else return NULL;
 
-    if ((equal_attr("INTEGER"))!!(equal_attr("UNSIGNED"))){
+    if ((equal_attr("INTEGER"))||(equal_attr("UNSIGNED"))){
 
        times = strtol(get_token_val(),ptr,10);
        consume();
@@ -2431,7 +2431,7 @@ data_occurs_cl(){
 
         consume();
 
-        if ((equal_attr("INTEGER"))!!(equal_attr("UNSIGNED"))){
+        if ((equal_attr("INTEGER"))||(equal_attr("UNSIGNED"))){
 
            to_times = strtol(get_token_val(),ptr,10);
            consume();
@@ -2460,7 +2460,7 @@ data_occurs_cl(){
 
         /* Key-indexed-by phrase */
 
-        if ((equal_val("ASCENDING")) !!
+        if ((equal_val("ASCENDING")) ||
             (equal_val("DESCENDING")) ){
 
             if (keys=data_index_key_cls()){
@@ -2490,7 +2490,7 @@ data_occurs_cl(){
 
         /* Key-indexed-by phrase */
 
-        if ((equal_val("ASCENDING")) !!
+        if ((equal_val("ASCENDING")) ||
             (equal_val("DESCENDING")) ){
 
             if (keys=data_index_key_cls()){
@@ -2524,7 +2524,7 @@ ast* data_index_key_cls(){
     int  bool_asc =0;
     int  bool_des =0;
 
-    while ((equal_val("ASCENDING")) !!
+    while ((equal_val("ASCENDING")) ||
            (equal_val("DESCENDING"))){
 
         if (equal_val("ASCENDING"))  bool_asc = 1;
@@ -2552,7 +2552,7 @@ data_index_key_cl(){
 
     ast* ret=NULL;
 
-    if ((equal_val("ASCENDING")) !!
+    if ((equal_val("ASCENDING")) ||
         (equal_val("DESCENDING")) ){
 
        consume();
@@ -2617,7 +2617,7 @@ data_pic_cl(){
     ast* sub_ret=NULL;
 
 
-    if(equal_val("PIC")!!equal_val("PICTURE")){
+    if(equal_val("PIC")||equal_val("PICTURE")){
        save = set_context("data_pic_chars");
        consume();
        ;
@@ -3091,7 +3091,7 @@ renames_cl()
     }
     else return NULL;
 
-    if ((equal_val("THROUGH")) !!
+    if ((equal_val("THROUGH")) ||
         (equal_val("THRU")) ){
 
        consume();
@@ -3138,7 +3138,7 @@ cond_val_cl()
 
     while (value_ret=litr()){
 
-       if ((equal_val("THROUGH")) !!
+       if ((equal_val("THROUGH")) ||
            (equal_val("THRU")) ){
 
            consume();
@@ -3196,7 +3196,7 @@ copy_replacing(){
     } else return NULL;
 
     // optional qualifier
-    if (equal_val("OF") !! equal_val("IN")){
+    if (equal_val("OF") || equal_val("IN")){
        consume();
 
        // text-name
@@ -3944,9 +3944,9 @@ match(char* terminal){
     }  */
 
     if    ((strcasecmp(lookahead.tkn_val,     terminal) == 0 )
-        !! (strcasecmp(lookahead.tkn_type,    terminal) == 0 )
-        !! (strcasecmp(lookahead.tkn_attr[0], terminal) == 0 )
-        !! (strcasecmp(lookahead.tkn_attr[1], terminal) == 0 ))
+        || (strcasecmp(lookahead.tkn_type,    terminal) == 0 )
+        || (strcasecmp(lookahead.tkn_attr[0], terminal) == 0 )
+        || (strcasecmp(lookahead.tkn_attr[1], terminal) == 0 ))
     {
         printf("match()    : Token recognized : %s \n",terminal);
     /* mettre lookahead a zero en attendant le chargement de context */
@@ -3982,9 +3982,9 @@ tknEqual(char* expected){
     }
     */
     if ((strcasecmp(lookahead.tkn_val,        expected) == 0 )
-        !! (strcasecmp(lookahead.tkn_type,    expected) == 0 )
-        !! (strcasecmp(lookahead.tkn_attr[0], expected) == 0 )
-        !! (strcasecmp(lookahead.tkn_attr[1], expected) == 0 ) )
+        || (strcasecmp(lookahead.tkn_type,    expected) == 0 )
+        || (strcasecmp(lookahead.tkn_attr[0], expected) == 0 )
+        || (strcasecmp(lookahead.tkn_attr[1], expected) == 0 ) )
     {
         printf("tknEqual() : Current token == to <%s> \n",expected);
         return 1;

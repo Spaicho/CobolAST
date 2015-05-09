@@ -138,7 +138,7 @@ ln_obj preprocessor(ln_str_num lnstrnum){
     /* '-' = 96 */
     /* '/' = 97 */
 
-    if (((*(_ret.ln_7))==92) !! ((*(_ret.ln_7))==97)) {
+    if (((*(_ret.ln_7))==92) || ((*(_ret.ln_7))==97)) {
         debug_2(" Comment line (%d)\n",_ret.ln_num);
         debug_2(" _ret.ln_8_72 <%s>\n",_ret.ln_8_72);
     /*  sprintf(_ret.ln_8_72,"%-65s"); */

@@ -1,6 +1,6 @@
 #ifndef GRAMMAR_H_INCLUDED
 #define GRAMMAR_H_INCLUDED
-
+/*
 #pragma map(dsply_upon_oprnds,    "dsupops")
 #pragma map(dsply_upon_oprnd,     "dsupop")
 #pragma map(intlz_rplc_oprnds,    "inrpops")
@@ -29,7 +29,7 @@
 #pragma map(get_token_type,       "gttktp")
 #pragma map(get_token_val,        "gttkval")
 #pragma map(get_token_len,        "gttklen")
-
+*/
 #include "ast.h"
 #include "Lexer.h"
 
