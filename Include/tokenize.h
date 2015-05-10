@@ -3,9 +3,10 @@
 
 #if defined(__IBMC__) || defined(__GNUC__)
 #include <regex.h>
-#define 
-#elif defined(__MSC_VER)
-#include <pcre.h>
+#elif defined(_MSC_VER)
+#include <CRTDEFS.H> 
+#include <regex.h>
+//#include <pcre.h>
 #else
 // error : compiler not supported
 #endif
@@ -28,14 +29,7 @@ typedef struct token{
 typedef struct regex_npp{
     char*    name;
     char*    ptrn;
-
-#if defined(__IBMC__) || defined(__GNUC__)
 	regex_t* preg;
-#elif defined(__MSC_VER)
-	pcre* preg;
-#else
-	// error : compiler not supported
-#endif
 
 } regex_npp;
 

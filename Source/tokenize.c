@@ -1,5 +1,3 @@
-//#include <regex.h>
-//#include <pcre.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -1291,7 +1289,7 @@ int compil_regexp(regex_npp _regex_npp){
     /* Compiler la REGEXP pour ptrn dans preg */
 
     if ((rc = regcomp(_regex_npp.preg, _regex_npp.ptrn,
-         REG_ICASE!REG_EXTENDED)) != 0)
+         REG_ICASE|REG_EXTENDED)) != 0)
     {
        regerror(rc, _regex_npp.preg, buffer, 100);
        printf("regcomp(%s) fail RC (%d : '%s')\n",_regex_npp.name,
