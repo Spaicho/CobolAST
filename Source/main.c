@@ -1,12 +1,19 @@
 #include <stdio.h>
 #include <assert.h>
 #include <string.h>
-
 #define __XPG4 // itoa, strccase
 #define __UU
 #define __OE_8
 #include <stdlib.h>
+#if defined(__IBMC__) || defined(__GNUC__)
 #include <strings.h>
+#elif defined(_MSC_VER)
+#include <string.h>
+#define strcasecmp _stricmp
+#else
+// error : compiler not supported
+#endif
+#include <string.h>
 
 #include "debug.h"
 #include "Grammar.h"
