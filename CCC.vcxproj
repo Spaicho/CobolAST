@@ -39,6 +39,7 @@
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>C:\Users\x139309\Source\Repos\CobolAST\external dependencies\regex2.7\include;C:\Users\Spaich\Source\Repos\CobolAST\external dependencies\regex2.7\include;C:\Users\Spaich\Source\Repos\CobolAST\Include;C:\Users\x139309\Source\Repos\CobolAST\Include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Users\x139309\Source\Repos\CobolAST\external dependencies\regex2.7\lib;C:\Users\Spaich\Source\Repos\CobolAST\external dependencies\regex2.7\lib;$(LibraryPath)</LibraryPath>
+    <ReferencePath>C:\Users\x139309\Source\Repos\CobolAST\external dependencies\regex2.7\bin;$(ReferencePath)</ReferencePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>true</LinkIncremental>
@@ -55,7 +56,7 @@
       <TargetMachine>MachineX86</TargetMachine>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>pcre3.lib;pcre3d.lib;pcreposix3.lib;pcreposix3d.lib;regex.lib;regex-bcc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>regex.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -79,7 +80,6 @@
     <ClCompile Include="Source\generate.c" />
     <ClCompile Include="Source\grammar.c" />
     <ClCompile Include="Source\helper.c" />
-    <ClCompile Include="Source\iotest.c" />
     <ClCompile Include="Source\lexer.c" />
     <ClCompile Include="Source\main.c" />
     <ClCompile Include="Source\rexxCom.c" />

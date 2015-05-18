@@ -23,8 +23,11 @@
 #include "generate.h"
 #include "check.h"
 
+extern token lookahead;
+
 int main(){
 
+	printf("Hello world CCC !");
     printf ("test debug   lvl (%d)\n",DEBUG_LVL);
 
     int  ast_len=0;

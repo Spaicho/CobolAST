@@ -37,7 +37,8 @@
 /* Declaration pour les fonctions et varaibles de permutations */
 
 /* Typedef pour function to Pointer */
-typedef ast* (*AstFunc)(void);
+typedef ast* (*AstFunc)();
+//typedef ast* (*AstFunc)(void);
 
 /* Typedef pour array of string with length */
 typedef struct str_arr{
@@ -65,8 +66,6 @@ fp_t_nod* delete_clauses(fp_t_nod*,fp_t_nod*);
 
 /*  End declaration pour permutation */
 
-token lookahead ={0,0,0,"",""};
-
 /* Grammar functions return */
 typedef struct ast_ret {
           struct ast*  _ast;             /* AST     */
@@ -85,6 +84,8 @@ typedef struct context{
 } context;
 
 extern context _context;
+extern char* usageValues[];
+extern char* tagValues[];
 
 /*
   Cobol RAN Grammar Version 0.01
@@ -356,6 +357,8 @@ ast* renames_cl();
 ast* cond_val_cl();
 ast* cond_name();
 
+ast* data_external_cl();
+ast* data_blankzero_cl();
 /*--------------------- Auxiliary functions -------------------------*/
 
 int      match(char*);
@@ -367,5 +370,17 @@ context  set_context(char* );
 int      restore_context(context);
 char*    get_token_val();
 char*    get_token_type();
+int		 balayeur_pgm();
+int		 equal_val(char* expected);
+int		 equal_type(char* expected);
+int		 match_type(char* expected);
+int		 match_val(char* expected);
+int		 consume();
+int		 get_token_line();
+int		 get_token_col();
+int		 get_token_len();
+int		 match_attr(char* expected);
+int		 equal_attr(char* expected);
+
 #endif
 /* GRAMMAR_H_INCLUDED */

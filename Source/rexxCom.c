@@ -106,7 +106,7 @@ int getArgsRexx() {
 }
 
 void
-setCurrLnStrart(){
+setCurrLnStart(){
 
     curr_src_line= src_list;
 

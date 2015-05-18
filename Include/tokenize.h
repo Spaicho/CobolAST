@@ -34,6 +34,8 @@ typedef struct regex_npp{
 } regex_npp;
 
 token      tokenizer();
+int compil_regexp(regex_npp _regex_npp);
+int erase_context();
 
 #endif
 /* TOKENIZE_H_INCLUDED */

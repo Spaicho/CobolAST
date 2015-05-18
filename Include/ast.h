@@ -1,5 +1,7 @@
 #ifndef AST_H_INCLUDED
 #define AST_H_INCLUDED
+
+#include "helper.h"
 /*
 #pragma map(make_ident_name_qualif,    "mkidnq")
 #pragma map(make_ident_name       ,    "mkidnm")
@@ -186,52 +188,7 @@ void        append_child     (struct ast* dad , struct ast* child);
 int    chain_length          (struct ast* list);
 void   maj_nb_bouchon        (struct ast* list);
 
-/* Pour les listes utiliser des Arrays ou LinkedList ? */
 
-extern char* usageValues [] = {
-         "UNKNOWN_USAGE",
-         "BINARY",
-         "COMPUTATIONAL",
-         "COMP",
-         "COMPUTATIONAL-1",
-         "COMP-1",
-         "COMPUTATIONAL-2",
-         "COMP-2",
-         "COMPUTATIONAL-3",
-         "COMP-3",
-         "COMPUTATIONAL-4",
-         "COMP-4",
-         "DISPLAY",
-         "DISPLAY-1",
-         "INDEX",
-         "PACKED-DECIMAL",
-         "POINTER",
-         "PROCEDURE-POINTER"
-          };
-extern char* tagValues [] = {
-         "UNKNOWN_AST",
-         "SENTENCE",
-         "DECLARATION",
-         "DATA_DIV",
-         "FIELD",
-         "OCCURS",
-         "OCCURS_KEY",
-         "PIC_CMPNT",
-         "FIELD_SIGN",
-         "FIELD_VALUE",
-         "FIELD_SYNC",
-         "USAGE",
-         "RENAMES",
-         "STATEMENT",
-         "MOVE_STM","DISPLAY_STM", "INITIALIZE_STM",
-         "OPERAND",
-         "LITERAL",
-         "IDENTIFIER", "IDENT_NAME","IDENT_NAME_QUALIF","IDENT_QUALIF",
-         "IDENT_SUBSCRIPT","IDENT_REFMOD",
-         "SPECIAL_REG",
-         "ARITH_EXP",
-         "BINARY_OP"
-          };
 typedef struct ast {
 
   struct ast* next;
@@ -481,26 +438,57 @@ typedef struct ast {
 } ast;
 
 
+//void affich_sentence(ast*, scr_line*);
 
-/*
- affich_sentence(ast*);
- affich_declaration(ast*);
- affich_statement(ast*);
- affich_move_stm(ast*);
- affich_display_stm(ast*);
- affich_initialize_stm(ast*);
- affich_operand(ast*);
- affich_literal(ast*);
- affich_identifier(ast*);
- affich_ident_name(ast*);
- affich_ident_name_qualif(ast*);
- affich_ident_qualif(ast*);
- affich_ident_subscript(ast*);
- affich_ident_refmod(ast*);
- affich_special_reg(ast*);
- affich_arith_exp(ast*);
- affich_binary_op(ast*);
- affich_unary_op(ast*);
-*/
+ affich_declaration(ast*, scr_line*);
+ affich_statement(ast*, scr_line*);
+ affich_move_stm(ast*, scr_line*);
+ affich_display_stm(ast*, scr_line*);
+ affich_initialize_stm(ast*, scr_line*);
+ affich_operand(ast*, scr_line*);
+ affich_literal(ast*, scr_line*);
+ affich_identifier(ast*, scr_line*);
+ affich_ident_name(ast*, scr_line*);
+ affich_ident_name_qualif(ast*, scr_line*);
+ affich_ident_qualif(ast*, scr_line*);
+ affich_ident_subscript(ast*, scr_line*);
+ affich_ident_refmod(ast*, scr_line*);
+ affich_special_reg(ast*, scr_line*);
+ affich_arith_exp(ast*, scr_line*);
+ affich_binary_op(ast*, scr_line*);
+ affich_unary_op(ast*, scr_line*);
+
+
+ void affich_node(ast*, scr_line*);
+ void free_node(ast* tree);
+
+ free_sentence(ast* tree);
+ free_declaration(ast* tree);
+ free_statement(ast* tree);
+ free_move_stm(ast* tree);
+ free_display_stm(ast* tree);
+ free_initialize_stm(ast* tree);
+ free_operand(ast* tree);
+ free_literal(ast* tree);
+ free_identifier(ast* tree);
+ free_ident_name(ast* tree);
+ free_ident_name_qualif(ast* tree);
+ free_ident_qualif(ast* tree);
+ free_ident_refmod(ast* tree);
+ free_ident_subscript(ast* tree);
+ free_special_reg(ast* tree);
+ free_arith_exp(ast* tree);
+ free_data_div(ast* tree);
+ free_field(ast* tree);
+ free_occurs(ast* tree);
+ free_occurs_key(ast* tree);
+ free_pic_cmpnt(ast* tree);
+ free_field_sign(ast* tree);
+ free_field_value(ast* tree);
+ free_field_sync(ast* tree);
+ free_usage(ast* tree);
+ free_renames(ast* tree);
+ free_binary_op(ast* tree);
+
 #endif
 /* AST_H_INCLUDED */

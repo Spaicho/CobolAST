@@ -30,9 +30,6 @@
     <ClCompile Include="Source\helper.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\iotest.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\lexer.c">
       <Filter>Source Files</Filter>
     </ClCompile>

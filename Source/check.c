@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include "check.h"
-#include "ast.h"
+//#include "ast.h"
 
 int
 chk_ast (ast* tree){

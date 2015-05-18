@@ -1,5 +1,8 @@
+#include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <string.h>
+
 #include "debug.h"
 #include "generate.h"
 #include "ast.h"

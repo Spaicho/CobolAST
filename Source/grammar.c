@@ -5,10 +5,23 @@
 #include <stdlib.h>
 #include <stddef.h>
 #include <assert.h>
+
+#if defined(__IBMC__) || defined(__GNUC__)
+#include <strings.h>
+#elif defined(_MSC_VER)
+#include <string.h>
+#define strcasecmp _stricmp
+#else
+// error : compiler not supported
+#endif
+
 #include "debug.h"
 #include "Grammar.h"
 #include "Lexer.h"
 #include "ast.h"
+#include "rexxCom.h"
+#include "tokenize.h"
+
 
 #define MAX_FP_ARR   12
 #define COUNT_OF( arr) (sizeof(arr)/sizeof(0[arr]))
@@ -16,6 +29,7 @@
 context _context={"","","","","",""};
 context save;
 ast* build_literal(int);
+token lookahead = { 0, 0, 0, "", "" };
 
                      /****************************/
 
@@ -62,7 +76,7 @@ int
 balayeur_pgm(){
 
     // commencer le parcours de pgm à partir du d{but
-    setCurrLnStrart();
+    setCurrLnStart();
     // get first token
     consume();
 
@@ -93,7 +107,7 @@ data_division(){
     ast* link_ret=NULL;
 
 
-    debug_2("Trying to match rule : %s \n",__func__);
+    debug_2("Trying to match rule : %s \n",__FUNCTION__);
 
     if (match_val("DATA")){
        ;
@@ -141,7 +155,7 @@ file_section(){
 
     ast* ret=NULL;
 
-    debug_2("Trying to match rule : %s \n",__func__);
+    debug_2("Trying to match rule : %s \n",__FUNCTION__);
 
     if(match_val("FILE")){
        ;
@@ -178,7 +192,7 @@ file_section(){
                      NULL, NULL, NULL, NULL, NULL, NULL,
                      UNKNOWN_SECTION);
 
-    debug_2("Rule recognized: %s \n",__func__);
+    debug_2("Rule recognized: %s \n",__FUNCTION__);
 
     return ret;
 }
@@ -189,7 +203,7 @@ working_storage_section(){
 
     ast* ret= NULL;
 
-    debug_2("Trying to match rule : %s \n",__func__);
+    debug_2("Trying to match rule : %s \n",__FUNCTION__);
 
     if(match_val("WORKING-STORAGE")){
        ;
@@ -220,7 +234,7 @@ working_storage_section(){
        exit(EXIT_FAILURE);
     }
 
-    debug_2("Rule recognized: %s \n",__func__);
+    debug_2("Rule recognized: %s \n",__FUNCTION__);
 
     return ret;
 }
@@ -231,7 +245,7 @@ linkage_section(){
 
 
     ast* ret=NULL;
-    debug_2("Trying to match rule : %s \n",__func__);
+    debug_2("Trying to match rule : %s \n",__FUNCTION__);
 
     if(match_val("LINKAGE")){
        ;
@@ -263,7 +277,7 @@ linkage_section(){
     }
 
 
-    debug_2("Rule recognized: %s \n",__func__);
+    debug_2("Rule recognized: %s \n",__FUNCTION__);
 
     return ret;
 }
@@ -3171,7 +3185,7 @@ cond_val_cl()
 ast*
 copy_replacing(){
 
-    debug_9("Trying to match rule : %s \n",__func__);
+    debug_9("Trying to match rule : %s \n",__FUNCTION__);
 
     ast* ret=NULL;
     ast* copy_ret=NULL;
@@ -3229,7 +3243,7 @@ copy_replacing(){
 
     ret = make_initialize(bool_rplc,0,sub_ret);
     */
-    debug_2("Rule recognized: %s \n",__func__);
+    debug_2("Rule recognized: %s \n",__FUNCTION__);
 
     return ret;
 }

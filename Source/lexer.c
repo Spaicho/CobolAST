@@ -1,5 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+//isspace
+#if defined(_MSC_VER)
+#include <ctype.h>
+#endif
 #include "debug.h"
 #include "Lexer.h"
 #include "tokenize.h"
@@ -12,6 +17,8 @@ _srcLine   *curr_src_line;
 
 /* curr_ln_obj stores the actual string to tokenize */
 static ln_obj curr_ln_obj;
+
+extern token lookahead;
 
 token getNextToken(){
 

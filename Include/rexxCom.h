@@ -1,13 +1,16 @@
 #ifndef REXXCOM_H_INCLUDED
 #define REXXCOM_H_INCLUDED
 
-#pragma runopts(PLIST(OS))
-
 #define DS_NAME_LEN 45    // inclut car pour \0
 #define NB_INC_PDS  20
 #define NB_OPTIONS  20
 #define NB_RESULTS  500
 
+#if defined(__IBMC__)
+	#pragma runopts(PLIST(OS))
+#else
+void **__osplist;
+#endif
 
 int getArgsRexx();
 int setCurrLnNum(int);
@@ -15,7 +18,7 @@ struct _srcLine* getSource(char* src_file,int current_line);
 struct _srcLine* getCurrSrcLine(struct _srcLine* src_list,int cursl,
                                                           int cursc);
 int break_str_space(char *line,char words[][DS_NAME_LEN],int maxWords);
-void setCurrLnStrart();
+void setCurrLnStart();
 
 typedef struct _editLine {
 

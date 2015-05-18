@@ -5,9 +5,59 @@
 #define __OE_8
 #include <stdlib.h>
 #include <assert.h>
+#include <string.h>
+#if defined(_MSC_VER)
+#define itoa _itoa
+#endif
 #include "debug.h"
 #include "ast.h"
-#include "helper.h"
+
+/* Pour les listes utiliser des Arrays ou LinkedList ? */
+
+char* usageValues[] = {
+	"UNKNOWN_USAGE",
+	"BINARY",
+	"COMPUTATIONAL",
+	"COMP",
+	"COMPUTATIONAL-1",
+	"COMP-1",
+	"COMPUTATIONAL-2",
+	"COMP-2",
+	"COMPUTATIONAL-3",
+	"COMP-3",
+	"COMPUTATIONAL-4",
+	"COMP-4",
+	"DISPLAY",
+	"DISPLAY-1",
+	"INDEX",
+	"PACKED-DECIMAL",
+	"POINTER",
+	"PROCEDURE-POINTER"
+};
+char* tagValues[] = {
+	"UNKNOWN_AST",
+	"SENTENCE",
+	"DECLARATION",
+	"DATA_DIV",
+	"FIELD",
+	"OCCURS",
+	"OCCURS_KEY",
+	"PIC_CMPNT",
+	"FIELD_SIGN",
+	"FIELD_VALUE",
+	"FIELD_SYNC",
+	"USAGE",
+	"RENAMES",
+	"STATEMENT",
+	"MOVE_STM", "DISPLAY_STM", "INITIALIZE_STM",
+	"OPERAND",
+	"LITERAL",
+	"IDENTIFIER", "IDENT_NAME", "IDENT_NAME_QUALIF", "IDENT_QUALIF",
+	"IDENT_SUBSCRIPT", "IDENT_REFMOD",
+	"SPECIAL_REG",
+	"ARITH_EXP",
+	"BINARY_OP"
+};
 
 static int lvl=-1;
 
@@ -1185,11 +1235,11 @@ affich_binary_op(ast* tree,scr_line* screen){
 affich_data_div(ast* tree,scr_line* screen){
 
    debug_1("afficher file_sect\n");
-   affich_node(tree->node.data_div.file_sect);
+   affich_node(tree->node.data_div.file_sect, screen);
    debug_1("afficher ws_sect\n");
-   affich_node(tree->node.data_div.ws_sect);
+   affich_node(tree->node.data_div.ws_sect, screen);
    debug_1("afficher link_sect\n");
-   affich_node(tree->node.data_div.link_sect);
+   affich_node(tree->node.data_div.link_sect, screen);
 
 }
 
@@ -1264,7 +1314,7 @@ append_list (struct ast* list, struct ast* toadd){
 void
 append_child(struct ast* dad, struct ast* child){
 
-  ast* head;
+  //ast* head;
   ast* temp=NULL;
 
   if(FLD_CHILD(dad)) debug_3("dad first child (%s)\n",
@@ -1293,7 +1343,7 @@ append_child(struct ast* dad, struct ast* child){
 }
 
 /*              Affichage des AST                       */
-
+void
 affich_node (ast* tree,scr_line* screen){
 
    if (tree==NULL) return;
@@ -1387,7 +1437,7 @@ affich_node (ast* tree,scr_line* screen){
 }
 
 /*              Free AST               */
-
+void
 free_node   (ast* tree){
 
    /* si ast n'est pas cr{{e */

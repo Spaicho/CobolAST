@@ -635,7 +635,7 @@ token tokenizer(char* ln_8_72)
     int         j=0;
     size_t      nmatch = NB_MATCH_MAX;
     regmatch_t  pmatch[NB_MATCH_MAX];
-    char        buffer[100];
+    //char        buffer[100];
     char        str[480];
 
     static int  rets_len =0;

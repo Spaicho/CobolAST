@@ -20,6 +20,8 @@
         do { if (DEBUG_LVL==9 ) { printf("%d:%s(): ", \
         __LINE__, __FUNCTION__); printf(__VA_ARGS__);  } } while (0)
 
+extern char* usageValues[];
+extern char* tagValues[];
 
 #endif
 /* DEBUG_H_INCLUDED */

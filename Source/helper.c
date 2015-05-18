@@ -4,6 +4,9 @@
 #include "debug.h"
 #include "helper.h"
 
+char* dummy_border = "***********************************************" \
+"***********************************************";
+
 scr_line*
 init_screen(){
 
