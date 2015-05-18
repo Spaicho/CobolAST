@@ -77,4 +77,7 @@
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="external dependencies\regex2.7\bin\regex2.dll" />
+  </ItemGroup>
 </Project>

@@ -99,6 +99,9 @@
   <ItemGroup>
     <ResourceCompile Include="CCC.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="external dependencies\regex2.7\bin\regex2.dll" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
