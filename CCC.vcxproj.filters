@@ -79,5 +79,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="external dependencies\regex2.7\bin\regex2.dll" />
+    <None Include="..\..\..\Documents\Essadiq_Baich_Resume_05_2015.doc" />
   </ItemGroup>
 </Project>
