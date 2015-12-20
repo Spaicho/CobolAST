@@ -102,7 +102,6 @@
     <ResourceCompile Include="CCC.rc" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\Documents\Essadiq_Baich_Resume_05_2015.doc" />
     <None Include="external dependencies\regex2.7\bin\regex2.dll">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <FileType>Document</FileType>

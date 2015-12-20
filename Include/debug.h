@@ -1,7 +1,7 @@
 #ifndef DEBUG_H_INCLUDED
 #define DEBUG_H_INCLUDED
 
-#define DEBUG_LVL 1
+#define DEBUG_LVL 3
 
 
 #define debug_1(...) \

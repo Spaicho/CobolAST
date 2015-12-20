@@ -39,7 +39,7 @@ int getArgsRexx() {
        else {
           printf("getArgsRexx() : ");
           printf("Required argument argc not found or not numeric \n");
-          exit(EXIT_FAILURE);
+		  exit(EXIT_FAILURE);
        }
 
        debug_3("osplist 1 : %s \n",        __osplist[1]) ;

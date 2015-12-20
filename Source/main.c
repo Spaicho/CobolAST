@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <assert.h>
-#include <string.h>
+//#include <string.h>
 #define __XPG4 // itoa, strccase
 #define __UU
 #define __OE_8
@@ -25,12 +25,20 @@
 
 extern token lookahead;
 
-int main(){
+int main(int argc, char** argv){
 
     printf ("test debug   lvl (%d)\n",DEBUG_LVL);
 
     int  ast_len=0;
-
+#ifndef __IBMC__
+	for (int i = 0; i < argc;i++) {
+		debug_3("argv[%d] = %s \n",i,argv[i]);
+	}
+	__osplist = argv;
+	char str_argc[4] = "";
+	sprintf(str_argc,"%d", argc);
+	__osplist[0] = str_argc;
+#endif
     getArgsRexx();
     lookahead  = getNextToken();
 
