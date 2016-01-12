@@ -11,7 +11,7 @@
 *.vcxproj
 *.vcxproj.filters
 *.rc
-ressource.h
+resource.h
 
 # Build results
 [Dd]ebug/
