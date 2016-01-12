@@ -6,6 +6,13 @@
 *.user
 *.sln.docstates
 
+#project files
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.rc
+ressource.h
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
@@ -159,7 +166,7 @@ ClientBin/
 *.pfx
 *.publishsettings
 node_modules/
-Others/
+Other/
 external dependencies/
 
 # RIA/Silverlight projects
