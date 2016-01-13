@@ -2,7 +2,65 @@
 #define AST_H_INCLUDED
 
 #include "helper.h"
+/*
+#pragma map(make_ident_name_qualif,    "mkidnq")
+#pragma map(make_ident_name       ,    "mkidnm")
+#pragma map(make_ident_qualif     ,    "mkidqu")
+#pragma map(make_ident_subscript  ,    "mkidsb")
+#pragma map(make_ident_refmod     ,    "mkrfmd")
+#pragma map(make_field            ,    "mkfild")
+#pragma map(update_field          ,    "updfield")
+#pragma map(update_field_init     ,    "updflint")
+#pragma map(make_occurs           ,    "mkocrs")
+#pragma map(make_occurs_key       ,    "mkocky")
+#pragma map(make_field_sign       ,    "mkfdsn")
+#pragma map(make_field_sync       ,    "mkfdsc")
 
+#pragma map(affich_sentence       ,    "affstc")
+#pragma map(affich_declaration    ,    "affdcl")
+#pragma map(affich_statement      ,    "affstm")
+#pragma map(affich_move_stm       ,    "affmov")
+#pragma map(affich_display_stm    ,    "affdsp")
+#pragma map(affich_initialize_stm ,    "affint")
+#pragma map(affich_operand        ,    "affopn")
+#pragma map(affich_literal        ,    "affltr")
+#pragma map(affich_identifier     ,    "affidt")
+#pragma map(affich_ident_name     ,    "affidn")
+#pragma map(affich_ident_name_qualif,  "affinq")
+#pragma map(affich_ident_qualif   ,    "affidq")
+#pragma map(affich_ident_subscript,    "affids")
+#pragma map(affich_ident_refmod   ,    "affidr")
+#pragma map(affich_special_reg    ,    "affspr")
+#pragma map(affich_arith_exp      ,    "affarx")
+#pragma map(affich_binary_op      ,    "affbno")
+#pragma map(affich_unary_op       ,    "affuno")
+#pragma map(affich_field          ,    "afffld")
+
+#pragma map(free_sentence         ,    "frestc")
+#pragma map(free_declaration      ,    "fredcl")
+#pragma map(free_statement        ,    "frestm")
+#pragma map(free_move_stm         ,    "fremov")
+#pragma map(free_display_stm      ,    "fredsp")
+#pragma map(free_initialize_stm ,      "freint")
+#pragma map(free_operand          ,    "freopn")
+#pragma map(free_literal          ,    "freltr")
+#pragma map(free_identifier       ,    "freidt")
+#pragma map(free_ident_name       ,    "freidn")
+#pragma map(free_ident_name_qualif,    "freinq")
+#pragma map(free_ident_qualif     ,    "freidq")
+#pragma map(free_ident_subscript,      "freids")
+#pragma map(free_ident_refmod     ,    "freidr")
+#pragma map(free_special_reg      ,    "frespr")
+#pragma map(free_arith_exp        ,    "frearx")
+#pragma map(free_binary_op        ,    "frebno")
+#pragma map(free_unary_op         ,    "freuno")
+#pragma map(free_field            ,    "frefld")
+#pragma map(free_field_sign       ,    "frefls")
+#pragma map(free_field_value      ,    "freflv")
+#pragma map(free_field_sync       ,    "freflc")
+#pragma map(free_occurs           ,    "freocr")
+#pragma map(free_occurs_key       ,    "freock")
+*/
 #define MAX_LIST_STATEMENT 500
 #define MAX_LIST_OPERAND   500
 
@@ -224,6 +282,12 @@ typedef struct ast {
                  } literal;
 
           struct { /* identifier  */
+      /*           char*        id_name;
+                   int          len_id_name;
+                   int          nb_id_qualif;
+                   char*        list_id_qualif[MAX_LIST_OPERAND];
+                   int          nb_id_subscript;
+                   struct ast*  list_id_subscript[MAX_LIST_OPERAND]; */
 
                    char*        ast_name;
                    int          bool_length;
@@ -373,6 +437,8 @@ typedef struct ast {
       } node;
 } ast;
 
+
+//void affich_sentence(ast*, scr_line*);
 
  affich_declaration(ast*, scr_line*);
  affich_statement(ast*, scr_line*);

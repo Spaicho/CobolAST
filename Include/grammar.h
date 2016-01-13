@@ -1,134 +1,35 @@
 #ifndef GRAMMAR_H_INCLUDED
 #define GRAMMAR_H_INCLUDED
-
 /*
-Cobol Cripple Compiler Grammar Version 0.01
-Parsing algorithm : Recursive descent parser
-Procedures corresponding to grammar non-terminals.
+#pragma map(dsply_upon_oprnds,    "dsupops")
+#pragma map(dsply_upon_oprnd,     "dsupop")
+#pragma map(intlz_rplc_oprnds,    "inrpops")
+#pragma map(intlz_rplc_oprnd ,    "inrpop")
+#pragma map(refmodif_length,      "rfmol")
+#pragma map(subscripts,           "subscs")
+#pragma map(id_qualif_oprnd,      "idquop")
+#pragma map(arith_expr2,          "arex2")
+#pragma map(arith_expr_oprnd,     "arexopd")
+#pragma map(arith_expr_oprtn,     "arexopt")
+#pragma map(id_subs_refm,         "idsbrf")
+#pragma map(id_subs_refm_rest,    "idsbrfr")
+#pragma map(id_subs_rest,         "idsbrst")
+
+#pragma map(data_field,           "dtfield")
+#pragma map(data_fields,          "dtfilds")
+#pragma map(data_index_key_cls,   "dtinkcs")
+#pragma map(data_index_by_cl,     "dtinbc")
+#pragma map(data_index_key_cl,    "dtinkc")
+#pragma map(data_pic_cl,          "dtpcc")
+#pragma map(data_pic_str,         "dtpcs")
+#pragma map(data_pic_size_local,  "dtpcsl")
+#pragma map(data_pic_chars,       "dtpcchs")
+
+
+#pragma map(get_token_type,       "gttktp")
+#pragma map(get_token_val,        "gttkval")
+#pragma map(get_token_len,        "gttklen")
 */
-
-/*-----------------------  Sentence and Statement -------------------*/
-/*
-sntce:		stmnt
-|	stmnt '.'
-;
-
-stmnt:	 	intlz
-| 	dsply
-|	move
-;
-*/
-/*-------------------------- initialize ------------------------*/
-/*
-intlz:		INITIALIZE ids intlz.rplc
-;
-
-intlz.rplc:
-|	REPLACING intlz.rplc.oprnds
-;
-
-intlz.rplc.oprnds:	intlz.rplc.oprnds chartype BY id.litr
-|	chartype BY id.litr
-;
-
-chartype:	ALPHABETIC
-|	ALPHANUMERIC
-|	NUMERIC
-;
-*/
-
-/*-------------------------- move ------------------------------*/
-/*
-move:		move1
-|	move2
-;
-
-move1:		MOVE id.litr TO ids
-;
-
-move2:		MOVE corresp id TO id
-;
-
-corresp:	CORR
-|	CORRESPONDING
-;
-
-Left factoring
-
-move:  MOVE move_oprnd
-
-move_oprnd:   corresp id TO id
-| id.litr TO ids
-;
-*/
-
-/*--------------------------- display --------------------------*/
-/*
-dsply:		DISPLAY ids.litrs dsply.upon dsply.noadv
-;
-
-dsply.upon:
-|	UPON dsply.upon.oprnds
-;
-
-dsply.upon.oprnds:	mnemo.or.envir
-;
-
-mnemo.or.envir: id.name
-;
-
-dsply.noadv:
-|	WITH NO ADVANCING
-|	NO ADVANCING
-;
-*/
-/*------------------------  Identifiers and Literals ----------------*/
-/*
-ids.litrs:	ids.litrs id.litr
-|	id.litr
-;
-
-id.litr:	id
-|	litr
-;
-
-(unused) litrs:		litrs litr |	litr	;
-
-ids:		ids	id
-|	id
-;
-
-*/
-
-/*------------------------  Identifier and Literal ------------------*/
-
-/*
-litr:		LITERAL
-|  HEXLITERAL
-|  INTEGER
-|  DECIMAL
-;
-
-id:			id.name id.qualif id.subscript id.refmodif
-;
-
-id.name: 	IDENTIFIER
-;
-
-id.qualif:
-|	id.qualif OF id.name
-;
-
-id.subscript:
-|	'(' subscripts ')'
-;
-
-id.refmodif:
-|	'(' refmodif ')'
-;
-*/
-
-
 #include "ast.h"
 #include "Lexer.h"
 
@@ -186,6 +87,12 @@ extern context _context;
 extern char* usageValues[];
 extern char* tagValues[];
 
+/*
+  Cobol RAN Grammar Version 0.01
+  Parsing algorithm : Recursive descent parser
+  Procedures corresponding to grammar non-terminals.
+*/
+
 ast* get_sentence();
 ast* get_data();
 ast* data_division();
@@ -193,26 +100,100 @@ ast* file_section();
 ast* working_storage_section();
 ast* linkage_section();
 
-/*--------------  Grammar recursive procedures ------------*/
 
+/*-----------------------  Sentence and Statement -------------------*/
+/*
+sntce:		stmnt
+			|	stmnt '.'
+	;
 
+stmnt:	 	intlz
+			| 	dsply
+			|	move
+	;
+*/
 ast* sntce();
 ast* stmnt();
+
+/*--------------  move, display and initialize Statement ------------*/
 
 ast* move();
 ast* dsply();
 ast* intlz();
 
+/*-------------------------- initialize body ------------------------*/
+/*
+	intlz:		INITIALIZE ids intlz.rplc
+	;
+
+	intlz.rplc:
+			|	REPLACING intlz.rplc.oprnds
+	;
+
+	intlz.rplc.oprnds:	intlz.rplc.oprnds chartype BY id.litr
+			|	chartype BY id.litr
+	;
+
+	chartype:	ALPHABETIC
+			|	ALPHANUMERIC
+			|	NUMERIC
+	;
+*/
 int intlz_rplc ();
 int intlz_rplc_oprnds();
 int intlz_rplc_oprnd();
 int chartype();
+
+/*-------------------------- move body ------------------------------*/
+/*
+	move:		move1
+			|	move2
+	;
+
+	move1:		MOVE id.litr TO ids
+	;
+
+	move2:		MOVE corresp id TO id
+	;
+
+	corresp:	CORR
+			|	CORRESPONDING
+	;
+
+ Left factoring
+
+ move:  MOVE move_oprnd
+
+ move_oprnd:   corresp id TO id
+             | id.litr TO ids
+ ;
+*/
 
 /* int move_1(); */
 /* int move_2(); */
 ast* move_oprnd();
 ast* corspnd();
 
+/*--------------------------- display body --------------------------*/
+/*
+    dsply:		DISPLAY ids.litrs dsply.upon dsply.noadv
+	;
+
+	dsply.upon:
+			|	UPON dsply.upon.oprnds
+	;
+
+	dsply.upon.oprnds:	mnemo.or.envir
+	;
+
+	mnemo.or.envir: id.name
+	;
+
+	dsply.noadv:
+			|	WITH NO ADVANCING
+			|	NO ADVANCING
+	;
+*/
 
 int dsply_upon();
 int dsply_noadv();
@@ -220,10 +201,57 @@ int dsply_upon_oprnds();
 int dsply_upon_oprnd();
 int mnemo_or_envir();
 
+/*------------------------  Identifiers and Literals ----------------*/
+
+/*
+
+    ids.litrs:	ids.litrs id.litr
+			|	id.litr
+	;
+
+	id.litr:	id
+			|	litr
+	;
+
+	(unused) litrs:		litrs litr |	litr	;
+
+	ids:		ids	id
+			|	id
+	;
+
+*/
+
 ast* ids_litrs();
 ast* id_litr();
 ast* ids();
 
+/*------------------------  Identifier and Literal ------------------*/
+
+/*
+    litr:		LITERAL
+			 	   |  HEXLITERAL
+			 	   |  INTEGER
+			 	   |  DECIMAL
+	;
+
+	id:			id.name id.qualif id.subscript id.refmodif
+	;
+
+	id.name: 	IDENTIFIER
+	;
+
+	id.qualif:
+			|	id.qualif OF id.name
+	;
+
+	id.subscript:
+			|	'(' subscripts ')'
+    ;
+
+    id.refmodif:
+			|	'(' refmodif ')'
+	;
+*/
 
 ast* litr();
 ast* id();
