@@ -5,6 +5,8 @@
 Cobol Cripple Compiler Grammar Version 0.01
 Parsing algorithm : Recursive descent parser
 Procedures corresponding to grammar non-terminals.
+
+Below the supported subset of Cobol language Syntax in EBNF form.
 */
 
 /*-----------------------  Sentence and Statement -------------------*/
@@ -127,7 +129,58 @@ id.refmodif:
 |	'(' refmodif ')'
 ;
 */
+/*-----------------------  Identifier body --------------------------*/
 
+/*
+
+    subscripts:	subscripts subscript
+			| 	subscript
+	;
+
+    subscript:	INTEGER
+			|	id.name id.qualif
+			|	id.name id.qualif '-' INTEGER
+			|	id.name id.qualif '+' INTEGER
+	;
+    subscript : arith.expr2;
+
+
+    refmodif:	charleftpos ':' refmodif.length
+	;
+
+	charleftpos: 	| 	INTEGER
+					|	id.name id.qualif
+					|	arith.expr
+	;
+
+	refmodif.length: 	arith.expr
+		 	| 	INTEGER
+			|	id.name id.qualif
+    ;
+
+*/
+
+/*------------------------  Arithmetic expression -------------------*/
+
+/*
+	arith.expr:	 arith.expr.oprnd arith.expr.oprtn arith.expr
+                | arith.expr.oprnd
+	;
+	4+(3*(2-(1)))
+
+	arith.expr.oprnd:	INTEGER
+				|	id.name id.qualif
+	;
+
+	arith.expr.oprtn: '+'
+				|	'-'
+				|	'*'
+	;
+    arith.expr2: arith.expr.oprnd arith.expr.oprtn arith.expr.oprnd
+                | arith.expr.oprnd
+	;
+
+*/
 
 #include "ast.h"
 #include "Lexer.h"
@@ -248,34 +301,6 @@ ast* basis();
 
 /*-----------------------  Identifier body --------------------------*/
 
-/*
-
-    subscripts:	subscripts subscript
-			| 	subscript
-	;
-
-    subscript:	INTEGER
-			|	id.name id.qualif
-			|	id.name id.qualif '-' INTEGER
-			|	id.name id.qualif '+' INTEGER
-	;
-    subscript : arith.expr2;
-
-
-    refmodif:	charleftpos ':' refmodif.length
-	;
-
-	charleftpos: 	| 	INTEGER
-					|	id.name id.qualif
-					|	arith.expr
-	;
-
-	refmodif.length: 	arith.expr
-		 	| 	INTEGER
-			|	id.name id.qualif
-    ;
-
-*/
 
 ast* id_qualif_oprnd();
 ast* subscripts();
@@ -289,25 +314,7 @@ ast* arith_expr2();
 
 /*------------------------  Arithmetic expression -------------------*/
 
-/*
-	arith.expr:	 arith.expr.oprnd arith.expr.oprtn arith.expr
-                | arith.expr.oprnd
-	;
-	4+(3*(2-(1)))
 
-	arith.expr.oprnd:	INTEGER
-				|	id.name id.qualif
-	;
-
-	arith.expr.oprtn: '+'
-				|	'-'
-				|	'*'
-	;
-    arith.expr2: arith.expr.oprnd arith.expr.oprtn arith.expr.oprnd
-                | arith.expr.oprnd
-	;
-
-*/
 
 ast* arith_expr_oprnd();
 ast* arith_expr_oprtn();
@@ -342,17 +349,17 @@ context  set_context(char* );
 int      restore_context(context);
 char*    get_token_val();
 char*    get_token_type();
-int		 balayeur_pgm();
-int		 equal_val(char* expected);
-int		 equal_type(char* expected);
-int		 match_type(char* expected);
-int		 match_val(char* expected);
-int		 consume();
-int		 get_token_line();
-int		 get_token_col();
-int		 get_token_len();
-int		 match_attr(char* expected);
-int		 equal_attr(char* expected);
+int      balayeur_pgm();
+int	 equal_val(char* expected);
+int	 equal_type(char* expected);
+int	 match_type(char* expected);
+int	 match_val(char* expected);
+int	 consume();
+int	 get_token_line();
+int	 get_token_col();
+int	 get_token_len();
+int	 match_attr(char* expected);
+int	 equal_attr(char* expected);
 
 #endif
 /* GRAMMAR_H_INCLUDED */
