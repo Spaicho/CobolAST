@@ -1,0 +1,26 @@
+!REM ftp script to transfer source files from windows to IBM z/OS PDS
+
+open 192.168.0.19
+ibmuser
+sys1
+cd 'PREF.USER.WKSPACE.CCC.C'
+put C:\Users\Spaich\Source\Repos\CobolAST\Source\ast.c 			ast
+put C:\Users\Spaich\Source\Repos\CobolAST\Source\check.c 		check
+put C:\Users\Spaich\Source\Repos\CobolAST\Source\generate.c 	generate
+put C:\Users\Spaich\Source\Repos\CobolAST\Source\grammar.c 		grammar
+put C:\Users\Spaich\Source\Repos\CobolAST\Source\helper.c 		helper
+put C:\Users\Spaich\Source\Repos\CobolAST\Source\lexer.c 		lexer
+put C:\Users\Spaich\Source\Repos\CobolAST\Source\main.c 		main
+put C:\Users\Spaich\Source\Repos\CobolAST\Source\rexxcom.c 		rexxcom
+put C:\Users\Spaich\Source\Repos\CobolAST\Source\tokenize.c 	tokenize
+cd 'PREF.USER.WKSPACE.CCC.H'
+put C:\Users\Spaich\Source\Repos\CobolAST\Include\ast.h 		ast
+put C:\Users\Spaich\Source\Repos\CobolAST\Include\check.h 		check
+put C:\Users\Spaich\Source\Repos\CobolAST\Include\debug.h 		debug
+put C:\Users\Spaich\Source\Repos\CobolAST\Include\generate.h 	generate
+put C:\Users\Spaich\Source\Repos\CobolAST\Include\grammar.h 	grammar
+put C:\Users\Spaich\Source\Repos\CobolAST\Include\helper.h 		helper
+put C:\Users\Spaich\Source\Repos\CobolAST\Include\lexer.h 		lexer
+put C:\Users\Spaich\Source\Repos\CobolAST\Include\rexxcom.h 	rexxcom
+put C:\Users\Spaich\Source\Repos\CobolAST\Include\tokenize.h 	tokenize
+quit
