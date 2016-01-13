@@ -3,7 +3,8 @@
 //#include "ast.h"
 
 /*
- * functions to check AST 
+ * Advanced Semantic check for further analysis and elimination
+ * Not all the clauses identified by the grammar are compatibles.
  */
 
 int
