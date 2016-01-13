@@ -27,7 +27,9 @@ The parsing is done by implementing a Recursive Descent Parser.
 It generates an AST.
 
 See link beside for EBNF Cobol grammar : http://www.cs.vu.nl/grammarware/vs-cobol-ii/
+
 See file grammar.h, for the supported subset of Cobol Grammar.
+
 
 ### Abstract Syntax Tree 
 
@@ -37,9 +39,9 @@ Advanced Semantic inspection is done on the generated AST for further analysis a
 
 ### AST refactoring 
 
-Not implemented yet.
+*Not implemented yet.*
 
 ### AST Translation 
 
-Not implemented yet.
+*Not implemented yet.*
 
