@@ -2264,7 +2264,7 @@ data_desc()
           }
           else return NULL;
 
-          /* Reduire la ligne de la liste chain{e */
+          /* Reduire la ligne de la liste chaine */
           clauses = delete_clauses(clauses,iterator);
           /* Repointer vers la tete de la chaine */
           iterator = clauses;
