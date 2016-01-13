@@ -70,12 +70,12 @@ get_data()
     return ret;
 }
 
-/*---------------------------------  Balayeur for DATA      ---------*/
+/*---------------------------------  Sweeper for DATA      ---------*/
 
 int
 balayeur_pgm(){
 
-    // commencer le parcours de pgm ‡ partir du d{but
+    // commencer le parcours de pgm √† partir du d√©but
     setCurrLnStart();
     // get first token
     consume();
@@ -3718,7 +3718,7 @@ delete_clauses(fp_t_nod* clauses,fp_t_nod* to_delete){
    temp = clauses;
    fp_t_nod* beforeTemp = clauses;
 
-   /* refaire tant qu'on est pas ‡ null (fin liste) */
+   /* refaire tant qu'on est pas √† null (fin liste) */
    while (temp != NULL){
 
       /* si adresse d'element a supprimer trouver */
