@@ -8,25 +8,34 @@
 #define NB_MATCH_MAX    10
 #define NB_REGEX_MAX    30
 
+  /*----------------------*/
+  /* Lexical tokenizing   */ 
+  /*----------------------*/
+  
   /*---------------------------------------------------------------*/
-  /* FTA1: modulariser le code : regex, communication avec REXX    */
-  /*       reduction du string , creation de la liste des tokens   */
+  /* REGEX Order                                                   */
   /*---------------------------------------------------------------*/
-  /* la reduction du string enleve le separteur de debut           */
-  /* (espace, virgule mais pas ' pour string )                     */
+  /* 1  - Keyword                                                  */
+  /* 10 - Special registers                                        */
+  /* 101- Figurative constants                                     */
+  /* 11 - Hexa Literal1 & Hexa Literal2                            */
+  /* 2  - Identifier                                               */
+  /* 3  - Literal1 & Literal2                                      */
+  /* 31 - Decimal                                                  */
+  /* 32 - Integer                                                  */
+  /* 4  - Period                                                   */
+  /*      & plus minus equal expon divid multp Lbrack Rbrack colon */
+  /* 5  - EndLine                                                  */
+  /* 6  - Error                                                    */
   /*---------------------------------------------------------------*/
-  /* L'ordre de check des REgex semblables est :                   */
-  /* -Keyword avant identifier, c ce qui en fait des mots reserves */
-  /* -Dernier regex est : Espace puis enfin Erreur.                */
-  /* -hexa literal avant identifier                                */
-  /* exemple : x'ff'=> hex literal                                 */
-  /* exemple : A'ff'=> identifier + string literal                 */
-  /* -Choisir le match le plus long                                */
-  /* exemple : **   => exponent au lieu de multiply                */
-  /*           2,2  => decimal au lieu de integer                  */
-  /*           a-b  => identifier a au lieu de a - b               */
+  /* Choose the longest match   
+  /*---------------------------------------------------------------*/
+  /* example : **   => exponent of multiply multiply               */              
+  /*           2,2  => decimal instead of integer                  */  
+  /*           a-b  => identifier a instead of a - b               */ 
   /*           a+b  => a + b                                       */
   /*---------------------------------------------------------------*/
+
 
 
 token tokenizer(char* ln_8_72)
@@ -93,10 +102,10 @@ token tokenizer(char* ln_8_72)
   /*----------------------------*/
   /* Pattern pour indentifier   */
   /*--------------------------------------------------------------*/
-  /* - S{parateur d{but: aucan ou plusieurs espaces ou virgules   */
+  /* - Séparateur début: aucan ou plusieurs espaces ou virgules   */
   /* - Corps : Un mot cobol compos{ de lettres et chiffres        */
   /*   ainsi que tiret et undersoce qui doivent pas apparaitre    */
-  /*   au debut ou � a fin. doit contenir au moins une lettre     */
+  /*   au debut ou à a fin. doit contenir au moins une lettre     */
   /* - S{parateur fin  : point, espace, virgule, fin, quote ou "  */
   /*--------------------------------------------------------------*/
 
@@ -150,9 +159,9 @@ token tokenizer(char* ln_8_72)
                                                                   */
 
   /*--------------------------------------------------------------*/
-  /* - S{parateur d{but: Zero ou plusieurs : espaces ou virgules  */
+  /* - Séparateur début: Zero ou plusieurs : espaces ou virgules  */
   /* - Corps : Commence par le separateur de string quote ou "    */
-  /*   puis zero ou une suite de caract}res sauf separateur de    */
+  /*   puis zero ou une suite de caractères sauf separateur de    */
   /*   string ou un double separateur de string et finit par le   */
   /*   meme separateur de string                                  */
   /* - S{parateur fin  : point, espace, virgule, fin, quote ou "  */
