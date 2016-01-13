@@ -4,11 +4,12 @@
 #define SHIFT_LEN 3
 
 /*
- * Si level =0  le screen est vide
- * Le premier level est 1
- * chaque level décale par 5x
- * entre deux box 2y
-*/
+ * Helper file for displaying the abstract syntax tree. 
+ * if the level =0  the screen is empty
+ * first level is 1
+ * each level shifts 5x
+ * between two box 2y
+ */
 
 
 typedef struct scr_line {
