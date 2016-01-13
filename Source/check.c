@@ -2,6 +2,10 @@
 #include "check.h"
 //#include "ast.h"
 
+/*
+ * functions to check AST 
+ */
+
 int
 chk_ast (ast* tree){
 
