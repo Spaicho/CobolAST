@@ -12,7 +12,9 @@
 #include "debug.h"
 #include "ast.h"
 
-/* Pour les listes utiliser des Arrays ou LinkedList ? */
+/*
+ * AST Building functions
+ */
 
 char* usageValues[] = {
 	"UNKNOWN_USAGE",
