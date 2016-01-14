@@ -11,7 +11,7 @@ Integration with Other text editor (Notepad++, Eclipse) is intended.
 
 Below is a printing of the AST built for a MOVE statement :
 
-![move statement](/img/ccc-move-in.png)
+![move statement](/img/ccc-move-in.png) ![move ast](/img/ccc-move-ast.png)
 
 
 ## Architecture Overview
