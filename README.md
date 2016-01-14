@@ -9,6 +9,8 @@ The inital requirement was to be able to refactor poorly written code and transl
 The compiler integrate with the mainframe Developer Environment i.e "z/OS ISPF Text Editor" using a REXX script and Edit Macro. 
 Integration with Other text editor (Notepad++, Eclipse) is intended.
 
+Below is a printing of the AST built for a MOVE statement :
+
 -> Put here a screen shot of a complex move statement and its generated AST <-
 
 ## Architecture Overview
