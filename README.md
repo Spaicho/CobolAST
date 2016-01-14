@@ -19,15 +19,15 @@ The complier is written from scratch and make no use of Lexer/Parser generator (
 
 Lexical analysis is done using Regular expression.
 It generates tokens ready to conusme by the parser.
+Cobol have a context-sensitive lexing, so a context si shared between Lexer and parser.
 
 ### Grammar Analysis
 
-Cobol has context-sensitive grammar, so a context si shared between Lexer and parser.
+Cobol has context-sensitive grammar, 
 The parsing is done by implementing a Recursive Descent Parser.
 It generates an AST.
 
 See link beside for EBNF Cobol grammar : http://www.cs.vu.nl/grammarware/vs-cobol-ii/
-
 See file grammar.h, for the supported subset of Cobol Grammar.
 
 
