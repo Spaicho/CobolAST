@@ -11,7 +11,8 @@ Integration with Other text editor (Notepad++, Eclipse) is intended.
 
 Below is a printing of the AST built for a MOVE statement :
 
--> Put here a screen shot of a complex move statement and its generated AST <-
+![move statement](/img/ccc-move-in.png) ![move ast](/img/ccc-move-ast.png)
+
 
 ## Architecture Overview
 
