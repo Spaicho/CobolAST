@@ -9,7 +9,7 @@ The inital requirement was to be able to refactor poorly written code and transl
 The compiler integrate with the mainframe Developer Environment i.e "z/OS ISPF Text Editor" using a REXX script and Edit Macro. 
 Integration with Other text editor (Notepad++, Eclipse) is intended.
 
-Below is a printing of the AST built for a MOVE statement :
+Below is a debug printing of the AST built for a MOVE statement :
 
 ![move statement](/img/ccc-move-in.png) ![move ast](/img/ccc-move-ast.png)
 
