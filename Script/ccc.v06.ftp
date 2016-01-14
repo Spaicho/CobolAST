@@ -1,0 +1,21 @@
+!REM ftp script to transfer source files from windows to IBM z/OS PDS
+
+open 192.168.0.19
+ibmuser
+sys1
+cd 'PREF.USER.WKSPACE.CCC.V06.C'
+put C:\Users\Spaich\Source\Repos\CobolAST\V06\ast.c 		ast
+put C:\Users\Spaich\Source\Repos\CobolAST\V06\grammar.c 	grammar
+put C:\Users\Spaich\Source\Repos\CobolAST\V06\helper.c 		helper
+put C:\Users\Spaich\Source\Repos\CobolAST\V06\lexer.c 		lexer
+put C:\Users\Spaich\Source\Repos\CobolAST\V06\main.c 		main
+put C:\Users\Spaich\Source\Repos\CobolAST\V06\rexxcom.c 	rexxcom
+put C:\Users\Spaich\Source\Repos\CobolAST\V06\tokenzr.c 	tokenize
+cd 'PREF.USER.WKSPACE.CCC.V06.H'
+put C:\Users\Spaich\Source\Repos\CobolAST\V06\ast.h 		ast
+put C:\Users\Spaich\Source\Repos\CobolAST\V06\grammar.h 	grammar
+put C:\Users\Spaich\Source\Repos\CobolAST\V06\helper.h 		helper
+put C:\Users\Spaich\Source\Repos\CobolAST\V06\lexer.h 		lexer
+put C:\Users\Spaich\Source\Repos\CobolAST\V06\rexxcom.h 	rexxcom
+put C:\Users\Spaich\Source\Repos\CobolAST\V06\tokenzr.h 	tokenize
+quit

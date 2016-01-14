@@ -1,0 +1,13 @@
+!REM ftp script to transfer source files from windows to IBM z/OS PDS
+
+open 192.168.0.19
+ibmuser
+sys1
+cd 'PREF.USER.WKSPACE.CCC.V07.C'
+put C:\Users\Spaich\Source\Repos\CobolAST\V07\genrate.c 	generate
+put C:\Users\Spaich\Source\Repos\CobolAST\V07\tokenzr.c 	tokenize
+cd 'PREF.USER.WKSPACE.CCC.V07.H'
+put C:\Users\Spaich\Source\Repos\CobolAST\V07\debug.h 		debug
+put C:\Users\Spaich\Source\Repos\CobolAST\V07\genrate.h 	generate
+put C:\Users\Spaich\Source\Repos\CobolAST\V07\tokenzr.h 	tokenize
+quit
